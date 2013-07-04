@@ -2,32 +2,13 @@
 //Config
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set('display_errors', 1);
-
-//Start session
-session_start();
+date_default_timezone_set('Europe/Madrid');
+ini_set("session.gc_maxlifetime","140000");
 
 //Pass trought index
 define("_EXE", 1);
 
-//Classes
-include("classes/database.class.php");
-
-//Database
-$db = new Database("server", "user", "password", "db");
+//Startup
+require('system/startup.php');
 
 ?>
-<html>
-	<head>
-		<link rel="stylesheet" href="/template/css/default.css" />
-	</head>
-	<body>
-		<?php
-		//Option Swtich
-		switch($_REQUEST['option']){
-			default:
-				include("template/views/example.view.php");
-			break;
-		}
-		?>
-	</body>
-</html>

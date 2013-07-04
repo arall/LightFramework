@@ -1,6 +1,6 @@
 <?php
 class Database {
-    var $theQuery;
+    var $query;
     var $result;
     var $link;
     public $registry;
@@ -26,8 +26,7 @@ class Database {
     }
     
     function query($query){
-    	$debugger->Query($query);
-      	$this->theQuery = $query;
+      	$this->query = $query;
       	$this->result = mysql_query($query);
       	return $this->result;
     }
