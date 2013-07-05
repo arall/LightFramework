@@ -1,7 +1,7 @@
 <?php
 //Config
 $_config['template'] = "bootstrap";
-$_config['defaultApp'] = "info";
+$_config['defaultApp'] = "demo";
 
 //Database
 $_config['db_server'] = "localhost";
@@ -15,6 +15,7 @@ $_config['host'] = $_SERVER["SERVER_NAME"];
 $_config['dir'] = str_replace("index.php","",$_SERVER["SCRIPT_NAME"]);
 $_config['url'] = "http://".$_config['host'].$_config['dir'];
 
+//Functions
 function print_pre($txt){
 	echo "<pre>";
 	print_r($txt);

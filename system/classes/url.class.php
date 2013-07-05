@@ -7,12 +7,12 @@ class Url{
 	/**
 	* __construct
 	*
-	* Lee la url actual y setea las variables
+	* Reads current URL and set vars
 	*
 	*/
 	public function __construct() {
 		$config = Registry::getConfig();
-		//Leemos la petición de la url
+		//Read URL
 		$url = str_replace("//", "/", str_replace($config->get("dir"), "", $_SERVER['REQUEST_URI']));
 		//Fix GET
 		if(strstr($url, "?")){
@@ -25,7 +25,7 @@ class Url{
 		//Default Action
 		$this->action = "index";
 		if($url){
-			//Leemos las variables
+			//Read Vars
 			$vars = explode("/", $url);
 			if($vars[0])
 				$this->app = $vars[0];
@@ -41,8 +41,7 @@ class Url{
 	/**
 	* site
 	*
-	* Devuelve una ruta absoluta del sitio 
-	* apuntando a la ruta pasada por parámetro.
+	* Returns full site URL
 	*
 	*/
 	static function site($path) {
@@ -52,8 +51,7 @@ class Url{
 	/**
 	* template
 	*
-	* Devuelve una ruta absoluta del template 
-	* apuntando a la ruta pasada por parámetro.
+	* Returns full template URL
 	*
 	*/
 	static function template($path) {

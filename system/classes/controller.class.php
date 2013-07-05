@@ -8,31 +8,33 @@ abstract class Controller{
 		$this->init();
 	}
 	
-	function getPath(){
+	function getPath($app=""){
 		$config = Registry::getConfig();
 		$url = Registry::getUrl();
-		return $config->get("path").DIRECTORY_SEPARATOR."apps".DIRECTORY_SEPARATOR.$url->app.DIRECTORY_SEPARATOR;
-	}
-	
-	function index(){
+		if(!$app)
+			$app = $url->app;
+		return $config->get("path").DIRECTORY_SEPARATOR."apps".DIRECTORY_SEPARATOR.$app.DIRECTORY_SEPARATOR;
 	}
 	
 	function setData($key, $data=""){
 		$this->data[$key] = $data;
 	}
 	
-	function view($view){
+	function view($view, $app=""){
 		$template = Registry::getTemplate();
-       	$file = $this->getPath().DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $view).".view";
+		$path = $this->getPath($app);
+		//Including the controller as data, to enable modules/views inside other views
+		$this->data['controller'] = $this;
+       	$file = $path.DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $view).".view";
 		$html = $template->loadTemplate($file, $this->data);
 		return $html;
 	}
 	
 	function render($data, $layer="index"){
-		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
+		$config = Registry::getConfig();
 		$path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.
-		DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
+			DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
 		$vars['content'] = $data;
     	$html = $template->loadTemplate($path, $vars);
 		echo $html;

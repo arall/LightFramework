@@ -3,6 +3,7 @@ class Registry {
 	static private $url 		= NULL;
 	static private $db 			= NULL;
 	static private $config 		= NULL;
+	static private $user 		= NULL;
 	static private $template 	= NULL;
 	
 	static public function getUrl() {
@@ -17,6 +18,13 @@ class Registry {
 			self::$db = new Database($config->get("db_server"), $config->get("db_user"), $config->get("db_pass"), $config->get("db_name"));
 		}
 		return self::$db;
+    }
+	static public function getUser() {
+		if (self::$user == NULL) {
+			session_start();
+			self::$user = new User($_SESSION['userId']);
+		}
+		return self::$user;
     }
     static public function getConfig() {
 		if (self::$config == NULL) {

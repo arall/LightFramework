@@ -2,7 +2,7 @@
 //No direct access
 defined('_EXE') or die('Restricted access');
 
-class infoController extends Controller {
+class demoController extends Controller {
 	
 	public function init(){
 	}
@@ -18,11 +18,12 @@ class infoController extends Controller {
 		//Update Demos
 		if(count($demos)){
 			foreach($demos as $demo){
+				//print_pre($demo);
 				$demo->update();
 			}
 		}
 		//Set Data again
-		$this->setData("title", "First Select");
+		$this->setData("title", "Second Select");
 		$this->setData("demos", $demos);
 		//Load View
 		$html .= $this->view("views.test");

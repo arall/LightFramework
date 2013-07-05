@@ -6,7 +6,7 @@ class Demo extends Model {
 	
 	public function init(){
 		parent::$dbTable = "demos";
-		parent::$reservedVars = self::$reservedVars;
+		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
 	
 	function preUpdate(){
@@ -15,7 +15,7 @@ class Demo extends Model {
 		$this->string = $r;
 	}
 	
-	function selectDemos(){
+	public function selectDemos(){
 		$db = Registry::getDb();
 		$query = "SELECT * FROM demos";
 		if($db->Query($query)){

@@ -11,7 +11,7 @@ class Template {
     public static function loadTemplate($template, $vars = array()){
 		$templatePath = $template.'.php';
 	    if(!file_exists($templatePath)){
-	    	die('No se ha podido cargar el template '.$templatePath);
+	    	die("Template not found: ".$templatePath);
 	    }
 	    return self::loadTemplateFile($templatePath, $vars);
     }

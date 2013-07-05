@@ -1,19 +1,20 @@
 <? 
-class Model{
+abstract class Model{
 	public static $className;
 	public static $dbTable;
-	public static $reservedVars = array("id","dbTable","reservedVars");
-
+	public static $reservedVars = array("className","dbTable","reservedVars", "reservedVarsChild");
+	public static $reservedVarsChild = array();
 	public function init(){}
 	
     public function __construct($id){
-		self::init();
+		$this->init();
 		$db = Registry::getDb();
 		$this->className = get_class($this);
 		$this->dbTable = self::$dbTable;
 		$this->reservedVars = self::$reservedVars;
-		if($id) {
-			if(is_array($id)) {
+		$this->reservedVarsChild=self::$reservedVarsChild;
+		if($id){
+			if(is_array($id)){
 				$this->loadVarsArray($id);
 			}else{
 				$query = "SELECT * FROM ".$this->nameTableDB." WHERE id=".(int)$id;
@@ -32,25 +33,25 @@ class Model{
 		}
     }
     
-    public function validateUpdate() {}
-    public function preUpdate() {}
-    public function postUpdate() {}
+    public function validateUpdate(){}
+    public function preUpdate(){}
+    public function postUpdate(){}
    
-    public function validateInsert() {}
-    public function preInsert() {}
-    public function postInsert() {}
+    public function validateInsert(){}
+    public function preInsert(){}
+    public function postInsert(){}
     
-    public function loadVarsArray($array) {
+    public function loadVarsArray($array){
 		$vars = get_class_vars($this->className);
-	    foreach($vars as  $name=>$value) {
+	    foreach($vars as  $name=>$value){
 		    if(in_array($name,self::$reservedVars)) continue;
-		    if(in_array($name,array_keys($vars)))
-		    	$this->$name=($array[$name]);
-		    	
+		    if(in_array($name,array_keys($vars))){
+				$this->$name=($array[$name]);
+			}
 	    }
     }
     
-    public function update($array="") {
+    public function update($array=""){
 	    $db = Registry::getDb();
 		//Load Array
 	    if(is_array($array)){
@@ -58,7 +59,7 @@ class Model{
 	    }
 	    //Validate
 	    $err = $this->validateUpdate();
-	    if($err=!1){
+	    if($err){
 		    return 0;
 	    }
 	    //Pre Update
@@ -67,18 +68,19 @@ class Model{
 	    $values = array();
 		foreach(get_class_vars($this->className) as  $name=>$value){
 			if(in_array($name,$this->reservedVars)) continue;
-		    $valores[$name] = $name."='".mysql_real_escape_string($this->$name)."'";
+			if(in_array($name,$this->reservedVarsChild)) continue;
+		    $values[$name] = $name."='".mysql_real_escape_string($this->$name)."'";
 	    }
 	    //SQL
 	    $query = "UPDATE ".self::$dbTable." SET ".implode(" , ",$values)." WHERE id=".(int)$this->id; 
-	    if($db->query($query)) {
+		if($db->query($query)) {
 	    	//Post Update
 	    	$this->postUpdate();
 	    	return 1;
 	    }
     }
 
-    public function insert($array="") {
+    public function insert($array=""){
 	    $db = Registry::getDb();
 	    //Load Array
 	    if(is_array($array)){
@@ -94,6 +96,7 @@ class Model{
 		 //Prepare SQL vars
 		foreach(get_class_vars($this->className) as $name=>$value) {
 		   	if(in_array($name,$this->reservedVars)) continue;
+			if(in_array($name,$this->reservedVarsChild)) continue;
 		    $values1[$name] = $name;
 		    $values2[$name]=" '".mysql_real_escape_string($this->$name)."' ";
 		}

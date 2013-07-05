@@ -7,3 +7,5 @@
 		<h3>Demo <?=$demo->id?>: <?=$demo->string?></h3>
 	<?php } ?>
 <?php } ?>
+
+<?//=$controller->view("modules.login"); ?>
