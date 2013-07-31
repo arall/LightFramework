@@ -8,10 +8,11 @@ class Template {
 		$this->name = $config->get("template");
 	}
 
+	//Loads a view/module
     public static function loadTemplate($template, $vars = array()){
 		$templatePath = $template.'.php';
 	    if(!file_exists($templatePath)){
-	    	die("Template not found: ".$templatePath);
+	    	die("File not found: ".$templatePath);
 	    }
 	    return self::loadTemplateFile($templatePath, $vars);
     }
@@ -25,8 +26,8 @@ class Template {
 			extract($__ct___vars__, EXTR_OVERWRITE);
 		}
     	$__ct___template_return = '';
-    	ob_start();
-    	include($__ct___templatePath__);
+		ob_start();
+    	require($__ct___templatePath__);
     	$__ct___template_return = ob_get_contents();
     	ob_end_clean();
     	return $__ct___template_return;

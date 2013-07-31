@@ -8,5 +8,4 @@
 	<?php } ?>
 <?php } ?>
 
-<?php /* TO DO */ ?>
-<?php //echo $controller->view("modules.login"); ?>
+<?php echo $controller->view("modules.demo"); ?>
