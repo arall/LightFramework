@@ -8,26 +8,26 @@ class demoController extends Controller {
 	}
 	
 	public function index(){
-		//Get Data
+		//Get Data from Model
 		$demos = Demo::selectDemos();
-		//Set Data
+		//Set Data to view
 		$this->setData("title", "First Select");
 		$this->setData("demos", $demos);
-		//Load View
+		//Load View to Template var
 		$html .= $this->view("views.test");
-		//Update Demos
+		//Update Demos from Model
 		if(count($demos)){
 			foreach($demos as $demo){
 				//print_pre($demo);
 				$demo->update();
 			}
 		}
-		//Set Data again
+		//Set Data again to view
 		$this->setData("title", "Second Select");
 		$this->setData("demos", $demos);
-		//Load View
+		//Load View to Template var
 		$html .= $this->view("views.test");
-		//Show View
+		//Render the Template
 		$this->render($html);
 	}
 }
