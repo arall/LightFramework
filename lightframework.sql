@@ -45,16 +45,17 @@ INSERT INTO `demos` (`id`, `string`) VALUES
 -- Estructura de tabla para la tabla `users`
 --
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Volcar la base de datos para la tabla `users`
---
-
-INSERT INTO `users` (`id`, `username`) VALUES
-(1, 'admin'),
-(2, 'demo');
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`roleId` INT(11) NOT NULL DEFAULT '0',
+	`email` VARCHAR(50) NOT NULL DEFAULT '0',
+	`username` VARCHAR(16) NOT NULL,
+	`password` VARCHAR(32) NOT NULL DEFAULT '0',
+	`registerDate` DATETIME NOT NULL,
+	`lastvisitDate` DATETIME NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
+ROW_FORMAT=DEFAULT
+AUTO_INCREMENT=4
