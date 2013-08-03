@@ -8,7 +8,7 @@ class userController extends Controller {
 	}
 	
 	public function index(){
-		$this->register();
+		$this->login();
 	}
 
 	public function register(){
@@ -18,7 +18,29 @@ class userController extends Controller {
 		$this->render($html);
 	}
 
+	public function doRegister(){
+		//Try to register
+		$user = new User();
+		$res = $user->insert($_REQUEST);
+		//If login its ok...
+		if($res==true){
+			//Do first login
+			$user->login($_REQUEST['username'], $_REQUEST['password']);
+			//Redirect to main page thought Message URL parameter
+			Registry::addMessage("", "", "", Url::site());
+		}
+		//Do not render the template, just ajax (Messages)
+		$this->ajax();
+	}
+
 	public function login(){
+		//Load View to Template
+		$html .= $this->view("views.login");
+		//Render the Template
+		$this->render($html);
+	}
+
+	public function doLogin(){
 		//Try to login
 		$user = new User();
 		$res = $user->login($_REQUEST['login'], $_REQUEST['password']);
@@ -35,7 +57,7 @@ class userController extends Controller {
 		$this->ajax();
 	}
 
-	public function logout(){
+	public function doLogout(){
 		User::logout();
 		redirect(Url::site());
 	}

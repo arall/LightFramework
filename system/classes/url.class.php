@@ -53,7 +53,7 @@ class Url{
 	* Returns full site URL
 	*
 	*/
-	static function site($path) {
+	static function site($path="") {
 		$config = Registry::getConfig();
 		return $config->get('url')."/".$path;
 	}
@@ -63,7 +63,7 @@ class Url{
 	* Returns full template URL
 	*
 	*/
-	static function template($path) {
+	static function template($path="") {
 		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
 		return $config->get('url')."/templates/".$template->name."/".$path;

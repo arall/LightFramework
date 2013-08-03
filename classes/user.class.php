@@ -39,15 +39,23 @@ class User extends Model {
 	}
 	
 	function validateInsert(){
-		//Check if this username already exists
-		if($this->getIdByEmail($this->email)){
-			//$mensajes->insert("This username is already registred");
+		//Check username already exists
+		if(!$this->username){
+			Registry::addMessage("This field is requiered", "error", "username");
+		}elseif($this->getUserByUsername($this->username)){
+			Registry::addMessage("This username is already registred", "error", "username");
+		}
+		//Check email
+		if(!$this->email){
+			Registry::addMessage("This field is requiered", "error", "email");
+		}elseif($this->getUserByEmail($this->email)){
+			Registry::addMessage("This email is already registred", "error", "email");
 		}
 		//Password?
 		if(!$this->password || strlen($this->password)<6){
-			//$mensajes->insert("Password must be at least 6 chars long", 4, "password");
+			Registry::addMessage("Password must be at least 6 chars long", "error", "password");
 		}
-		//return $mensajes->getMensajes();
+		return Registry::getMessages(true); 
 	}
 	
 	public function logout(){

@@ -16,18 +16,16 @@ $_config['dir'] = str_replace("index.php","",$_SERVER["SCRIPT_NAME"]);
 $_config['url'] = "http://".$_config['host'].$_config['dir'];
 
 //Functions
-function print_pre($txt){
+function print_pre($array=""){
 	echo "<pre>";
-	print_r($txt);
+	print_r($array);
 	echo "</pre>";
 }
 
-function redirect($url, $msg, $type){
+function redirect($url, $message="", $type=""){
 	session_start();
-	if(!$type)
-		$type = "info";
-	if($msg){
-		$_SESSION['msg'] = $msg;
+	if($message){
+		$_SESSION['message'] = $message;
 		$_SESSION['type'] = $type;
 	}
 	header("Location: ".$url);

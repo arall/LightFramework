@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		<title>LEL</title>
+		<title>LightFramework</title>
 		<!--css-->
 		<link href="<?=Url::template("css/style.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<link href="<?=Url::template("css/bootstrap.min.css");?>" media="screen" rel="stylesheet" type="text/css" />

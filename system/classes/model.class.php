@@ -17,7 +17,7 @@ abstract class Model{
 			if(is_array($id)){
 				$this->loadVarsArray($id);
 			}else{
-				$query = "SELECT * FROM ".$this->nameTableDB." WHERE id=".(int)$id;
+				$query = "SELECT * FROM ".$this->dbTable." WHERE id=".(int)$id;
 				if($db->query($query)){
 					if($db->getNumRows()){
 						$row = $db->fetcharray();
@@ -87,7 +87,7 @@ abstract class Model{
 	    	self::loadVarsArray($array);
 	    }
 	    //Validate
-	    $err = $this->validarInsert();
+	    $err = $this->validateInsert();
 	    if($err){
 		    return 0;
 	    }
