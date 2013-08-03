@@ -22,4 +22,15 @@ function print_pre($txt){
 	echo "</pre>";
 }
 
+function redirect($url, $msg, $type){
+	session_start();
+	if(!$type)
+		$type = "info";
+	if($msg){
+		$_SESSION['msg'] = $msg;
+		$_SESSION['type'] = $type;
+	}
+	header("Location: ".$url);
+}
+
 ?>

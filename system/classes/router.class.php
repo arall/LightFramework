@@ -1,6 +1,6 @@
 <?php
 class Router{
-	function delegate(){
+	public function delegate(){
 		$url = Registry::getUrl();
 		$config = Registry::getConfig();
 		//Load App

@@ -23,6 +23,21 @@
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span9">
+					<!--alerts-->
+					<?php $messages = Registry::getMessages(); ?>
+			    	<div id="mensajes-sys">
+			    		<?php if($messages){ ?>
+				    		<?php foreach($messages as $message){ ?>
+				    			<?php if($message->message){ ?>
+									<div class="alert alert-<?=$message->type()?>">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<?=$message->message?>
+									</div>
+								<?php } ?>
+							<?php } ?>
+						<?php } ?>
+					</div>
+					<!--/alerts-->
 					<div class="hero-unit">
 						<!--content-->
 						<?=$content?>
@@ -40,8 +55,10 @@
       	</div>
       	<!--/mainContainer-->
 		<!--javascript-->
-		<script src="<?=Url::template("js/jquery-1.9.1.min.js");?>" type="text/javascript"/>
-		<script src="<?=Url::template("js/bootstrap.min.js"); ?>" type="text/javascript"/>
+		<script src="<?=Url::template("js/jquery-1.9.1.min.js");?>" type="text/javascript"></script>
+		<script src="<?=Url::template("js/bootstrap.min.js");?>" type="text/javascript"></script>
+		<script src="<?=Url::template("js/jquery.forms.js");?>" type="text/javascript"></script>
+		<script src="<?=Url::template("js/init.js");?>" type="text/javascript"></script>
 		<!--/javascript-->
 	</body>
 </html>

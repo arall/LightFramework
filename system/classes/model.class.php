@@ -6,7 +6,7 @@ abstract class Model{
 	public static $reservedVarsChild = array();
 	public function init(){}
 	
-    public function __construct($id){
+    public function __construct($id=""){
 		$this->init();
 		$db = Registry::getDb();
 		$this->className = get_class($this);

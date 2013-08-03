@@ -2,14 +2,14 @@
 class User extends Model {
 	
 	var $id;
-	var $rolId;
+	var $roleId;
+	var $email;
 	var $username;
 	var $password;
-	var $lastVisitDate;
 	var $registerDate;
-	var $updateDate;
-	
-	var $roles = array("Visitor", "Registred", "Admin");
+	var $lastvisitDate;
+
+	var $roles = array("Registred", "Admin");
 	public static $reservedVarsChild = array("roles");
 	
 	public function init(){
@@ -17,19 +17,23 @@ class User extends Model {
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
 	
-	public function login($username, $password){
+	public function login($login, $password){
 		$db = Registry::getDb();
-		$query = "SELECT id FROM ".self::$dbTable." WHERE 
-		username='".htmlspecialchars(mysql_real_escape_string(trim($username)))."'
-		AND password='".md5(sha1(trim($password)))."' LIMIT 1;";
+		$query = "SELECT * FROM ".self::$dbTable." WHERE 
+		(	username='".htmlspecialchars(mysql_real_escape_string(trim($login)))."' OR 
+			email='".htmlspecialchars(mysql_real_escape_string(trim($login)))."'
+		) AND password='".md5(sha1(trim($password)))."' LIMIT 1;";
 		if($db->query($query)){
 			if($db->getNumRows()){
 				$row = $db->fetcharray();
+				$user = new User($row);
 				//Set Session
 				session_start();
-				$_SESSION['userId'] = $row['id'];
+				$_SESSION['userId'] = $user->id;
 				//Update lastVisitDate
-                return 1;
+				$user->lastvisitDate = date("Y-m-d H:i:s");
+				$user->update();
+                return true;
 			}
 		}
 	}
@@ -51,7 +55,7 @@ class User extends Model {
 		$_SESSION = array();
 		session_unset();
 		session_destroy();
-		return 1;
+		return true;
 	}
 	
 	function preInsert(){
@@ -59,11 +63,6 @@ class User extends Model {
 		$this->password = md5(sha1(trim($this->password)));
 		//Register Date
 		$this->registerDate = date("Y-m-d H:i:s");
-	}
-	
-	function preUpdate(){
-		//Update Date
-		$this->updateDate = date("Y-m-d H:i:s");
 	}
 	
 	public function selectUsers(){
@@ -80,6 +79,17 @@ class User extends Model {
 		}
 	}
 	
+	public function getUserByEmail($email){
+		$db = Registry::getDb();
+		$query = "SELECT * FROM users WHERE email='".htmlentities(mysql_real_escape_string($email))."'";
+		if($db->Query($query)){
+			if($db->getNumRows()){
+				$row = $db->fetcharray();
+				return new User($row);
+			}
+		}
+	}
+
 	public function getUserByUsername($username){
 		$db = Registry::getDb();
 		$query = "SELECT * FROM users WHERE username='".htmlentities(mysql_real_escape_string($username))."'";

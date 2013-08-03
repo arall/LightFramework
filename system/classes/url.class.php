@@ -27,10 +27,19 @@ class Url{
 		if($url){
 			//Read Vars
 			$vars = explode("/", $url);
-			if($vars[0])
+			//Fix
+			if($vars[1] && !$vars[0]){
+				$this->app = $vars[1];
+				if($vars[2]){
+					$this->action = $vars[2];
+				}
+			}elseif($vars[0]){
 				$this->app = $vars[0];
-			if($vars[1])
-				$this->action = $vars[1];
+				if($vars[1]){
+					$this->action = $vars[1];
+				}
+			}
+			//GET Vars
 			if(count($vars)>2){
 				for($i=2;$i<count($vars);$i++){
 					$this->vars[$i-2] = $vars[$i];

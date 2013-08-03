@@ -5,7 +5,8 @@ class Registry {
 	static private $config 		= NULL;
 	static private $user 		= NULL;
 	static private $template 	= NULL;
-	
+	static private $messages 	= array();
+
 	static public function getUrl() {
 		if (self::$url == NULL) {
 			self::$url = new Url();
@@ -38,6 +39,18 @@ class Registry {
 			self::$template = new Template();
 		}
 		return self::$template;
+    }
+    static public function addMessage($message, $type=1, $field="", $url=""){
+		$msg = new Message($message, $type, $field, $url);
+		self::$messages[] = $msg;
+		$_SESSION['messages'] = self::$messages;
+		return true;
+    }
+    static public function getMessages() {
+    	$messages = self::$messages;
+    	self::$messages = array();
+		$_SESSION['messages'] = array();
+		return $messages;
     }
 }
 ?>
