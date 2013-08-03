@@ -12,8 +12,13 @@ class Url{
 	*/
 	public function __construct() {
 		$config = Registry::getConfig();
+		//Fix /
+		$dir = $config->get("dir");
+		if($dir == "/"){
+			$dir = "";
+		}
 		//Read URL
-		$url = str_replace("//", "/", str_replace($config->get("dir"), "", $_SERVER['REQUEST_URI']));
+		$url = str_replace("//", "/", str_replace($dir, "", $_SERVER['REQUEST_URI']));
 		//Fix GET
 		if(strstr($url, "?")){
 			$url = substr($url, 0, strpos($url, "?"));
