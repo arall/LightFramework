@@ -12,7 +12,10 @@ class userController extends Controller {
 	}
 
 	public function register(){
-
+		//Load View to Template
+		$html .= $this->view("views.register");
+		//Render the Template
+		$this->render($html);
 	}
 
 	public function login(){
