@@ -60,14 +60,9 @@ class Url{
 	*/
 	static function site($path="") {
 		$config = Registry::getConfig();
-		$url = $config->get('url');
-		if(!substr($url, -1, 1)=="/"){
-			$url."/";
-		}
-		if(!substr($path, 0, 1)=="/"){
-			$url = substr($url, 1);
-		}
-		return $url.$path;
+		$url = trim($config->get('url'), "/");
+		$path = trim($path, "/");
+		return $url."/".$path;
 	}
 	/**
 	* template
@@ -78,14 +73,9 @@ class Url{
 	static function template($path="") {
 		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
-		$url = $config->get('url');
-		if(!substr($url, -1, 1)=="/"){
-			$url."/";
-		}
-		if(!substr($path, 0, 1)=="/"){
-			$url = substr($url, 1);
-		}
-		return $url."templates/".$template->name."/".$path;
+		$url = trim($config->get('url'), "/");
+		$path = trim($path, "/");
+		return $url."/templates/".$template->name."/".$path;
 	}
 }
 ?>
