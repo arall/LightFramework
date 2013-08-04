@@ -20,14 +20,16 @@
 		<div class="navbar navbar-static-top navbar-inverse">
 			<div class="container" style="width: auto;">
 				<a class="navbar-brand" href="<?=Url::site()?>">Title</a>
+				<?php $url = Registry::getUrl(); ?>
+				<?php $active[$url->app][$url->action] = "active"; ?>
 				<ul class="nav navbar-nav">
-					<li class="active">
+					<li class="<?=$active['demo']['index']?>">
 						<a href="<?=Url::site()?>">Home</a>
 					</li>
-					<li>
+					<li class="<?=$active['user']['login']?>">
 						<a href="<?=Url::site("user/login")?>">Login</a>
 					</li>
-					<li>
+					<li class="<?=$active['user']['register']?>"">
 						<a href="<?=Url::site("user/register")?>">Register</a>
 					</li>
 				</ul>
