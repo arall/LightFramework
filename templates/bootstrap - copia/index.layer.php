@@ -7,7 +7,9 @@
 		<meta name="author" content="">
 		<title>LightFramework</title>
 		<!--css-->
+		<link href="<?=Url::template("css/style.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<link href="<?=Url::template("css/bootstrap.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
+		<link href="<?=Url::template("css/bootstrap-responsive.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<link href="<?=Url::template("css/custom.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<!--/css-->
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -17,42 +19,32 @@
 	    <link rel="shortcut icon" href="<?=Url::template("img/favicon.png")?>">
 	</head>
 	<body>
-		<div class="navbar navbar-static-top navbar-inverse">
-			<div class="container" style="width: auto;">
-				<a class="navbar-brand" href="<?=Url::site()?>">Title</a>
-				<ul class="nav navbar-nav">
-					<li class="active">
-						<a href="<?=Url::site()?>">Home</a>
-					</li>
-					<li>
-						<a href="<?=Url::site("user/login")?>">Login</a>
-					</li>
-					<li>
-						<a href="<?=Url::site("user/register")?>">Register</a>
-					</li>
-				</ul>
-			</div>
-		</div>
 		<!--mainContainer-->
-		<div class="container">
-			<!--alerts-->
-			<?php $messages = Registry::getMessages(); ?>
-			<div id="mensajes-sys">
-			<?php if($messages){ ?>
-				<?php foreach($messages as $message){ ?>
-					<?php if($message->message){ ?>
-						<div class="alert alert-<?=$message->type()?>">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
-							<?=$message->message?>
-						</div>
-					<?php } ?>
-				<?php } ?>
-			<?php } ?>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span9">
+					<!--alerts-->
+					<?php $messages = Registry::getMessages(); ?>
+			    	<div id="mensajes-sys">
+			    		<?php if($messages){ ?>
+				    		<?php foreach($messages as $message){ ?>
+				    			<?php if($message->message){ ?>
+									<div class="alert alert-<?=$message->type()?>">
+										<button type="button" class="close" data-dismiss="alert">&times;</button>
+										<?=$message->message?>
+									</div>
+								<?php } ?>
+							<?php } ?>
+						<?php } ?>
+					</div>
+					<!--/alerts-->
+					<div class="hero-unit">
+						<!--content-->
+						<?=$content?>
+						<!--/content-->
+					</div>
+				</div>
 			</div>
-			<!--/alerts-->
-			<!--content-->
-			<?=$content?>
-			<!--/content-->
 			<hr>
 			<!--footer-->
 			<footer>

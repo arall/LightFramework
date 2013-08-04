@@ -11,8 +11,7 @@ class Demo extends Model {
 	
 	function preUpdate(){
 		//Generate random string
-		$r = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
-		$this->string = $r;
+		$this->string = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
 	}
 	
 	public function selectDemos(){

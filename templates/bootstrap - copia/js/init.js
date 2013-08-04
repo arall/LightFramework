@@ -2,8 +2,8 @@
 $(document).ready(function() {
 	//Ajax forms
 	$(".ajax").submit(function(){
-	 	$(".help-block").remove();
-		$(".alert").remove(); 
+	 	$(".help-inline").remove();
+		$(".alert").remove();
 		$(this).ajaxSubmit({
 	        dataType:  'json',
 			success:   function(data) {
@@ -15,8 +15,8 @@ $(document).ready(function() {
 				for(var x=0;x<data.length;x++) {
 					if(data[x].field){
 						if($('#' + data[x].field).length){
-							$('#' + data[x].field).parent().addClass("has-" + data[x].type);
-							$('#' + data[x].field).parent().append('<span class="help-block">' + data[x].message + '</span>');
+							$('#' + data[x].field).parent().parent().addClass(data[x].type);
+							$('#' + data[x].field).parent().append('<span class="help-inline">' + data[x].message + '</span>');
 						}
 					}else if(data[x].url){
 						$(".alert").remove();

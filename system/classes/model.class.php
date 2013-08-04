@@ -72,7 +72,7 @@ abstract class Model{
 		    $values[$name] = $name."='".mysql_real_escape_string($this->$name)."'";
 	    }
 	    //SQL
-	    $query = "UPDATE ".self::$dbTable." SET ".implode(" , ",$values)." WHERE id=".(int)$this->id; 
+	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE id=".(int)$this->id; 
 		if($db->query($query)) {
 	    	//Post Update
 	    	$this->postUpdate();
@@ -101,7 +101,7 @@ abstract class Model{
 		    $values2[$name]=" '".mysql_real_escape_string($this->$name)."' ";
 		}
 		//SQL
-		$query = "INSERT INTO ".self::$dbTable." (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
+		$query = "INSERT INTO ".$this->dbTable." (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
 		if($db->query($query)) {
 			$this->id = $db->lastid();
 			//Post Insert
