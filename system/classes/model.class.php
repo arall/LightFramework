@@ -2,8 +2,9 @@
 abstract class Model{
 	public static $className;
 	public static $dbTable;
-	public static $reservedVars = array("className","dbTable","reservedVars", "reservedVarsChild");
+	public static $reservedVars = array("className", "dbTable", "reservedVars", "reservedVarsChild", "idField");
 	public static $reservedVarsChild = array();
+	public static $idField = "";
 	public function init(){}
 	
     public function __construct($id=""){
@@ -12,12 +13,16 @@ abstract class Model{
 		$this->className = get_class($this);
 		$this->dbTable = self::$dbTable;
 		$this->reservedVars = self::$reservedVars;
-		$this->reservedVarsChild=self::$reservedVarsChild;
+		$this->reservedVarsChild = self::$reservedVarsChild;
+		$this->idField = self::$idField;
+		if(!$this->idField){
+			$this->idField = "id";
+		}
 		if($id){
 			if(is_array($id)){
 				$this->loadVarsArray($id);
 			}else{
-				$query = "SELECT * FROM ".$this->dbTable." WHERE id=".(int)$id;
+				$query = "SELECT * FROM ".$this->dbTable." WHERE ".$this->idField."=".(int)$id;
 				if($db->query($query)){
 					if($db->getNumRows()){
 						$row = $db->fetcharray();
@@ -72,7 +77,7 @@ abstract class Model{
 		    $values[$name] = $name."='".mysql_real_escape_string($this->$name)."'";
 	    }
 	    //SQL
-	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE id=".(int)$this->id; 
+	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE ".$this->idField."=".(int)$this->id; 
 		if($db->query($query)) {
 	    	//Post Update
 	    	$this->postUpdate();
@@ -103,7 +108,8 @@ abstract class Model{
 		//SQL
 		$query = "INSERT INTO ".$this->dbTable." (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
 		if($db->query($query)) {
-			$this->id = $db->lastid();
+			$idField = $this->idField;
+			$this->$idField = $db->lastid();
 			//Post Insert
 			$this->postInsert();
 			return 1;
