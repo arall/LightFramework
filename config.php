@@ -23,10 +23,8 @@ function print_pre($array=""){
 }
 
 function redirect($url, $message="", $type=""){
-	session_start();
 	if($message){
-		$_SESSION['message'] = $message;
-		$_SESSION['type'] = $type;
+		Registry::addMessage($message, $type);
 	}
 	header("Location: ".$url);
 }
