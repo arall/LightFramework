@@ -45,9 +45,9 @@ class Url{
 				}
 			}
 			//GET Vars
-			if(count($vars)>2){
-				for($i=2;$i<count($vars);$i++){
-					$this->vars[$i-2] = $vars[$i];
+			if(count($vars)>3){
+				for($i=3;$i<count($vars);$i++){
+					$this->vars[$i-3] = $vars[$i];
 				}
 			}
 		}
@@ -60,7 +60,14 @@ class Url{
 	*/
 	static function site($path="") {
 		$config = Registry::getConfig();
-		return $config->get('url')."/".$path;
+		$url = $config->get('url');
+		if(!substr($url, -1, 1)=="/"){
+			$url."/";
+		}
+		if(!substr($path, 0, 1)=="/"){
+			$url = substr($url, 1);
+		}
+		return $url.$path;
 	}
 	/**
 	* template
@@ -71,7 +78,14 @@ class Url{
 	static function template($path="") {
 		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
-		return $config->get('url')."/templates/".$template->name."/".$path;
+		$url = $config->get('url');
+		if(!substr($url, -1, 1)=="/"){
+			$url."/";
+		}
+		if(!substr($path, 0, 1)=="/"){
+			$url = substr($url, 1);
+		}
+		return $url."templates/".$template->name."/".$path;
 	}
 }
 ?>
