@@ -8,11 +8,11 @@
 			<form class="form-horizontal ajax" method="post" name="loginForm" id="loginForm" action="<?=Url::site("user/doLogin")?>">
 				<div class="form-group">
 					<label class="control-label" for="login">Username</label>
-				  	<input type="text" class="form-control" id="login" name="login" placeholder="Username / email">
+				  	<input type="text" class="form-control" name="login" placeholder="Username / email">
 				</div>
 				<div class="form-group">
 			    	<label class="control-label" for="password">Password</label>
-				    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+				    <input type="password" class="form-control" name="password" placeholder="Password">
 				</div>
 				<div class="form-group">
 			    	<a href="<?=Url::site("user/register")?>" class="btn btn-default" />Register</a>
