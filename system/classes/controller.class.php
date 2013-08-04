@@ -30,6 +30,7 @@ abstract class Controller{
 		$path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.
 			DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
 		$vars['content'] = $data;
+		$vars['controller'] = $this;
     	$html = $template->loadTemplate($path, $vars);
 		echo $html;
 	}

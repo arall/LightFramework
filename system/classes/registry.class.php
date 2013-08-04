@@ -41,12 +41,15 @@ class Registry {
 		return self::$template;
     }
     static public function addMessage($message, $type=1, $field="", $url=""){
+		session_start();
 		$msg = new Message($message, $type, $field, $url);
 		self::$messages[] = $msg;
 		$_SESSION['messages'] = self::$messages;
 		return true;
     }
     static public function getMessages($keep=0){
+    	session_start();
+    	self::$messages = array_merge(self::$messages, $_SESSION['messages']);
     	$messages = self::$messages;
     	if(!$keep){
     		self::$messages = array();
