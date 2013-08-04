@@ -15,6 +15,7 @@ $(document).ready(function() {
 				for(var x=0;x<data.length;x++) {
 					if(data[x].field){
 						if($('#' + data[x].field).length){
+							/////////////////// (THIS)
 							$('#' + data[x].field).parent().addClass("has-" + data[x].type);
 							$('#' + data[x].field).parent().append('<span class="help-block">' + data[x].message + '</span>');
 						}

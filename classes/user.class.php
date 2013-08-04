@@ -9,17 +9,23 @@ class User extends Model {
 	var $registerDate;
 	var $lastvisitDate;
 
-	var $roles = array("Registred", "Admin");
+	var $roles = array("Registered", "Admin");
 	public static $reservedVarsChild = array("roles");
 	
 	public function init(){
 		parent::$dbTable = "users";
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
+
+	public function test(){
+		$this->insert();
+		$demo = new Demo(1);
+		$demo->insert();
+	}
 	
 	public function login($login, $password){
 		$db = Registry::getDb();
-		$query = "SELECT * FROM ".self::$dbTable." WHERE 
+		$query = "SELECT * FROM users WHERE 
 		(	username='".htmlspecialchars(mysql_real_escape_string(trim($login)))."' OR 
 			email='".htmlspecialchars(mysql_real_escape_string(trim($login)))."'
 		) AND password='".md5(sha1(trim($password)))."' LIMIT 1;";

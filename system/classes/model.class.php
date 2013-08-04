@@ -72,6 +72,7 @@ abstract class Model{
 	    //Prepare SQL vars
 	    $values = array();
 		foreach(get_class_vars($this->className) as  $name=>$value){
+			if($name==$this->idField) continue;
 			if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
 		    $values[$name] = $name."='".mysql_real_escape_string($this->$name)."'";
@@ -100,6 +101,7 @@ abstract class Model{
 		$this->preInsert();
 		 //Prepare SQL vars
 		foreach(get_class_vars($this->className) as $name=>$value) {
+			if($name==$this->idField) continue;
 		   	if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
 		    $values1[$name] = $name;
