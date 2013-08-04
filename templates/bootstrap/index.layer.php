@@ -29,7 +29,7 @@
 					<li class="<?=$active['user']['login']?>">
 						<a href="<?=Url::site("user/login")?>">Login</a>
 					</li>
-					<li class="<?=$active['user']['register']?>"">
+					<li class="<?=$active['user']['register']?>">
 						<a href="<?=Url::site("user/register")?>">Register</a>
 					</li>
 				</ul>
