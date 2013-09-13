@@ -45,9 +45,9 @@ class Url{
 				}
 			}
 			//GET Vars
-			if(count($vars)>3){
-				for($i=3;$i<count($vars);$i++){
-					$this->vars[$i-3] = $vars[$i];
+			if(count($vars)>2){
+				for($i=2;$i<count($vars);$i++){
+					$this->vars[$i-2] = $vars[$i];
 				}
 			}
 		}
