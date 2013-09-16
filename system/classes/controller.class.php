@@ -36,6 +36,14 @@ abstract class Controller{
 	}
 	public final function ajax() {
     	$messages = Registry::getMessages();
+    	//Fix preserve on redirections
+    	if(count($messages)){
+    		foreach($messages as $message){
+    			if($message->url){
+    				Registry::addMessage($message->message, $message->type, $message->field, $message->url);
+    			}
+    		}
+    	}
     	echo json_encode($messages);
     }
 } 
