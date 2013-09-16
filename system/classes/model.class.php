@@ -45,13 +45,19 @@ abstract class Model{
     public function validateInsert(){}
     public function preInsert(){}
     public function postInsert(){}
+
+    public function validateDelete(){}
+    public function preDelete(){}
+    public function postDelete(){}
     
     public function loadVarsArray($array){
 		$vars = get_class_vars($this->className);
 	    foreach($vars as  $name=>$value){
 		    if(in_array($name,self::$reservedVars)) continue;
 		    if(in_array($name,array_keys($vars))){
-				$this->$name=($array[$name]);
+				if(isset($array[$name])){
+					$this->$name=($array[$name]);
+				}
 			}
 	    }
     }
@@ -83,7 +89,9 @@ abstract class Model{
 	    	//Post Update
 	    	$this->postUpdate();
 	    	return 1;
-	    }
+	    }else{
+			Registry::addMessage($db->getError(), "error");
+		}
     }
 
     public function insert($array=""){
@@ -115,7 +123,29 @@ abstract class Model{
 			//Post Insert
 			$this->postInsert();
 			return 1;
+		}else{
+			Registry::addMessage($db->getError(), "error");
 		}
     }
+
+    public function delete(){
+    	//Validate
+	    $err = $this->validateDelete();
+	    if($err){
+		    return 0;
+	    }
+   		//Pre Delete
+		$this->preDelete();
+		//Delete
+		$db = Registry::getDb();
+		$query = "DELETE FROM ".$this->dbTable." WHERE id=".(int)$this->id;
+		if($db->Query($query)){
+			//Post Insert
+			$this->postDelete();
+			return 1;
+		}else{
+			Registry::addMessage($db->getError(), "error");
+		}
+	}
 }
 ?>
