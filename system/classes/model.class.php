@@ -1,4 +1,4 @@
-<? 
+<?php
 abstract class Model{
 	public static $className;
 	public static $dbTable;
@@ -63,6 +63,7 @@ abstract class Model{
     }
     
     public function update($array=""){
+	    $config = Registry::getConfig();
 	    $db = Registry::getDb();
 		//Load Array
 	    if(is_array($array)){
@@ -90,11 +91,13 @@ abstract class Model{
 	    	$this->postUpdate();
 	    	return 1;
 	    }else{
-			Registry::addMessage($db->getError(), "error");
+			if($config->get("debug"))
+				Registry::addMessage($db->getError(), "error");
 		}
     }
 
     public function insert($array=""){
+	    $config = Registry::getConfig();
 	    $db = Registry::getDb();
 	    //Load Array
 	    if(is_array($array)){
@@ -124,11 +127,14 @@ abstract class Model{
 			$this->postInsert();
 			return 1;
 		}else{
-			Registry::addMessage($db->getError(), "error");
+			if($config->get("debug"))
+				Registry::addMessage($db->getError(), "error");
 		}
     }
 
     public function delete(){
+    	$db = Registry::getDb();
+    	$config = Registry::getConfig();
     	//Validate
 	    $err = $this->validateDelete();
 	    if($err){
@@ -137,14 +143,14 @@ abstract class Model{
    		//Pre Delete
 		$this->preDelete();
 		//Delete
-		$db = Registry::getDb();
 		$query = "DELETE FROM ".$this->dbTable." WHERE id=".(int)$this->id;
 		if($db->Query($query)){
 			//Post Insert
 			$this->postDelete();
 			return 1;
 		}else{
-			Registry::addMessage($db->getError(), "error");
+			if($config->get("debug"))
+				Registry::addMessage($db->getError(), "error");
 		}
 	}
 }
