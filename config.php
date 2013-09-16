@@ -2,6 +2,7 @@
 //Config
 $_config['template'] = "bootstrap";
 $_config['defaultApp'] = "demo";
+$_config['debug'] = true;
 
 //Database
 $_config['db_server'] = "localhost";
@@ -28,5 +29,4 @@ function redirect($url, $message="", $type=""){
 	}
 	header("Location: ".$url);
 }
-
 ?>
