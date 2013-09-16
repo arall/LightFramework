@@ -6,7 +6,10 @@ class Router{
 		//Load App
 		$app = $config->get("path").DIRECTORY_SEPARATOR."apps".DIRECTORY_SEPARATOR.$url->app.DIRECTORY_SEPARATOR.$url->app.".php";
 		if (is_readable($app) == false) {
-			die("App not found: ".$app);
+			if($config->get("debug"))
+				die("App not found: ".$app);
+			else
+				redirect(Url::site());
 		}
 		include_once($app);
 		//Acction exists?
@@ -16,7 +19,10 @@ class Router{
 		if(method_exists($controller, $action)){
 			$controller->$action();
 		}else{
-			die("Acction not found: ".$action);
+			if($config->get("debug"))
+				die("Acction not found: ".$action);
+			else
+				redirect(Url::site());
 		}
 	}
 }
