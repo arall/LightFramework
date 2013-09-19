@@ -30,6 +30,10 @@ class Url{
 		//Default Action
 		$this->action = "index";
 		if($url){
+			//Fix / on first char (var[0] emty)
+			if($url[0]=="/"){
+				$url = substr($url, 1);
+			}
 			//Read Vars
 			$vars = explode("/", $url);
 			//Fix
@@ -45,11 +49,18 @@ class Url{
 				}
 			}
 			//GET Vars
-			if(count($vars)>3){
-				for($i=3;$i<count($vars);$i++){
-					$this->vars[$i-3] = $vars[$i];
+			if(count($vars)>2){
+				for($i=2;$i<count($vars);$i++){
+					$this->vars[$i-2] = $vars[$i];
 				}
 			}
+		}
+		//POST is mandatory
+		if($_POST['app']){
+			$this->app = $_POST['app'];
+		}
+		if($_POST['action']){
+			$this->action = $_POST['action'];
 		}
 	}
 	/**
