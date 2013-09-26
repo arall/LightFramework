@@ -85,7 +85,8 @@ abstract class Model{
 		    $values[$name] = "`".$name."`"."='".mysql_real_escape_string($this->$name)."'";
 	    }
 	    //SQL
-	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE ".$this->idField."=".(int)$this->id; 
+	    $idField = $this->idField;
+	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE ".$this->idField."=".(int)$this->$idField; 
 		if($db->query($query)) {
 	    	//Post Update
 	    	$this->postUpdate();
@@ -143,7 +144,8 @@ abstract class Model{
    		//Pre Delete
 		$this->preDelete();
 		//Delete
-		$query = "DELETE FROM ".$this->dbTable." WHERE id=".(int)$this->id;
+		$idField = $this->idField;
+		$query = "DELETE FROM ".$this->dbTable." WHERE ".$this->idField."=".(int)$this->$idField;
 		if($db->Query($query)){
 			//Post Insert
 			$this->postDelete();
