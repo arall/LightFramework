@@ -1,18 +1,9 @@
 <?php defined('_EXE') or die('Restricted access'); ?>
 
-<div class="row">
-  <div class="col-lg-4">
-  	<h1><?php echo $title; ?></h1> 
-  	<?php if(count($demos)){ ?>
-		<?php foreach($demos as $demo){ ?>
-			<h3>Demo <?=$demo->id?>: <?=$demo->string?></h3>
-		<?php } ?>
-	<?php } ?>
-	<?=$controller->view("modules.demo"); ?>
-  </div>
-  	<?php if($title=="First Select"){ ?>
-		<div class="col-lg-4 col-lg-offset-4">
-			<?=$controller->view("modules.login", "user"); ?>
-		</div>
-	<?php } ?>
+<div class="jumbotron">
+	<h1>Hello, world!</h1>
+	<p>This is a sample funcion to generate random strings.</p>
+	<p>We already have generated <?=$total?> random strings.</p>
+	<p>Last string is: <?=$demo->string?></p>
+	<p><a class="btn btn-primary btn-lg" role="button" href="<?=Url::site("demo/generate");?>">Randomize!</a></p>
 </div>

@@ -7,34 +7,49 @@
 		<meta name="author" content="">
 		<title>LightFramework</title>
 		<!--css-->
+		<!-- Bootstrap -->
 		<link href="<?=Url::template("css/bootstrap.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
+		<!-- Custom CSS -->
 		<link href="<?=Url::template("css/custom.css");?>" media="screen" rel="stylesheet" type="text/css" />
-		<!--/css-->
-		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	    <!--[if lt IE 9]>
-	    	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 	    <![endif]-->
+	    <!--/css-->
 	    <link rel="shortcut icon" href="<?=Url::template("img/favicon.png")?>">
 	</head>
 	<body>
-		<div class="navbar navbar-static-top navbar-inverse">
-			<div class="container" style="width: auto;">
-				<a class="navbar-brand" href="<?=Url::site()?>">Title</a>
-				<?php $url = Registry::getUrl(); ?>
-				<?php $active[$url->app][$url->action] = "active"; ?>
-				<ul class="nav navbar-nav">
-					<li class="<?=$active['demo']['index']?>">
-						<a href="<?=Url::site()?>">Home</a>
-					</li>
-					<li class="<?=$active['user']['login']?>">
-						<a href="<?=Url::site("user/login")?>">Login</a>
-					</li>
-					<li class="<?=$active['user']['register']?>">
-						<a href="<?=Url::site("user/register")?>">Register</a>
-					</li>
-				</ul>
+		<!--navbar-->
+		<?php $user = Registry::getUser(); ?>
+		<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="<?=Url::site()?>">Project name</a>
+					<?php $url = Registry::getUrl(); ?>
+					<?php $active[$url->app][$url->action] = "active"; ?>
+					<ul class="nav navbar-nav">
+						<li class="<?=$active['demo']['index']?>">
+							<a href="<?=Url::site()?>">Home</a>
+						</li>
+						<?php if(!$user->id){ ?>
+						<li class="<?=$active['login']['index']?>">
+							<a href="<?=Url::site("login")?>">Login</a>
+						</li>
+						<li class="<?=$active['login']['register']?>">
+							<a href="<?=Url::site("login/register")?>">Register</a>
+						</li>
+						<?php }else{ ?>
+						<li class="">
+							<a href="<?=Url::site("login/doLogout")?>">Logout</a>
+						</li>
+						<?php } ?>
+					</ul>
+				</div>
 			</div>
 		</div>
+		<!--/navbar-->
 		<!--mainContainer-->
 		<div class="container">
 			<!--alerts-->
@@ -55,19 +70,16 @@
 			<!--content-->
 			<?=$content?>
 			<!--/content-->
-			<hr>
-			<!--footer-->
-			<footer>
-				<p>&copy; Company <?=date("Y")?></p>
-			</footer>
-			<!--/footer-->
-			
       	</div>
       	<!--/mainContainer-->
 		<!--javascript-->
-		<script src="<?=Url::template("js/jquery-1.9.1.min.js");?>" type="text/javascript"></script>
+		<!-- JQuery -->
+		<script src="<?=Url::template("js/jquery-1.10.2.min.js");?>" type="text/javascript"></script>
+		<!-- Bootstrap -->
 		<script src="<?=Url::template("js/bootstrap.min.js");?>" type="text/javascript"></script>
+		<!-- JQuery Forms Plugin -->
 		<script src="<?=Url::template("js/jquery.forms.js");?>" type="text/javascript"></script>
+		<!-- Framework JS -->
 		<script src="<?=Url::template("js/init.js");?>" type="text/javascript"></script>
 		<!--/javascript-->
 	</body>

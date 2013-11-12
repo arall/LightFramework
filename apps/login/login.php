@@ -2,7 +2,7 @@
 //No direct access
 defined('_EXE') or die('Restricted access');
 
-class userController extends Controller {
+class loginController extends Controller {
 	
 	public function init(){
 	}

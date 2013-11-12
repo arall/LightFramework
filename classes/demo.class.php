@@ -9,9 +9,31 @@ class Demo extends Model {
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
 	
-	function preUpdate(){
+	function preInsert(){
 		//Generate random string
 		$this->string = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
+	}
+
+	public function getTotalDemos(){
+		$db = Registry::getDb();
+		$query = "SELECT count(id) as total FROM demos";
+		if($db->Query($query)){
+			if($db->getNumRows()){
+				$row = $db->fetcharray();
+				return $row['total'];
+			}
+		}
+	}
+
+	public function getLastDemo(){
+		$db = Registry::getDb();
+		$query = "SELECT * FROM demos ORDER BY id DESC LIMIT 1";
+		if($db->Query($query)){
+			if($db->getNumRows()){
+				$row = $db->fetcharray();
+				return new Demo($row);
+			}
+		}
 	}
 	
 	public function selectDemos(){

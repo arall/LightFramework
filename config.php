@@ -7,8 +7,8 @@ $_config['debug'] = true;
 //Database
 $_config['db_server'] = "localhost";
 $_config['db_user'] = "root";
-$_config['db_pass'] = "root";
-$_config['db_name'] = "lightframework";
+$_config['db_pass'] = "";
+$_config['db_name'] = "lightFramework";
 
 //Urls/Paths
 $_config['path'] = dirname(__FILE__);

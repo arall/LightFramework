@@ -49,9 +49,6 @@ class Registry {
     }
     static public function getMessages($keep=0){
     	session_start();
-    	if($_SESSION['messages']){
-    		self::$messages = array_merge(self::$messages, $_SESSION['messages']);
-    	}
     	$messages = self::$messages;
     	if(!$keep){
     		self::$messages = array();

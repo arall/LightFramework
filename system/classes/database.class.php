@@ -68,7 +68,7 @@ class Database {
       	return mysql_free_result($result);
     }
     
-	function lastid(){
+	  function lastid(){
       	return mysql_insert_id();
     }
     
