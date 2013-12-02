@@ -16,12 +16,6 @@ class User extends Model {
 		parent::$dbTable = "users";
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
-
-	public function test(){
-		$this->insert();
-		$demo = new Demo(1);
-		$demo->insert();
-	}
 	
 	public function login($login, $password){
 		$db = Registry::getDb();

@@ -34,7 +34,7 @@ abstract class Controller{
     	$html = $template->loadTemplate($path, $vars);
 		echo $html;
 	}
-	public final function ajax() {
+	public final function ajax($data=array()) {
     	$messages = Registry::getMessages();
     	//Fix preserve on redirections
     	if(count($messages)){
@@ -44,7 +44,8 @@ abstract class Controller{
     			}
     		}
     	}
-    	echo json_encode($messages);
+    	$data['messages'] = $messages;
+    	echo json_encode($data);
     }
 } 
 ?>
