@@ -71,6 +71,8 @@ class User extends Model {
 		$this->password = md5(sha1(trim($this->password)));
 		//Register Date
 		$this->registerDate = date("Y-m-d H:i:s");
+		//Force to non-admin
+		$this->roleId = 0;
 	}
 	
 	public function selectUsers(){

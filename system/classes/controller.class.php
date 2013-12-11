@@ -16,11 +16,17 @@ abstract class Controller{
 		$this->data[$key] = $data;
 	}
 	public function view($view, $app=""){
+		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
-		$path = $this->getPath($app);
 		//Including the controller as data, to enable modules/views inside other views
 		$this->data['controller'] = $this;
-       	$file = $path.DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $view).".view";
+		$tp = DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $view).".view";
+		//Template priority
+		$file = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.$tp;
+		if(!file_exists($file.".php")){
+			$path = $this->getPath($app);
+			$file = $path.$tp;
+		}
 		$html = $template->loadTemplate($file, $this->data);
 		return $html;
 	}
@@ -44,6 +50,7 @@ abstract class Controller{
     			}
     		}
     	}
+    	$data['data'] = $data;
     	$data['messages'] = $messages;
     	echo json_encode($data);
     }

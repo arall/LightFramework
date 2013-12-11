@@ -22,7 +22,7 @@ abstract class Model{
 			if(is_array($id)){
 				$this->loadVarsArray($id);
 			}else{
-				$query = "SELECT * FROM `".$this->dbTable."` WHERE `".$this->idField."`=".(int)$id;
+				$query = "SELECT * FROM ".$this->dbTable." WHERE ".$this->idField."=".(int)$id;
 				if($db->query($query)){
 					if($db->getNumRows()){
 						$row = $db->fetcharray();
@@ -70,7 +70,7 @@ abstract class Model{
 		    self::loadVarsArray($array);
 	    }
 	    //Validate
-	    $err = $this->validateUpdate();
+	    $err = $this->validateUpdate($array);
 	    if($err){
 		    return 0;
 	    }
@@ -82,18 +82,22 @@ abstract class Model{
 			if($name==$this->idField) continue;
 			if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
-		    $values[$name] = "`".$name."`"."='".mysql_real_escape_string($this->$name)."'";
+			if(!isset($this->$name)){
+		    	$values[$name] = "`".$name."`"."=NULL";
+		    }else{
+		    	$values[$name] = "`".$name."`"."='".mysql_real_escape_string($this->$name)."'";
+		    }
 	    }
 	    //SQL
 	    $idField = $this->idField;
-	    $query = "UPDATE `".$this->dbTable."` SET ".implode(" , ",$values)." WHERE `".$this->idField."`=".(int)$this->$idField; 
+	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE ".$this->idField."=".(int)$this->$idField; 
 		if($db->query($query)) {
 	    	//Post Update
-	    	$this->postUpdate();
+	    	$this->postUpdate($array);
 	    	return 1;
 	    }else{
 			if($config->get("debug"))
-				Registry::addMessage($db->getError(), "error");
+				Registry::addMessage($db->getError()."<br>".$query, "error");
 		}
     }
 
@@ -105,7 +109,7 @@ abstract class Model{
 	    	self::loadVarsArray($array);
 	    }
 	    //Validate
-	    $err = $this->validateInsert();
+	    $err = $this->validateInsert($array);
 	    if($err){
 		    return 0;
 	    }
@@ -117,19 +121,23 @@ abstract class Model{
 		   	if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
 		    $values1[$name] = "`".$name."`";
-		    $values2[$name]=" '".mysql_real_escape_string($this->$name)."' ";
+		    if(!isset($this->$name)){
+		    	$values2[$name]=" NULL ";
+		    }else{
+		    	$values2[$name]=" '".mysql_real_escape_string($this->$name)."' ";
+		    }
 		}
 		//SQL
-		$query = "INSERT INTO `".$this->dbTable."` (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
+		$query = "INSERT INTO ".$this->dbTable." (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
 		if($db->query($query)) {
 			$idField = $this->idField;
 			$this->$idField = $db->lastid();
 			//Post Insert
-			$this->postInsert();
+			$this->postInsert($array);
 			return 1;
 		}else{
 			if($config->get("debug"))
-				Registry::addMessage($db->getError(), "error");
+				Registry::addMessage($db->getError()."<br>".$query, "error");
 		}
     }
 
@@ -142,17 +150,17 @@ abstract class Model{
 		    return 0;
 	    }
    		//Pre Delete
-		$this->preDelete();
+		$this->preDelete($array);
 		//Delete
 		$idField = $this->idField;
-		$query = "DELETE FROM `".$this->dbTable."` WHERE `".$this->idField."`=".(int)$this->$idField;
+		$query = "DELETE FROM ".$this->dbTable." WHERE ".$this->idField."=".(int)$this->$idField;
 		if($db->Query($query)){
 			//Post Insert
-			$this->postDelete();
+			$this->postDelete($array);
 			return 1;
 		}else{
 			if($config->get("debug"))
-				Registry::addMessage($db->getError(), "error");
+				Registry::addMessage($db->getError()."<br>".$query, "error");
 		}
 	}
 }

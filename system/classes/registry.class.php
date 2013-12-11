@@ -6,12 +6,30 @@ class Registry {
 	static private $user 		= NULL;
 	static private $template 	= NULL;
 	static private $messages 	= array();
+	static private $language 	= NULL;
+	static private $debug 	= array();
 
+	static public function getDebug($key=""){
+		if($key){
+			return self::$debug[$key];
+		}else{
+			return self::$debug;
+		}
+    }
+    static public function setDebug($key, $data){
+		self::$debug[$key] = $data;
+    }
 	static public function getUrl(){
 		if (self::$url == NULL) {
 			self::$url = new Url();
 		}
 		return self::$url;
+    }
+    static public function getLanguage($lang=""){
+		if (self::$language == NULL) {
+			self::$language = new Language($lang);
+		}
+		return self::$language;
     }
 	static public function getDb(){
 		$config = self::getConfig();
@@ -43,18 +61,23 @@ class Registry {
     static public function addMessage($message, $type=1, $field="", $url=""){
 		session_start();
 		$msg = new Message($message, $type, $field, $url);
-		self::$messages[] = $msg;
-		$_SESSION['messages'] = self::$messages;
+		$_SESSION['messages'][] = $msg;
+		self::$messages[] = $_SESSION['messages'];
 		return true;
     }
     static public function getMessages($keep=0){
     	session_start();
-    	$messages = self::$messages;
+    	$messages = $_SESSION['messages'];
+    	self::$messages = $messages;
     	if(!$keep){
     		self::$messages = array();
 			$_SESSION['messages'] = array();
 		}
 		return $messages;
+    }
+    static public function translate($string=""){
+    	$lang = self::getLanguage();
+		return $lang->translate($string);
     }
 }
 ?>
