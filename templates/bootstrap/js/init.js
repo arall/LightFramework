@@ -1,5 +1,5 @@
 //Ajax forms
-$(document).on('submit', '.ajax, .ajaxF', function(e){
+$(document).on('submit', '.ajax', function(e){
  	$(".help-block").remove();
 	$(".alert").remove();
 	$(".has-warning").removeClass("has-warning");

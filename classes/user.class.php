@@ -1,26 +1,26 @@
 <?php
 class User extends Model {
-	
-	var $id;
-	var $roleId;
-	var $email;
-	var $username;
-	var $password;
-	var $registerDate;
-	var $lastvisitDate;
 
-	var $roles = array("Registered", "Admin");
+	public $id;
+	public $roleId;
+	public $email;
+	public $username;
+	public $password;
+	public $registerDate;
+	public $lastvisitDate;
+
+	public $roles = array("Registered", "Admin");
 	public static $reservedVarsChild = array("roles");
-	
+
 	public function init(){
 		parent::$dbTable = "users";
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
-	
+
 	public function login($login, $password){
 		$db = Registry::getDb();
-		$query = "SELECT * FROM users WHERE 
-		(	username='".htmlspecialchars(mysql_real_escape_string(trim($login)))."' OR 
+		$query = "SELECT * FROM users WHERE
+		(	username='".htmlspecialchars(mysql_real_escape_string(trim($login)))."' OR
 			email='".htmlspecialchars(mysql_real_escape_string(trim($login)))."'
 		) AND password='".md5(sha1(trim($password)))."' LIMIT 1;";
 		if($db->query($query)){
@@ -37,8 +37,8 @@ class User extends Model {
 			}
 		}
 	}
-	
-	function validateInsert(){
+
+	public function validateInsert(){
 		//Check username already exists
 		if(!$this->username){
 			Registry::addMessage("This field is requiered", "error", "username");
@@ -55,9 +55,9 @@ class User extends Model {
 		if(!$this->password || strlen($this->password)<6){
 			Registry::addMessage("Password must be at least 6 chars long", "error", "password");
 		}
-		return Registry::getMessages(true); 
+		return Registry::getMessages(true);
 	}
-	
+
 	public function logout(){
 		session_start();
 		$_SESSION = array();
@@ -65,8 +65,8 @@ class User extends Model {
 		session_destroy();
 		return true;
 	}
-	
-	function preInsert(){
+
+	public function preInsert(){
 		//Passwd encryption
 		$this->password = md5(sha1(trim($this->password)));
 		//Register Date
@@ -74,7 +74,7 @@ class User extends Model {
 		//Force to non-admin
 		$this->roleId = 0;
 	}
-	
+
 	public function selectUsers(){
 		$db = Registry::getDb();
 		$query = "SELECT * FROM users";
@@ -88,7 +88,7 @@ class User extends Model {
 			}
 		}
 	}
-	
+
 	public function getUserByEmail($email){
 		$db = Registry::getDb();
 		$query = "SELECT * FROM users WHERE email='".htmlentities(mysql_real_escape_string($email))."'";
@@ -111,4 +111,3 @@ class User extends Model {
 		}
 	}
 }
-?>

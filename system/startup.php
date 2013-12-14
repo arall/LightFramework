@@ -26,4 +26,3 @@ $registry = new Registry();
 $router = new Router();
 $router->delegate();
 
-?>

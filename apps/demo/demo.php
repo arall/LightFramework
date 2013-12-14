@@ -3,7 +3,7 @@
 defined('_EXE') or die('Restricted access');
 
 class demoController extends Controller {
-	
+
 	public function init(){
 		//Must be logged
 		$user = Registry::getUser();
@@ -11,7 +11,7 @@ class demoController extends Controller {
 			redirect(Url::site("login"));
 		}
 	}
-	
+
 	public function index(){
 		//Get Data from Model
 		$total = Demo::getTotalDemos();
@@ -30,4 +30,3 @@ class demoController extends Controller {
 		redirect(Url::site("demo"));
 	}
 }
-?>

@@ -1,25 +1,60 @@
 <?php
+/**
+ * Config Class
+ *
+ * @package LightFramework\Core
+ */
 class Config{
-	private $data;
-	
-    public function __construct($vars){
-    	if(is_array($vars)) {
+
+    /**
+     * Array of stored values
+     *
+     * @var array
+     */
+    private $data;
+
+    /**
+     * Default constructor
+     *
+     * @param array $vars
+     */
+    public function __construct($vars=array()){
+    	if(is_array($vars)){
 	    	$this->setByArray($vars);
     	}
     }
-	
-    public function set($name,$value){
-	    $this->data[$name]=$value;
+
+    /**
+     * Set a value into self data array
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
+    public function set($name, $value){
+	    $this->data[$name] = $value;
     }
-    
-    public function get($name) {
+
+    /**
+     * Get a value previously stored in self data array
+     *
+     * @param mixed $name
+     */
+    public function get($name){
 	    return $this->data[$name];
     }
-    
+
+    /**
+     * Set all the values inside the array in self data array
+     *
+     * @param array $array
+     */
     public function setByArray($array){
-    	if(is_array($array))
-    		foreach($array as $name=>$value)
-    			$this->set($name,$value);
+    	if(is_array($array)){
+            if(count($array)){
+                foreach($array as $name=>$value){
+                    $this->set($name,$value);
+                }
+            }
+        }
     }
-} 
-?>
+}

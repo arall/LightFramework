@@ -1,5 +1,4 @@
 <?php
-
 //PHP
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set('display_errors', 1);
@@ -13,10 +12,10 @@ $_config['defaultApp'] = "demo";
 $_config['debug'] = true;
 
 //Database
-$_config['db_server'] = "localhost";
-$_config['db_user'] = "root";
-$_config['db_pass'] = "";
-$_config['db_name'] = "lightFramework";
+$_config['dbHost'] = "localhost";
+$_config['dbUser'] = "root";
+$_config['dbPass'] = "";
+$_config['dbName'] = "lightFramework";
 
 //Urls/Paths
 $_config['path'] = dirname(__FILE__);
@@ -37,4 +36,3 @@ function redirect($url, $message="", $type=""){
 	}
 	header("Location: ".$url);
 }
-?>

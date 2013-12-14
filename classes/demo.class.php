@@ -1,15 +1,15 @@
 <?php
 class Demo extends Model {
-	
-	var $id;
-	var $string;
-	
+
+	public $id;
+	public $string;
+
 	public function init(){
 		parent::$dbTable = "demos";
 		parent::$reservedVarsChild = self::$reservedVarsChild;
 	}
-	
-	function preInsert(){
+
+	public function preInsert(){
 		//Generate random string
 		$this->string = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 6);
 	}
@@ -35,7 +35,7 @@ class Demo extends Model {
 			}
 		}
 	}
-	
+
 	public function selectDemos(){
 		$db = Registry::getDb();
 		$query = "SELECT * FROM demos";
@@ -50,4 +50,3 @@ class Demo extends Model {
 		}
 	}
 }
-?>

@@ -1,9 +1,28 @@
 <?php
+/**
+ * Language Class
+ *
+ * @package LightFramework\Core
+ */
 class Language{
 
-    static private $languages = array();
-	static private $strings = array();
+    /**
+     * All the available llangauges
+     * @var array
+     */
+    private static $languages = array();
+
+    /**
+     * All the strings of the current language
+     * @var array
+     */
+	private static $strings = array();
 	
+    /**
+     * Constructor
+     * Loads the default lang strings
+     * It will detect any language change by URL
+     */
     public function __construct(){
         session_start();
         //Get current langs
@@ -35,6 +54,12 @@ class Language{
         }
     }
 	
+    /**
+     * Loads a lang file
+     * 
+     * @param  string $path File path
+     * @return array  Translation Strings
+     */
     public function load($path){
         if(file_exists($path)){
             $contents = file_get_contents($path);
@@ -43,6 +68,12 @@ class Language{
         }
     }
     
+    /**
+     * Translate a string
+     * 
+     * @param  string $string String to translate
+     * @return string Translated string
+     */
     public function translate($string=""){
 	    $res = self::$strings[$string];
         if(!$res){
@@ -52,4 +83,3 @@ class Language{
         }
     }
 } 
-?>

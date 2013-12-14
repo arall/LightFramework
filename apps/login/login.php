@@ -3,10 +3,10 @@
 defined('_EXE') or die('Restricted access');
 
 class loginController extends Controller {
-	
+
 	public function init(){
 	}
-	
+
 	public function index(){
 		$this->login();
 	}
@@ -62,4 +62,3 @@ class loginController extends Controller {
 		redirect(Url::site());
 	}
 }
-?>

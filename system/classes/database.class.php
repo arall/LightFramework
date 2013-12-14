@@ -1,36 +1,88 @@
 <?php
-class Database {
-    var $query;
-    var $result;
-    var $link;
-    public $registry;
-    private $server;
-    
-    function Database($server="localhost", $user="", $passw="", $dbName="") {
-        if(!function_exists("mysql_connect")) return false;   
-        $this->link = mysql_connect($server, $user, $passw) or die("Error: Cannot connect to db ".$server);
-        mysql_select_db($dbName) or die("Error: Cannot read the database");
+/**
+ * Config Class
+ *
+ * @package LightFramework\Core
+ */
+class Database extends PDO{
+	
+	/**
+     * Current Query
+     *
+     * @var string
+     */
+	public $query;
+
+	/**
+     * Current result
+     *
+     * @var resource
+     */
+	public $result;
+
+	/**
+     * Current connection
+     *
+     * @var resource
+     */
+    public $link;
+
+
+	/**
+     * Constructor
+     * Tries to connecto to DB.
+     *
+     * @param string $server   DB server adress
+     * @param string $host     DB user
+     * @param string $pass     DB user password
+     * @param string $database DB name
+     * 
+     * @return bool
+     */
+    public function __construct($host="localhost", $user="", $pass="", $database="") {
+        if(!function_exists("mysql_connect")) 
+            return false;   
+        $this->link = mysql_connect($host, $user, $pass) or die("Error: Cannot connect to host: ".$host);
+        mysql_select_db($database) or die("Error: Cannot read the database: ".$database);
         $this->mysql_set_charset("utf8");
         $opened = true;
         return $opened;
     }
-    function mysql_set_charset($charset="utf8"){
-      return $this->query("SET character_set_results='$charset',character_set_client='$charset',character_set_connection='$charset',character_set_database='$charset',character_set_server='$charset'");
-  }
 
-    function close() {
-      if(!function_exists("mysql_close")) return false;
-      mysql_close($this->link);
-      $opened = false;
-      return $opened;
+    /**
+     * Set a charset on DB connection
+     * @param  string $charset Charset
+     * @return bool
+     */
+    public function mysql_set_charset($charset="utf8"){
+        return $this->query("SET character_set_results='$charset',character_set_client='$charset',character_set_connection='$charset',character_set_database='$charset',character_set_server='$charset'");
     }
-    
-    function query($query){
+
+  	/**
+     * Closes the current connection
+     * 
+     * @return bool
+     */
+    public function close() {
+    	if(!function_exists("mysql_close")) 
+    		return false;
+    	mysql_close($this->link);
+    	return true;
+    }
+
+    /**
+     * Execute the passed query on the current connection
+     *
+     * @param string $query
+     * 
+     * @return bool
+     */
+    public function query($query){
         //Debug
         Registry::setDebug("numQueries", (int)Registry::getDebug("numQueries")+1);
         $stored = Registry::getDebug("queries");
         $this->query = $query;
-        $msc = microtime(true);        
+        $msc = microtime(true);
         $this->result = mysql_query($query);
         //Execution time
         $msc = round(((microtime(true)-$msc)*1000), 2);
@@ -38,57 +90,56 @@ class Database {
         Registry::setDebug("queries", $stored);
         return $this->result;
     }
-    
-    function fetcharray($result=null){
-      if(!$result)
-        $result=$this->result;
+
+    public function fetcharray($result=null){
+        if(!$result)
+            $result = $this->result;
         return @mysql_fetch_array($result);
     }
-    
-    function loadArrayList($result=null){
-      while($row = $this->fetcharray($result)){
-      $array[] = $row;
+      
+    public function loadArrayList($result=null){
+        while($row = $this->fetcharray($result)){
+            $array[] = $row;
+        }
+        return $array;
     }
-    return $array;
-    }
-    
-    function fetchrow($result=null){
-      if(!$result)
-        $result = $this->result;
+      
+    public function fetchrow($result=null){
+        if(!$result)
+            $result = $this->result;
         return mysql_fetch_row($result);
     }
-    
-    function fetchassoc($result=null){
-      if(!$result)
-        $result = $this->result;
+      
+    public function fetchassoc($result=null){
+        if(!$result)
+            $result = $this->result;
         return mysql_fetch_assoc($result);
     }
-    
-    function getNumRows($result=null){
-      if(!$result)
-        $result = $this->result;
+      
+    public function getNumRows($result=null){
+        if(!$result)
+            $result = $this->result;
         return mysql_num_rows($result);
     }
-    
-    function freeresult($result=null){
-      if(!$result)
-        $result = $this->result;
+      
+    public function freeresult($result=null){
+        if(!$result)
+            $result = $this->result;
         return mysql_free_result($result);
     }
-    
-    function lastid(){
+      
+    public function lastid(){
         return mysql_insert_id();
     }
-    
-    function getError($link=null){
-      if(!$link)
-        $link = $this->link;
-      return "Server: "._SERVER_DB_." ".mysql_errno($link).": ".mysql_error($link);
+      
+    public function getError($link=null){
+        if(!$link)
+            $link = $this->link;
+        return mysql_errno($link).": ".mysql_error($link);
     }
-    
-    function __destruct(){
-      $this->close();
-      unset($this);
+      
+    public function __destruct(){
+        $this->close();
+        unset($this);
     }
 }
-?>

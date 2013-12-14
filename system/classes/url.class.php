@@ -1,33 +1,58 @@
-<?php 
+<?php
+/**
+ * Url Class
+ *
+ * @package LightFramework\Core
+ */
 class Url{
-	var $url;
-	public $app;
-	public $action;
-	public $vars; 
 	/**
-	* __construct
-	*
-	* Reads current URL and set vars
-	*
-	*/
-	public function __construct() {
+	 * Current Url
+	 * @var string
+	 */
+	public $url;
+
+	/**
+	 * Current App name
+	 * @var string
+	 */
+	public $app;
+
+	/**
+	 * Current Action name
+	 * @var string
+	 */
+	public $action;
+
+	/**
+	 * Url extra GET vars
+	 * @var array
+	 */
+	public $vars;
+
+	/**
+	 * Contructor
+	 */
+	public function __construct(){
+		//Get the current config
 		$config = Registry::getConfig();
-		//Fix /
+		//Fix extra slashes
 		$dir = $config->get("dir");
 		if($dir == "/"){
 			$dir = "";
 		}
 		//Read URL
 		$url = str_replace("//", "/", str_replace($dir, "", $_SERVER['REQUEST_URI']));
-		//Fix GET
+		//Exclude GET params
 		if(strstr($url, "?")){
 			$url = substr($url, 0, strpos($url, "?"));
 		}elseif(strstr($url, "&")){
 			$url = substr($url, 0, strpos($url, "&"));
 		}
-		//Default App
+		//Set Url
+		$this->url = $url;
+		//Set App
 		$this->app = $config->get("defaultApp");
-		//Default Action
+		//Set Action
 		$this->action = "index";
 		if($url){
 			//Fix / on first char (var[0] emty)
@@ -63,25 +88,27 @@ class Url{
 			$this->action = $_POST['action'];
 		}
 	}
+
 	/**
-	* site
-	*
-	* Returns full site URL
-	*
-	*/
-	static function site($path="") {
+	 * Gets the full site Url
+	 *
+	 * @param  string $path Extra Url
+	 * @return string       Url
+	 */
+	public static function site($path="") {
 		$config = Registry::getConfig();
 		$url = trim($config->get('url'), "/");
 		$path = trim($path, "/");
 		return $url."/".$path;
 	}
+
 	/**
-	* template
-	*
-	* Returns full template URL
-	*
-	*/
-	static function template($path="") {
+	 * Gets the curren template Url
+	 *
+	 * @param  string $path Extra Url
+	 * @return string       Url
+	 */
+	public static function template($path="") {
 		$config = Registry::getConfig();
 		$template = Registry::getTemplate();
 		$url = trim($config->get('url'), "/");
@@ -89,4 +116,3 @@ class Url{
 		return $url."/templates/".$template->name."/".$path;
 	}
 }
-?>

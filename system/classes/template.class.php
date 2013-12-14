@@ -1,36 +1,58 @@
 <?php
-class Template {
+/**
+ * Template Class
+ *
+ * @package LightFramework\Core
+ */
+class Template{
 
-	var $name = "";
-	
-	function __construct(){
+	/**
+	 * Template name (same as folder name)
+	 * @var string
+	 */
+	public $name = "";
+
+	/**
+	 * Constructor
+	 */
+	public function __construct(){
+		//Get the current Config
 		$config = Registry::getConfig();
+		//Set the template name
 		$this->name = $config->get("template");
 	}
 
-	//Loads a view/module
-    public static function loadTemplate($template, $vars = array()){
-		$templatePath = $template.'.php';
-	    if(!file_exists($templatePath)){
-	    	die("File not found: ".$templatePath);
+	/**
+	 * Try to load a View/Module
+	 *
+	 * @param  string $file File name
+	 * @param  array  $vars    List of values to pass trought
+	 * @return string          HTML
+	 */
+    public static function loadTemplate($file, $vars = array()){
+		//Check if file exists
+		$filePath = $file.'.php';
+	    if(!file_exists($filePath)){
+	    	die("File not found: ".$filePath);
 	    }
-	    return self::loadTemplateFile($templatePath, $vars);
+	    return self::loadTemplateFile($filePath, $vars);
     }
 
-    public static function renderTemplate($template, $vars = array()){
-    	echo self::loadTemplate($template, $vars);
-    }
-
-    private static function loadTemplateFile($__ct___templatePath__, $__ct___vars__){
-		if(is_array($__ct___vars__)){
-			extract($__ct___vars__, EXTR_OVERWRITE);
+    /**
+     * Load a View/Module
+     * @param  multiple $path File or files to load
+     * @param  array    $vars List of values to pass trought
+     * @return string   HTML
+     */
+    private static function loadTemplateFile($path, $vars){
+		if(is_array($vars)){
+			extract($vars, EXTR_OVERWRITE);
 		}
-    	$__ct___template_return = '';
+    	$return = '';
 		ob_start();
-    	require($__ct___templatePath__);
-    	$__ct___template_return = ob_get_contents();
+    	require($path);
+    	$return = ob_get_contents();
     	ob_end_clean();
-    	return $__ct___template_return;
+    	return $return;
     }
-} 
-?>
+}
