@@ -41,19 +41,27 @@
 						<?php $url = Registry::getUrl(); ?>
 						<?php $active[$url->app][$url->action] = "active"; ?>
 						<ul class="nav navbar-nav">
-							<li class="<?=$active['demo']['index']?>">
-								<a href="<?=Url::site()?>">Home</a>
-							</li>
 							<?php if(!$user->id){ ?>
 							<li class="<?=$active['login']['index']?>">
-								<a href="<?=Url::site("login")?>">Login</a>
+								<a href="<?=Url::site("login")?>">
+									<?=Registry::translate("MENU_LOGIN")?>
+								</a>
 							</li>
 							<li class="<?=$active['login']['register']?>">
-								<a href="<?=Url::site("login/register")?>">Register</a>
+								<a href="<?=Url::site("login/register")?>">
+									<?=Registry::translate("MENU_REGISTER")?>
+								</a>
 							</li>
 							<?php }else{ ?>
+							<li class="<?=$active['demo']['index']?>">
+								<a href="<?=Url::site("demo")?>">
+									<?=Registry::translate("MENU_DEMO")?>
+								</a>
+							</li>
 							<li class="">
-								<a href="<?=Url::site("login/doLogout")?>">Logout</a>
+								<a href="<?=Url::site("login/doLogout")?>">
+									<?=Registry::translate("MENU_LOGOUT")?>
+								</a>
 							</li>
 							<?php } ?>
 						</ul>

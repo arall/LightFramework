@@ -13,20 +13,58 @@ class demoController extends Controller {
 	}
 
 	public function index(){
-		//Get Data from Model
-		$total = Demo::getTotalDemos();
-		$this->setData("total", $total);
-		$demo = Demo::getLastDemo();
-		$this->setData("demo", $demo);
+		$config = Registry::getConfig();
+		//Total
+		$pag['total'] = 0;
+		//Limit
+		$pag['limit'] = $_REQUEST['limit'] ? $_REQUEST['limit'] : $config->get("defaultLimit");
+		$pag['limitStart'] = $_REQUEST['limitStart'];
+		//Demo Select
+		$demos = Demo::select($_REQUEST, $pag['limit'], $pag['limitStart'], $pag['total']);
+		//Setting data to View
+		$this->setData("demos", $demos);
+		$this->setData("pag", $pag);
 		//Load View to Template var
-		$html .= $this->view("views.test");
+		$html .= $this->view("views.list");
 		//Render the Template
 		$this->render($html);
 	}
 
-	public function generate(){
-		$demo = new Demo();
-		$demo->insert();
+	public function edit(){
+		$url = Registry::getUrl();
+		$demo = new Demo($url->vars[0]);
+		$this->setData("demo", $demo);
+		//Load View to Template var
+		$html .= $this->view("views.edit");
+		//Render the Template
+		$this->render($html);
+	}
+
+	public function save(){
+		$demo = new Demo($_REQUEST['id']);
+		if($demo->id){
+			$res = $demo->update($_REQUEST);
+			if($res){
+				Registry::addMessage(Registry::translate("CTRL_DEMO_UPDATE_OK"), "success", "", Url::site("demo"));
+			}
+		}else{
+			$res = $demo->insert($_REQUEST);
+			if($res){
+				Registry::addMessage(Registry::translate("CTRL_DEMO_INSERT_OK"), "success", "", Url::site("demo"));
+			}
+		}
+		$this->ajax();
+	}
+
+	public function delete(){
+		$url = Registry::getUrl();
+		$demo = new Demo($url->vars[0]);
+		if($demo->id){
+			$res = $demo->delete();
+			if($res){
+				Registry::addMessage(Registry::translate("CTRL_DEMO_DELETE_OK"), "success");
+			}
+		}
 		redirect(Url::site("demo"));
 	}
 }

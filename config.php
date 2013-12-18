@@ -9,6 +9,7 @@ ini_set("session.gc_maxlifetime","140000");
 $_config['defaultLang'] = "en_GB";
 $_config['template'] = "bootstrap";
 $_config['defaultApp'] = "demo";
+$_config['defaultLimit'] = 10;
 $_config['debug'] = true;
 
 //Database
@@ -35,4 +36,5 @@ function redirect($url, $message="", $type=""){
 		Registry::addMessage($message, $type);
 	}
 	header("Location: ".$url);
+	die();
 }

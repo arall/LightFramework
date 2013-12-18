@@ -46,3 +46,43 @@ $(document).on('submit', '.ajax', function(e){
 	});
 	return false;
 });
+
+//Pagination
+$(document).on('click', '.pagination a', function(e){
+	var app = $(this).attr("data-app");
+	var action = $(this).attr("data-action");
+	var limit = $(this).attr("data-limit");
+	var limitStart = $(this).attr("data-limitStart");
+	var form = $(this).closest("form");
+	if(app){
+		checkFormField(form, "app", app);
+	}
+	if(action){
+		checkFormField(form, "action", action);
+	}
+	checkFormField(form, "limit", limit);
+	checkFormField(form, "limitStart", limitStart);
+	form.submit();
+});
+
+//Sortable Columns
+$(document).on('click', '.sortable', function(e){
+	var form = $(this).closest("form");
+	checkFormField(form, "order", $(this).attr("data-order"));
+	checkFormField(form, "orderDir", $(this).attr("data-orderDir"));
+	form.submit();
+});
+
+//Auto appends (if needed) hidden field
+function checkFormField(formElement, fieldName, fieldValue){
+	var field = formElement.find("input[name='" + fieldName + "']");
+	if(!field.length){
+		$('<input>').attr({
+		    type: 'hidden',
+		    name: fieldName,
+		    value: fieldValue
+		}).appendTo(formElement);
+	}else{
+		return field;
+	}
+}

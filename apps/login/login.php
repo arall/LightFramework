@@ -51,7 +51,7 @@ class loginController extends Controller {
 		//If not...
 		}else{
 			//Create message
-			Registry::addMessage("Login incorrect", "error", "login");
+			Registry::addMessage(Registry::translate("CTRL_LOGIN_LOGIN_ERROR"), "error", "login");
 		}
 		//Do not render the template, just ajax (Messages)
 		$this->ajax();

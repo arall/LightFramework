@@ -7,6 +7,29 @@
 class Helper{
 
     /**
+     * Make a sortable link for a table in a form
+     * @param  string $field Database Field
+     * @param  string $text  Text
+     * @return string HTML Link
+     */
+    public function sortableLink($field="", $text=""){
+        $order = $field;
+        $orderDir = "ASC";
+        if($_REQUEST['order']==$field){
+             $cssClass = "sort-by-attributes";
+            if($_REQUEST['orderDir']=="ASC"){
+                $orderDir = "DESC";
+                $cssClass = "sort-by-attributes-alt";
+            }
+        }
+        return 
+            "<a href='#' class='sortable' data-order='".$order."' data-orderDir='".$orderDir."'>
+                ".$text."
+                <span class='glyphicon glyphicon-".$cssClass."'></span>
+            </a>";
+    }
+
+    /**
      * Converts a date to human readable
      * 
      * @param  string $date Non-human readable date

@@ -173,7 +173,7 @@ abstract class Model{
 	    }
 	    //SQL
 	    $idField = $this->idField;
-	    $query = "UPDATE ".$this->dbTable." SET ".implode(" , ",$values)." WHERE `".$this->idField."`=".(int)$this->$idField;
+	    $query = "UPDATE `".$this->dbTable."` SET ".implode(" , ",$values)." WHERE `".$this->idField."`=".(int)$this->$idField;
 		if($db->query($query)) {
 	    	//Post Update
 	    	$this->postUpdate($array);
@@ -217,7 +217,7 @@ abstract class Model{
 		    }
 		}
 		//SQL
-		$query = "INSERT INTO ".$this->dbTable." (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
+		$query = "INSERT INTO `".$this->dbTable."` (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
 		if($db->query($query)) {
 			$idField = $this->idField;
 			$this->$idField = $db->lastid();
@@ -247,7 +247,7 @@ abstract class Model{
 		$this->preDelete($array);
 		//Delete
 		$idField = $this->idField;
-		$query = "DELETE FROM ".$this->dbTable." WHERE `".$this->idField."`=".(int)$this->$idField;
+		$query = "DELETE FROM `".$this->dbTable."` WHERE `".$this->idField."`=".(int)$this->$idField;
 		if($db->Query($query)){
 			//Post Insert
 			$this->postDelete($array);

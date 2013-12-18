@@ -2,3 +2,20 @@
 .modal-debug .modal-dialog{
 	width: 90%;
 }
+
+/* Main Div */
+div.main{
+	margin-top: 20px;
+	background-color: #fff;
+	border-width: 1px;
+	border-color: #ddd;
+	border-radius: 4px;
+	box-shadow: none;
+	border-style: solid;
+	padding: 15px 15px 15px;
+}
+
+/* Better pagination */
+.pagination li a{
+	cursor: pointer;	
+}

@@ -3,7 +3,7 @@
 # Server version:               5.5.32
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-12-11 19:53:58
+# Date/time:                    2013-12-18 20:53:19
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -15,7 +15,10 @@
 DROP TABLE IF EXISTS `demos`;
 CREATE TABLE IF NOT EXISTS `demos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL DEFAULT '0',
   `string` varchar(240) DEFAULT NULL,
+  `dateInsert` datetime DEFAULT NULL,
+  `dateUpdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
