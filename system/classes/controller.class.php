@@ -100,8 +100,8 @@ abstract class Controller{
     			}
     		}
     	}
-    	$data['data'] = $data;
-    	$data['messages'] = $messages;
-    	echo json_encode($data);
+    	$return['data'] = $data;
+    	$return['messages'] = $messages;
+    	echo json_encode($return);
     }
 }
