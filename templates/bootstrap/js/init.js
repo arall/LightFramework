@@ -31,6 +31,7 @@ $(document).on('submit', '.ajax', function(e){
 								messages[x].type = "danger"
 							}
 							$("#mensajes-sys").append('<div class="alert alert-' + messages[x].type + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + messages[x].message + '</div>');
+							$('html,body').animate({ scrollTop: 0 }, 'slow');
 						}
 					}
 				}
@@ -46,6 +47,7 @@ $(document).on('submit', '.ajax', function(e){
 	});
 	return false;
 });
+<<<<<<< HEAD
 
 //Pagination
 $(document).on('click', '.pagination a', function(e){
@@ -86,3 +88,5 @@ function checkFormField(formElement, fieldName, fieldValue){
 		return field;
 	}
 }
+=======
+>>>>>>> 0cedaded4ca917e30ce16d9f89c9b8693863a283
