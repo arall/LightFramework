@@ -16,7 +16,7 @@ $(document).on('submit', '.ajax', function(e){
 					for(var x=0;x<messages.length;x++) {
 						//Field message
 						if(messages[x].field){
-							field = form.find("select[name=" + messages[x].field + "], input[name=" + messages[x].field + "]");
+							field = form.find("select[name=" + messages[x].field + "], input[name=" + messages[x].field + "], textarea[name=" + messages[x].field + "], checkbox[name=" + messages[x].field + "]");
 							if(field.length){
 								field.parent().parent().addClass("has-" + messages[x].type);
 								field.parent().append('<span class="help-block">' + messages[x].message + '</span>');
@@ -36,10 +36,34 @@ $(document).on('submit', '.ajax', function(e){
 					}
 				}
 			}
-			//Modal HTML
-			if(data.modal){
-				$("#genericModal .modal-content").html(data.modal);
-				$("#genericModal").modal('show');
+			//Debug Message
+			if(data.debug){
+				if(data.debug.length){
+					messages = data.debug;
+					for(var x=0;x<messages.length;x++) {
+						//Increment counter
+						var total = parseInt($("#debugCounterMessagesAjax").html());
+						total++;
+						$("#debugCounterMessagesAjax").html(total);
+						//UL exists?
+						if(!$("#debugModalMessagesAjax ul.list-group").length){
+							//Create UL
+							$("#debugModalMessagesAjax .modal-body").append("<ul class='list-group'></ul>");
+							//Delete Blockquote
+							$("#debugModalMessagesAjax blockquote").remove();
+						}
+						//Add message
+						$("#debugModalMessagesAjax ul.list-group").append("<li class='list-group-item'><blockquote>" + messages[x].message + "</blockquote>" + messages[x].trace + "</li>");
+					}
+				}
+			}
+			//Extras
+			if(data.data){
+				//Modal HTML
+				if(data.data.modal){
+					$("#genericModal .modal-content").html(data.data.modal);
+					$("#genericModal").modal('show');
+				}
 			}
 			$(".btn.disabled").removeClass("disabled");
 			$(".btn.disabled").disabled = false;

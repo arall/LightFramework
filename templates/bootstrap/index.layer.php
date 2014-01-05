@@ -92,56 +92,41 @@
 	      	</div>
 	      	<!--/mainContainer-->
 	    </div>
-	    <?php $config = Registry::getConfig(); ?>
-	    <?php if($config->get("debug")){ ?>
-			 <!-- Debug Modal - Queries -->
-			<div class="modal modal-debug fade" id="debugModalQueries" tabindex="-1" role="dialog" aria-hidden="true">
-				<div class="modal-dialog">
-			    	<div class="modal-content">
-			    		<div class="modal-header">
-					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					        <h4 class="modal-title" id="myModalLabel">Queries</h4>
-					    </div>
-					    <div class="modal-body">
-					    	<?php if(count(Registry::getDebug("queries"))){ ?>
-					    		<ul class="list-group">
-					    		<?php foreach(Registry::getDebug("queries") as $query){ ?>
-					    			<li class="list-group-item">
-										<span class="badge"><?=$query['time']?>ms</span>
-										<?=$query['query']?>
-									</li>
-					    		<?php } ?>
-					    		</ul>
-					    	<?php }else{ ?>
-					    		<blockquote>
-									<p>No queries</p>
-								</blockquote>
-					    	<?php } ?>
-					    </div>
-			    	</div>
-			  	</div>
-			</div>
-			<!-- /Debug Modal - Queries -->
-		<?php } ?>
+
+	    <!-- Debugging Modals -->
+        <?php $config = Registry::getConfig(); ?>
+        <?php if($config->get("debug")){ ?>
+            <?php $debug = Registry::getDebug(); ?>
+            <!-- Current Queries Debug Modal -->
+            <?php $controller->setData("debug", $debug); ?>
+            <?php $controller->setData("debugModalId", "Current"); ?>
+            <?=$controller->view("modules.debugModalQueries");?>
+            <!-- Previous Queries Debug Modal -->
+            <?php if($_SESSION['debug']['queries']){ ?>
+                <?php $controller->setData("debug", $_SESSION['debug']); ?>
+                <?php $controller->setData("debugModalId", "Last"); ?>
+                <?=$controller->view("modules.debugModalQueries");?>
+            <?php } ?>
+            <!-- Session Debug Modal -->
+            <?=$controller->view("modules.debugModalSession");?>
+            <!-- Current Messages Debug Modal -->
+            <?php $controller->setData("debug", $debug); ?>
+            <?php $controller->setData("debugModalId", "Current"); ?>
+            <?=$controller->view("modules.debugModalMessages");?>
+            <!-- Ajax Messages Debug Modal -->
+            <?php $controller->setData("debugModalId", "Ajax"); ?>
+            <?=$controller->view("modules.debugModalMessages");?>
+        <?php } ?>
+        <!-- /Debugging Modals -->
+
       	<!-- Footer -->
       	<footer class="footer">
       		<?php if($config->get("debug")){ ?>
-	      		<!-- Debug Bar -->
-	      		<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-	      			<div class="navbar-header">
-				    	<span class="navbar-brand" >
-				    		Load time: <small><?=round(((microtime(true)-Registry::getDebug("started"))*1000), 2);?>ms</small>
-				    	</span>
-				    	<span class="navbar-brand" >
-				    		Memory Usage: <small><?=Helper::formatBytes(memory_get_usage());?></small>
-				    	</span>
-				    	<a class="navbar-brand" data-toggle="modal" data-target="#debugModalQueries">
-				    		Nº Queries: <small><?=(int)Registry::getDebug("numQueries");?></small>
-				    	</a>
-				  </div>
-	      		</nav>
-	      		<!-- /Debug Bar -->
-      		<?php } ?>
+                <!-- Debugging Menu -->
+                <?php $controller->setData("debug", $debug); ?>
+                <?=$controller->view("modules.debugMenu");?>
+                <!-- /Debugging Menu -->
+            <?php } ?>
       	</footer>
       	<!-- /Footer -->
 	</body>

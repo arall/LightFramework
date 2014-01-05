@@ -16,30 +16,31 @@
 
 <div class="main">
 	<form method="post" action="<?=Url::site("demo")?>">
-		<?php if(count($demos)){ ?>
+		<?php if(count($results)){ ?>
 			<div class="table-responsive">
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th><?=Helper::sortableLink("id", Registry::translate("VIEW_DEMO_FIELDS_ID"));?></th>
-							<th><?=Helper::sortableLink("userId", Registry::translate("VIEW_DEMO_FIELDS_USER"));?></th>
-							<th><?=Helper::sortableLink("string", Registry::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
-							<th><?=Helper::sortableLink("dateInsert", Registry::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
-							<th><?=Helper::sortableLink("dateUpdate", Registry::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
+							<th><?=Helper::sortableLink("demo.id", Registry::translate("VIEW_DEMO_FIELDS_ID"));?></th>
+							<th><?=Helper::sortableLink("user.userId", Registry::translate("VIEW_DEMO_FIELDS_USER"));?></th>
+							<th><?=Helper::sortableLink("demo.string", Registry::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
+							<th><?=Helper::sortableLink("demo.dateInsert", Registry::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
+							<th><?=Helper::sortableLink("demo.dateUpdate", Registry::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach($demos as $demo){ ?>
-							<?php $user = new User($demo->userId); ?>
+						<?php foreach($results as $result){ ?>
+							<?php $demo = $result['demo']; ?>
+							<?php $user = $result['user']; ?>
 							<tr>
-								<td><?=$demo->id?></td>
+								<td><?=$demo->id;?></td>
 								<td>
 									<span class="label label-default">
-										<?=$user->username?>
+										<?=$user->username;?>
 									</span>
 								</td>
-								<td><?=$demo->string?></td>
+								<td><?=Helper::sanitize($demo->string);?></td>
 								<td><?=Helper::humanDate($demo->dateInsert);?></td>
 								<td><?=Helper::humanDate($demo->dateUpdate);?></td>
 								<td>

@@ -5,30 +5,29 @@
  * @package LightFramework\Core
  */
 class Database extends PDO{
-	
-	/**
+
+    /**
      * Current Query
      *
      * @var string
      */
-	public $query;
+    public $query;
 
-	/**
+    /**
      * Current result
      *
      * @var resource
      */
-	public $result;
+    public $result;
 
-	/**
+    /**
      * Current connection
      *
      * @var resource
      */
     public $link;
 
-
-	/**
+    /**
      * Constructor
      * Tries to connecto to DB.
      *
@@ -36,12 +35,12 @@ class Database extends PDO{
      * @param string $host     DB user
      * @param string $pass     DB user password
      * @param string $database DB name
-     * 
+     *
      * @return bool
      */
     public function __construct($host="localhost", $user="", $pass="", $database="") {
-        if(!function_exists("mysql_connect")) 
-            return false;   
+        if(!function_exists("mysql_connect"))
+            return false;
         $this->link = mysql_connect($host, $user, $pass) or die("Error: Cannot connect to host: ".$host);
         mysql_select_db($database) or die("Error: Cannot read the database: ".$database);
         $this->mysql_set_charset("utf8");
@@ -58,36 +57,65 @@ class Database extends PDO{
         return $this->query("SET character_set_results='$charset',character_set_client='$charset',character_set_connection='$charset',character_set_database='$charset',character_set_server='$charset'");
     }
 
-  	/**
+    /**
      * Closes the current connection
-     * 
+     *
      * @return bool
      */
     public function close() {
-    	if(!function_exists("mysql_close")) 
-    		return false;
-    	mysql_close($this->link);
-    	return true;
+        if(!function_exists("mysql_close"))
+            return false;
+        mysql_close($this->link);
+        return true;
     }
 
     /**
      * Execute the passed query on the current connection
      *
      * @param string $query
-     * 
+     *
      * @return bool
      */
     public function query($query){
+        $config = Registry::getConfig();
         //Debug
-        Registry::setDebug("numQueries", (int)Registry::getDebug("numQueries")+1);
-        $stored = Registry::getDebug("queries");
+        if($config->get("debug")){
+            //Save the previous stored time
+            $sqlTime = Registry::getDebug("sqlTime");
+            //Save the previous queries
+            $stored = Registry::getDebug("queries");
+            //Current Query starting time
+            $msc = microtime(true);
+        }
         $this->query = $query;
-        $msc = microtime(true);
         $this->result = mysql_query($query);
-        //Execution time
-        $msc = round(((microtime(true)-$msc)*1000), 2);
-        $stored[] = array("query"=>$query, "time"=>$msc);
-        Registry::setDebug("queries", $stored);
+        //Debug
+        if($config->get("debug")){
+            //Error?
+            if(!$this->result){
+                Registry::setDebug("sqlError", true);
+                //SQL Error
+                $error = $this->getError();
+                //Backtrace
+                ob_start();
+                debug_print_backtrace();
+                $trace = ob_get_contents();
+                ob_end_clean();
+            }
+            //Current Query total execution time
+            $msc = round(((microtime(true)-$msc)*1000), 2);
+            //Save info as debug log
+            $stored[] = array(
+                "query" => $query,
+                "time" => $msc,
+                "result" => $this->result,
+                "error" => $error,
+                "trace" => $trace,
+            );
+            Registry::setDebug("queries", $stored);
+            //Increase previous stored time
+            Registry::setDebug("sqlTime", (int)$sqlTime += $msc);
+        }
         return $this->result;
     }
 
@@ -96,48 +124,48 @@ class Database extends PDO{
             $result = $this->result;
         return @mysql_fetch_array($result);
     }
-      
+
     public function loadArrayList($result=null){
         while($row = $this->fetcharray($result)){
             $array[] = $row;
         }
         return $array;
     }
-      
+
     public function fetchrow($result=null){
         if(!$result)
             $result = $this->result;
         return mysql_fetch_row($result);
     }
-      
+
     public function fetchassoc($result=null){
         if(!$result)
             $result = $this->result;
         return mysql_fetch_assoc($result);
     }
-      
+
     public function getNumRows($result=null){
         if(!$result)
             $result = $this->result;
         return mysql_num_rows($result);
     }
-      
+
     public function freeresult($result=null){
         if(!$result)
             $result = $this->result;
         return mysql_free_result($result);
     }
-      
+
     public function lastid(){
         return mysql_insert_id();
     }
-      
+
     public function getError($link=null){
         if(!$link)
             $link = $this->link;
         return mysql_errno($link).": ".mysql_error($link);
     }
-      
+
     public function __destruct(){
         $this->close();
         unset($this);

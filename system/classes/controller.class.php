@@ -91,6 +91,7 @@ abstract class Controller{
 	 * @param  array  $data
 	 */
 	final public function ajax($data=array()) {
+    	$config = Registry::getConfig();
     	$messages = Registry::getMessages();
     	//Fix preserve on redirections
     	if(count($messages)){
@@ -100,8 +101,22 @@ abstract class Controller{
     			}
     		}
     	}
+    	//Custom Data
     	$return['data'] = $data;
+    	//Messages
     	$return['messages'] = $messages;
+    	//Debug messages
+        if($config->get("debug")){
+            $debug = Registry::getDebug();
+            if(count($debug['messages'])){
+                foreach($debug['messages'] as $message){
+                    $return['debug'][] = array(
+                        "message" => Helper::printDebugMessage($message['message']),
+                        "trace" => "<pre>".print_r($message['trace'], true)."</pre>",
+                    );
+                }
+            }
+        }
     	echo json_encode($return);
     }
 }

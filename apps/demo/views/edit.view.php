@@ -24,7 +24,7 @@
 								<?=Registry::translate("VIEW_DEMO_FIELDS_STRING");?> 
 							</label>
 							<div class="col-sm-10">
-								<input type="text" id="string" name="string" class="form-control" value="<?=$demo->string?>" placeholder="<?=Registry::translate("VIEW_DEMO_FIELDS_STRING_PLACEHOLDER")?>">
+								<input type="text" id="string" name="string" class="form-control" value="<?=Helper::sanitize($demo->string);?>" placeholder="<?=Registry::translate("VIEW_DEMO_FIELDS_STRING_PLACEHOLDER")?>">
 							</div>
 						</div>
 						<div class="form-group">

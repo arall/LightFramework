@@ -2,6 +2,19 @@
 .modal-debug .modal-dialog{
 	width: 90%;
 }
+blockquote.danger {
+	background-color: #fdf7f7;
+	border-color: #eed3d7;
+}
+blockquote.danger h4 {
+	color: #b94a48;
+}
+.navbar-brand[data-toggle="modal"]{
+	cursor: pointer;
+}
+#debugAcordion a{
+	text-decoration: none;
+}
 
 /* Main Div */
 div.main{

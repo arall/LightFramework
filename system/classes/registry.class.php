@@ -55,6 +55,33 @@ class Registry{
 	private static $debug = array();
 
 	/**
+     * Preserve the current debug (for ajax/redirections)
+     */
+    public static function preserveDebug(){
+        $_SESSION['debug'] = self::$debug;
+    }
+
+    /**
+     * Save a Debug message
+     *
+     * @param  mixed $message String/array/object to store
+     * @return bool
+     */
+    public function addDebugMessage($message){
+        $current = self::getDebug("messages");
+        //Backtrace
+        ob_start();
+        debug_print_backtrace();
+        $trace = ob_get_contents();
+        ob_end_clean();
+        $current[] = array(
+            "message" => $message,
+            "trace" => $trace,
+        );
+        return self::setDebug("messages", $current);
+    }
+
+	/**
 	 * Get the current Debug Log
 	 *
 	 * @param  string $key Log Key (variable)

@@ -8,6 +8,7 @@ class Helper{
 
     /**
      * Make a sortable link for a table in a form
+     *
      * @param  string $field Database Field
      * @param  string $text  Text
      * @return string HTML Link
@@ -16,17 +17,57 @@ class Helper{
         $order = $field;
         $orderDir = "ASC";
         if($_REQUEST['order']==$field){
-             $cssClass = "sort-by-attributes";
+             $cssClass = "sort-by-attributes-alt";
             if($_REQUEST['orderDir']=="ASC"){
                 $orderDir = "DESC";
-                $cssClass = "sort-by-attributes-alt";
+                $cssClass = "sort-by-attributes";
             }
         }
-        return 
-            "<a href='#' class='sortable' data-order='".$order."' data-orderDir='".$orderDir."'>
-                ".$text."
-                <span class='glyphicon glyphicon-".$cssClass."'></span>
+        return
+            "<a href='#' class='sortable' data-order='".Helper::sanitize($order)."' data-orderDir='".Helper::sanitize($orderDir)."'>
+                ".Helper::sanitize($text)."
+                <span class='glyphicon glyphicon-".Helper::sanitize($cssClass)."'></span>
             </a>";
+    }
+
+    /**
+     * Sanitizes an string to be printed in a HTML view
+     *
+     * @param  string $string String to be sanitized
+     * @return string Sanitized string
+     */
+    public function sanitize($string){
+        return htmlspecialchars($string, ENT_QUOTES);
+    }
+
+    /**
+     * Returns a HTML formated Debug Message
+     *
+     * @param  string $string Debug Message
+     * @return string HTML formated Message
+     */
+    public function printDebugMessage($string=""){
+        if(is_array($string) || is_object($string)){
+            return "<pre>".Helper::sanitize(print_r($string, true))."</pre>";
+        }else{
+            return Helper::sanitize($string);
+        }
+    }
+
+    /**
+     * Returns all allowed vars (db fields) of an object
+     *
+     * @param  string $className Class name
+     * @return array  Array of allowed fields (vars)
+     */
+    public function getClassFields($className){
+        $fields = array();
+        $vars = get_class_vars($className);
+        foreach($vars as  $name=>$value){
+            if(in_array($name, $className::$reservedVars) || in_array($name, $className::$reservedVarsChild)) continue;
+            $fields[] = $name;
+        }
+        return $fields;
     }
 
     /**

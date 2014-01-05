@@ -13,6 +13,8 @@ class demoController extends Controller {
 	}
 
 	public function index(){
+		//This is a simple Debug Message
+		Registry::addDebugMessage("Sample debug message");
 		$config = Registry::getConfig();
 		//Total
 		$pag['total'] = 0;
@@ -20,9 +22,9 @@ class demoController extends Controller {
 		$pag['limit'] = $_REQUEST['limit'] ? $_REQUEST['limit'] : $config->get("defaultLimit");
 		$pag['limitStart'] = $_REQUEST['limitStart'];
 		//Demo Select
-		$demos = Demo::select($_REQUEST, $pag['limit'], $pag['limitStart'], $pag['total']);
+		$results = Demo::select($_REQUEST, $pag['limit'], $pag['limitStart'], $pag['total']);
 		//Setting data to View
-		$this->setData("demos", $demos);
+		$this->setData("results", $results);
 		$this->setData("pag", $pag);
 		//Load View to Template var
 		$html .= $this->view("views.list");

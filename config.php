@@ -25,10 +25,15 @@ $_config['dir'] = str_replace("index.php","",$_SERVER["SCRIPT_NAME"]);
 $_config['url'] = "http://".$_config['host'].$_config['dir'];
 
 //Functions
-function print_pre($array=""){
-	echo "<pre>";
-	print_r($array);
-	echo "</pre>";
+function print_pre($array="", $return=false){
+	$out = "<pre>";
+	$out .= print_r($array, true);
+	$out .= "</pre>";
+	if($return){
+		return $out;
+	}else{
+		echo $out;
+	}
 }
 
 function redirect($url, $message="", $type=""){

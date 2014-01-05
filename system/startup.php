@@ -19,6 +19,10 @@ function __autoload($class_name) {
     }
 }
 
+//Libs
+//SQL Formater (For better debugging)
+include 'system/libs/SqlFormatter.php';
+
 //Registry
 $registry = new Registry();
 

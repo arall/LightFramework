@@ -43,8 +43,9 @@ abstract class Model{
 	/**
 	 * Contructor.
 	 * @param multiple $id Id of the object on the Data Base Table or Array of values to set
+	 * @param string   $prefix Field prefix to use multiple objetcs (forms/queries)
 	 */
-    public function __construct($id=""){
+    public function __construct($id="", $prefix=""){
 		//Call the init
 		$this->init();
 		//Set the child class name
@@ -63,7 +64,7 @@ abstract class Model{
 		if($id){
 			//Array of values to be setted
 			if(is_array($id)){
-				$this->loadVarsArray($id);
+				$this->loadVarsArray($id, $prefix);
 			//Id
 			}else{
 				$db = Registry::getDb();
@@ -123,20 +124,26 @@ abstract class Model{
     public function postDelete(){}
 
     /**
-	 * Set an array of values to current object (if the var exists on current object)
-	 *
-	 * @param array $array Array of values
-	 */
-    public function loadVarsArray($array){
-		$vars = get_class_vars($this->className);
-	    foreach($vars as  $name=>$value){
-		    if(in_array($name,self::$reservedVars)) continue;
-		    if(in_array($name,array_keys($vars))){
-				if(isset($array[$name])){
-					$this->$name=($array[$name]);
-				}
-			}
-	    }
+     * Set an array of values to current object (if the var exists on current object)
+     *
+     * @param array  $array  Array of values
+     * @param string $prefix Prefix for the field (Optional).
+     */
+    public function loadVarsArray($array, $prefix=""){
+        $vars = get_class_vars($this->className);
+        foreach($vars as  $name=>$value){
+            if(in_array($name, self::$reservedVars)) continue;
+            if(!$prefix){
+                if(isset($array[$name])){
+                    $this->$name = ($array[$name]);
+                }
+            }else{
+                //SQL Joins or Multiple object forms (prefix_field)
+                if(isset($array[$prefix."_".$name])){
+                    $this->$name = ($array[$prefix."_".$name]);
+                }
+            }
+        }
     }
 
     /**
