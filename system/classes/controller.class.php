@@ -75,6 +75,9 @@ abstract class Controller{
 	 * @param  string $layer Template layer (index.layer.php by default)
 	 */
 	public function render($data, $layer="index"){
+		//Fix: para que la data global sea acesible desde el template
+		if(!$data) $data=$this->data;
+		
 		$template = Registry::getTemplate();
 		$config = Registry::getConfig();
 		$path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.
