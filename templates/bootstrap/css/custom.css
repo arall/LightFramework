@@ -26,6 +26,7 @@ div.main{
 	box-shadow: none;
 	border-style: solid;
 	padding: 15px 15px 15px;
+	margin-bottom: 70px;
 }
 
 /* Better pagination */
