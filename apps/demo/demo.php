@@ -27,7 +27,7 @@ class demoController extends Controller {
 		$this->setData("results", $results);
 		$this->setData("pag", $pag);
 		//Load View to Template var
-		$html .= $this->view("views.list");
+		$html = $this->view("views.list");
 		//Render the Template
 		$this->render($html);
 	}
@@ -37,7 +37,7 @@ class demoController extends Controller {
 		$demo = new Demo($url->vars[0]);
 		$this->setData("demo", $demo);
 		//Load View to Template var
-		$html .= $this->view("views.edit");
+		$html = $this->view("views.edit");
 		//Render the Template
 		$this->render($html);
 	}
@@ -60,13 +60,13 @@ class demoController extends Controller {
 
 	public function delete(){
 		$url = Registry::getUrl();
-		$demo = new Demo($url->vars[0]);
+		$demo = new Demo($_REQUEST['id']);
 		if($demo->id){
 			$res = $demo->delete();
 			if($res){
-				Registry::addMessage(Registry::translate("CTRL_DEMO_DELETE_OK"), "success");
+				Registry::addMessage(Registry::translate("CTRL_DEMO_DELETE_OK"), "success", "", Url::site("demo"));
 			}
 		}
-		redirect(Url::site("demo"));
+		$this->ajax();
 	}
 }

@@ -6,11 +6,21 @@ date_default_timezone_set('Europe/Madrid');
 ini_set("session.gc_maxlifetime","140000");
 
 //Config
+$_config['title'] = "Light Framework";
 $_config['defaultLang'] = "en_GB";
 $_config['template'] = "bootstrap";
 $_config['defaultApp'] = "demo";
 $_config['defaultLimit'] = 10;
 $_config['debug'] = true;
+
+//Mail
+$_config['mailHost'] = "";
+$_config['mailPort'] = "";
+$_config['mailSecure'] = "";
+$_config['mailUsername'] = "";
+$_config['mailPassword'] = "";
+$_config['mailFromAdress'] = "";
+$_config['mailFromName'] = "";
 
 //Database
 $_config['dbHost'] = "localhost";

@@ -172,10 +172,8 @@ abstract class Model{
 			if($name==$this->idField) continue;
 			if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
-			if(!isset($this->$name)){
-		    	$values[$name] = "`".$name."`"."=NULL";
-		    }else{
-		    	$values[$name] = "`".$name."`"."='".mysql_real_escape_string($this->$name)."'";
+			if(isset($this->$name)){
+		    	$values[$name] = "`".$name."`"."='".@mysql_real_escape_string($this->$name)."'";
 		    }
 	    }
 	    //SQL
@@ -216,11 +214,9 @@ abstract class Model{
 			if($name==$this->idField) continue;
 		   	if(in_array($name,$this->reservedVars)) continue;
 			if(in_array($name,$this->reservedVarsChild)) continue;
-		    $values1[$name] = "`".$name."`";
-		    if(!isset($this->$name)){
-		    	$values2[$name]=" NULL ";
-		    }else{
-		    	$values2[$name]=" '".mysql_real_escape_string($this->$name)."' ";
+		    if(isset($this->$name)){
+		    	$values1[$name] = "`".$name."`";
+		    	$values2[$name]=" '".@mysql_real_escape_string($this->$name)."' ";
 		    }
 		}
 		//SQL

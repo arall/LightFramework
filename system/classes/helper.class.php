@@ -77,8 +77,16 @@ class Helper{
      * @return string Human readable date
      */
     public function humanDate($date=""){
-        if($date && $date!="0000-00-00 00:00:00"){
-            return date("H:i:s d/m/Y", strtotime($date));
+        if($date && $date!="0000-00-00 00:00:00" && $date!="00:00:00" && $date!="0000-00-00"){
+             if(strlen($date)>8){
+				 if(strlen($date)>10){
+					return date("H:i:s d/m/Y", strtotime($date));
+				}else{
+					return date("d/m/Y", strtotime($date));
+				}
+			}else{
+				return date("H:i:s", strtotime($date));
+			}
         }else{
             return "-";
         }

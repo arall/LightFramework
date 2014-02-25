@@ -41,7 +41,7 @@ class Database extends PDO{
     public function __construct($host="localhost", $user="", $pass="", $database="") {
         if(!function_exists("mysql_connect"))
             return false;
-        $this->link = mysql_connect($host, $user, $pass) or die("Error: Cannot connect to host: ".$host);
+        $this->link = mysql_connect($host, $user, $pass, true) or die("Error: Cannot connect to host: ".$host);
         mysql_select_db($database) or die("Error: Cannot read the database: ".$database);
         $this->mysql_set_charset("utf8");
         $opened = true;
@@ -88,7 +88,7 @@ class Database extends PDO{
             $msc = microtime(true);
         }
         $this->query = $query;
-        $this->result = mysql_query($query);
+        $this->result = mysql_query($query, $this->link);
         //Debug
         if($config->get("debug")){
             //Error?
@@ -126,7 +126,7 @@ class Database extends PDO{
     }
 
     public function loadArrayList($result=null){
-        while($row = $this->fetcharray($result)){
+        while($row = $this->fetchassoc($result)){
             $array[] = $row;
         }
         return $array;
@@ -157,7 +157,7 @@ class Database extends PDO{
     }
 
     public function lastid(){
-        return mysql_insert_id();
+        return mysql_insert_id($this->link);
     }
 
     public function getError($link=null){

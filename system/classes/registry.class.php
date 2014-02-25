@@ -54,6 +54,36 @@ class Registry{
 	 */
 	private static $debug = array();
 
+    /**
+     * Current Mailer object
+     * @var object
+     */
+    private static $mailer = null;
+
+    /**
+     * Returns the current Mailer
+     *
+     * @return object Mailer
+     */
+    public function getMailer(){
+        if(self::$mailer == NULL){
+            $config = Registry::getConfig();
+            $mail = new PHPMailer();
+            $mail->isSMTP();
+            $mail->Host = $config->get("mailHost");;
+            $mail->Port = $config->get("mailPort");
+            $mail->SMTPAuth = true;
+            if($config->get("mailSecure")){
+                $mail->SMTPSecure = $config->get("mailSecure");
+            }
+            $mail->Username = $config->get("mailUsername");
+            $mail->Password = $config->get("mailPassword");
+            $mail->setFrom($config->get("mailFromAdress"), $config->get("mailFromName"));
+            self::$mailer = $mail;
+        }
+        return self::$mailer;
+    }
+
 	/**
      * Preserve the current debug (for ajax/redirections)
      */

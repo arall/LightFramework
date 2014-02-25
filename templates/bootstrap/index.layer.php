@@ -9,6 +9,10 @@
 		<!--css-->
 		<!-- Bootstrap -->
 		<link href="<?=Url::template("css/bootstrap.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
+		<!-- Bootstrap Switch Plugin -->
+		<link href="<?=Url::template("css/bootstrap-switch.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
+		<!-- Bootstrap Ladda Plugin -->
+		<link href="<?=Url::template("css/ladda-themeless.min.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<!-- Custom CSS -->
 		<link href="<?=Url::template("css/custom.css");?>" media="screen" rel="stylesheet" type="text/css" />
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,6 +29,11 @@
 		<script src="<?=Url::template("js/bootstrap.min.js");?>" type="text/javascript"></script>
 		<!-- JQuery Forms Plugin -->
 		<script src="<?=Url::template("js/jquery.forms.js");?>" type="text/javascript"></script>
+		<!-- Bootstrap Switch Plugin -->
+		<script src="<?=Url::template("js/bootstrap-switch.min.js");?>" type="text/javascript"></script>
+		<!-- Bootstrap Ladda Plugin -->
+		<script src="<?=Url::template("js/spin.min.js");?>" type="text/javascript"></script>
+		<script src="<?=Url::template("js/ladda.min.js");?>" type="text/javascript"></script>
 		<!-- Framework JS -->
 		<script src="<?=Url::template("js/init.js");?>" type="text/javascript"></script>
 		<!--/javascript-->
@@ -32,43 +41,11 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<!--navbar-->
-			<?php $user = Registry::getUser(); ?>
-			<div class="navbar navbar-inverse navbar-static-top" role="navigation">
-				<div class="container">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="<?=Url::site()?>">Project name</a>
-						<?php $url = Registry::getUrl(); ?>
-						<?php $active[$url->app][$url->action] = "active"; ?>
-						<ul class="nav navbar-nav">
-							<?php if(!$user->id){ ?>
-							<li class="<?=$active['login']['index']?>">
-								<a href="<?=Url::site("login")?>">
-									<?=Registry::translate("MENU_LOGIN")?>
-								</a>
-							</li>
-							<li class="<?=$active['login']['register']?>">
-								<a href="<?=Url::site("login/register")?>">
-									<?=Registry::translate("MENU_REGISTER")?>
-								</a>
-							</li>
-							<?php }else{ ?>
-							<li class="<?=$active['demo']['index']?>">
-								<a href="<?=Url::site("demo")?>">
-									<?=Registry::translate("MENU_DEMO")?>
-								</a>
-							</li>
-							<li class="">
-								<a href="<?=Url::site("login/doLogout")?>">
-									<?=Registry::translate("MENU_LOGOUT")?>
-								</a>
-							</li>
-							<?php } ?>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!--/navbar-->
+
+			<!-- topMenu -->
+			<?=$controller->view("modules.topMenu");?>
+			<!--/topMenu-->
+
 			<!--mainContainer-->
 			<div class="container">
 				<!--alerts-->
@@ -86,9 +63,11 @@
 				<?php } ?>
 				</div>
 				<!--/alerts-->
+
 				<!--content-->
 				<?=$content?>
 				<!--/content-->
+
 	      	</div>
 	      	<!--/mainContainer-->
 	    </div>

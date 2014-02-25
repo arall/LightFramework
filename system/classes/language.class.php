@@ -16,8 +16,8 @@ class Language{
      * All the strings of the current language
      * @var array
      */
-	private static $strings = array();
-	
+    private static $strings = array();
+
     /**
      * Constructor
      * Loads the default lang strings
@@ -26,15 +26,7 @@ class Language{
     public function __construct(){
         session_start();
         //Get current langs
-        $langFiles = scandir("languages/");
-        if(count($langFiles)){
-            foreach($langFiles as $langFile){
-                $tmp = explode(".", $langFile);
-                if($tmp[0]){
-                    self::$languages[] = $tmp[0];
-                }
-            }
-        }
+        self::$languages = self::getLanguages();
         //Detect lang change
         if($_REQUEST['lang'] && in_array($_REQUEST['lang'], self::$languages)){
             $lang = $_REQUEST['lang'];
@@ -50,13 +42,13 @@ class Language{
         if($lang){
             $lang = preg_replace('/[^a-zA-Z0-9_]/','', $lang);
             $_SESSION['lang'] = $lang;
-    	    self::$strings = self::load("languages/".$lang.".ini");
+            self::$strings = self::load("languages/".$lang.".ini");
         }
     }
-	
+
     /**
      * Loads a lang file
-     * 
+     *
      * @param  string $path File path
      * @return array  Translation Strings
      */
@@ -67,19 +59,38 @@ class Language{
             return $strings;
         }
     }
-    
+
     /**
      * Translate a string
-     * 
+     *
      * @param  string $string String to translate
      * @return string Translated string
      */
     public function translate($string=""){
-	    $res = self::$strings[$string];
+        $res = self::$strings[strtoupper($string)];
         if(!$res){
             return $string;
         }else{
             return $res;
         }
     }
-} 
+
+    /**
+     * Get current avariable languages
+     *
+     * @return array Languages
+     */
+    public function getLanguages(){
+        $languages = array();
+        $langFiles = scandir("languages/");
+        if(count($langFiles)){
+            foreach($langFiles as $langFile){
+                $tmp = explode(".", $langFile);
+                if($tmp[0]){
+                    $languages[] = $tmp[0];
+                }
+            }
+        }
+        return $languages;
+    }
+}

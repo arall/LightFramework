@@ -6,6 +6,7 @@ $(document).on('submit', '.ajax', function(e){
 	$(".has-success").removeClass("has-success");
 	$(".has-error").removeClass("has-error");
 	var form = $(this);
+	var redirect = false;
 	$(this).ajaxSubmit({
         dataType:  'json',
 		success:   function(data) {
@@ -24,6 +25,7 @@ $(document).on('submit', '.ajax', function(e){
 						//Url redirection
 						}else if(messages[x].url){
 							$(".alert").remove();
+							redirect = true;
 							document.location.href = messages[x].url;
 						//Message without field
 						}else{
@@ -65,8 +67,12 @@ $(document).on('submit', '.ajax', function(e){
 					$("#genericModal").modal('show');
 				}
 			}
-			$(".btn.disabled").removeClass("disabled");
-			$(".btn.disabled").disabled = false;
+			if(!redirect){
+				$(".btn.disabled").disabled = false;
+				$(".btn.disabled").removeClass("disabled");
+				//Lada spinners
+				Ladda.stopAll();
+			}
 		}
 	});
 	return false;
@@ -111,3 +117,33 @@ function checkFormField(formElement, fieldName, fieldValue){
 		return field;
 	}
 }
+
+//change-submit
+$(document).on('change', '.change-submit', function(e){
+	$('#mainForm').submit();
+});
+
+//delete buttons
+$(document).on('click', '.delete', function(e){
+	var res = false;
+	var confirmation = $(this).attr("confirm");
+	if(confirmation){
+		res = confirm(confirmation);
+	}else{
+		res = true;
+	}
+	if(res){
+		$('#action').val("delete");
+		$('#mainForm').submit();
+	}else{
+		Ladda.stopAll();
+	}
+	return false;
+});
+
+$(document).ready(function(){
+	//Bootsrap Switches
+	$("input[type='checkbox']").bootstrapSwitch();
+	//Lada spinners
+	Ladda.bind('.ladda-button');
+});
