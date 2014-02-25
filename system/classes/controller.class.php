@@ -77,7 +77,9 @@ abstract class Controller{
 	public function render($data, $layer="index"){
 		$template = Registry::getTemplate();
 		$config = Registry::getConfig();
-		$path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
+		$path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.
+			DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
+		//Force to send content and controller to template
 		$this->data['content'] = $data;
 		$this->data['controller'] = $this;
     	$html = $template->loadTemplate($path, $this->data);
