@@ -3,7 +3,7 @@
 # Server version:               5.5.32
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2014-02-23 21:12:20
+# Date/time:                    2014-02-25 19:27:57
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `statusId`, `roleId`, `email`, `username`, `password`, `recoveryHash`, `language`, `dateInsert`, `dateUpdate`, `lastvisitDate`) VALUES
-	(4, 1, 2, 'admin@admin.com', 'admin', '0c7540eb7e65b553ec1ba6b20de79608', '', 'en_GB', '2012-11-12 18:36:46', '2014-02-23 20:58:56', '2014-02-23 20:58:56');
+	(4, 1, 2, 'admin@admin.com', 'admin', '0c7540eb7e65b553ec1ba6b20de79608', '', 'en_GB', '2012-11-12 18:36:46', '2014-02-25 19:26:53', '2014-02-25 19:26:53');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
