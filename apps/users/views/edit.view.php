@@ -39,7 +39,7 @@
 									<?php $s = array(); ?>
 									<?php $s[$user->roleId] = "selected"; ?>
 									<?php foreach($user->roles as $roleId=>$roleString){ ?>
-										<?php if(($currentUser->roleId==2 && $roleId==1) || $currentUser->roleId>2){ ?>
+										<?php if($currentUser->roleId>$roleId || $currentUser->roleId>=2){ ?>
 											<option value="<?=$roleId?>" <?=$s[$roleId]?>>
 												<?=Registry::translate($roleString);?>
 											</option>

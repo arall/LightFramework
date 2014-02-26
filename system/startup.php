@@ -27,6 +27,9 @@ include 'system/libs/phpmailer/class.phpmailer.php';
 include 'system/libs/phpmailer/class.smtp.php';
 include 'system/libs/phpmailer/class.pop3.php';
 
+//Languages
+$language = new Language();
+
 //Registry
 $registry = new Registry();
 

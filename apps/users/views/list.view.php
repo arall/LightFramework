@@ -9,9 +9,10 @@
 </h1>
 
 <div class="action">
-	<a class="btn btn-primary" href="<?=Url::site("users/edit");?>">
-		<span class="glyphicon glyphicon-plus"></span>
-		<?=Registry::translate("BTN_NEW");?>
+	<a class="btn btn-primary ladda-button" href="<?=Url::site("users/edit");?>" data-style="slide-left">
+		<span class="ladda-label">
+			<?=Registry::translate("BTN_NEW");?>
+		</span>
 	</a>
 </div>
 

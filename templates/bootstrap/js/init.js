@@ -17,6 +17,9 @@ $(document).on('submit', '.ajax', function(e){
 					for(var x=0;x<messages.length;x++) {
 						//Field message
 						if(messages[x].field){
+							if(messages[x].type=="danger"){
+								messages[x].type = "error";
+							}
 							field = form.find("select[name=" + messages[x].field + "], input[name=" + messages[x].field + "], textarea[name=" + messages[x].field + "], checkbox[name=" + messages[x].field + "]");
 							if(field.length){
 								field.parent().parent().addClass("has-" + messages[x].type);
@@ -30,7 +33,7 @@ $(document).on('submit', '.ajax', function(e){
 						//Message without field
 						}else{
 							if(messages[x].type=="error"){
-								messages[x].type = "danger"
+								messages[x].type = "danger";
 							}
 							$("#mensajes-sys").append('<div class="alert alert-' + messages[x].type + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + messages[x].message + '</div>');
 							$('html,body').animate({ scrollTop: 0 }, 'slow');
