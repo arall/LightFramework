@@ -24,7 +24,7 @@
 	    <!--/css-->
 	    <!--javascript-->
 		<!-- JQuery -->
-		<script src="<?=Url::template("js/jquery-1.10.2.min.js");?>" type="text/javascript"></script>
+		<script src="<?=Url::template("js/jquery-2.1.0.min.js");?>" type="text/javascript"></script>
 		<!-- Bootstrap -->
 		<script src="<?=Url::template("js/bootstrap.min.js");?>" type="text/javascript"></script>
 		<!-- JQuery Forms Plugin -->
