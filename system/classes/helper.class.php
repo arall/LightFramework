@@ -72,7 +72,7 @@ class Helper{
 
     /**
      * Converts a date to human readable
-     * 
+     *
      * @param  string $date Non-human readable date
      * @return string Human readable date
      */
@@ -98,11 +98,9 @@ class Helper{
      * @param  integer $precision Precision
      * @return string  Human readable size
      */
-    public function formatBytes($bytes, $precision=2) { 
-        $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
-        $bytes = max($bytes, 0); 
-        $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
-        $pow = min($pow, count($units) - 1); 
-        return number_format(round($bytes, $precision), 2, ",", ".") . ' ' . $units[$pow]; 
+    public function formatBytes($bytes, $precision=2) {
+        $base = @log($bytes) / log(1024);
+        $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');
+        return round(pow(1024, $base - floor($base)), $precision) ." ". $suffixes[floor($base)];
     }
-} 
+}
