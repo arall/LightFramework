@@ -146,7 +146,7 @@ $(document).on('click', '.delete', function(e){
 
 $(document).ready(function(){
 	//Bootsrap Switches
-	$("input[type='checkbox']").bootstrapSwitch();
+	$("input[type='checkbox'].switch").bootstrapSwitch();
 	//Lada spinners
 	Ladda.bind('.ladda-button');
 });

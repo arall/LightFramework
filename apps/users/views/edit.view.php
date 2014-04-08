@@ -27,7 +27,7 @@
 								<?=Registry::translate("VIEW_USERS_FIELDS_STATUS");?>
 							</label>
 							<div class="col-sm-10">
-								<input type="checkbox" name="statusId" id="statusId" value="1" <?php if($user->statusId) echo "checked";?>>
+								<input type="checkbox" class="switch" name="statusId" id="statusId" value="1" <?php if($user->statusId) echo "checked";?>>
 							</div>
 						</div>
 						<div class="form-group">
