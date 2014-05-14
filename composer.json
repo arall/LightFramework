@@ -1,0 +1,8 @@
+{
+	"autoload": {
+		"classmap": [
+			"src/classes/",
+			"src/system/classes/"
+		]
+	}
+}

@@ -4,8 +4,8 @@
  *
  * @package LightFramework\Core
  */
-class Database extends PDO{
-
+class Database extends PDO
+{
     /**
      * Current Query
      *
@@ -38,13 +38,16 @@ class Database extends PDO{
      *
      * @return bool
      */
-    public function __construct($host="localhost", $user="", $pass="", $database="") {
+    public function __construct($host="localhost", $user="", $pass="", $database="")
+    {
         if(!function_exists("mysql_connect"))
+
             return false;
         $this->link = mysql_connect($host, $user, $pass, true) or die("Error: Cannot connect to host: ".$host);
         mysql_select_db($database) or die("Error: Cannot read the database: ".$database);
         $this->mysql_set_charset("utf8");
         $opened = true;
+
         return $opened;
     }
 
@@ -53,7 +56,8 @@ class Database extends PDO{
      * @param  string $charset Charset
      * @return bool
      */
-    public function mysql_set_charset($charset="utf8"){
+    public function mysql_set_charset($charset="utf8")
+    {
         return $this->query("SET character_set_results='$charset',character_set_client='$charset',character_set_connection='$charset',character_set_database='$charset',character_set_server='$charset'");
     }
 
@@ -62,10 +66,13 @@ class Database extends PDO{
      *
      * @return bool
      */
-    public function close() {
+    public function close()
+    {
         if(!function_exists("mysql_close"))
+
             return false;
         mysql_close($this->link);
+
         return true;
     }
 
@@ -76,10 +83,11 @@ class Database extends PDO{
      *
      * @return bool
      */
-    public function query($query){
+    public function query($query)
+    {
         $config = Registry::getConfig();
         //Debug
-        if($config->get("debug")){
+        if ($config->get("debug")) {
             //Save the previous stored time
             $sqlTime = Registry::getDebug("sqlTime");
             //Save the previous queries
@@ -90,9 +98,9 @@ class Database extends PDO{
         $this->query = $query;
         $this->result = mysql_query($query, $this->link);
         //Debug
-        if($config->get("debug")){
+        if ($config->get("debug")) {
             //Error?
-            if(!$this->result){
+            if (!$this->result) {
                 Registry::setDebug("sqlError", true);
                 //SQL Error
                 $error = $this->getError();
@@ -114,59 +122,76 @@ class Database extends PDO{
             );
             Registry::setDebug("queries", $stored);
             //Increase previous stored time
-            Registry::setDebug("sqlTime", (int)$sqlTime += $msc);
+            Registry::setDebug("sqlTime", (int) $sqlTime += $msc);
         }
+
         return $this->result;
     }
 
-    public function fetcharray($result=null){
+    public function fetcharray($result=null)
+    {
         if(!$result)
             $result = $this->result;
+
         return @mysql_fetch_array($result);
     }
 
-    public function loadArrayList($result=null){
-        while($row = $this->fetchassoc($result)){
+    public function loadArrayList($result=null)
+    {
+        while ($row = $this->fetchassoc($result)) {
             $array[] = $row;
         }
+
         return $array;
     }
 
-    public function fetchrow($result=null){
+    public function fetchrow($result=null)
+    {
         if(!$result)
             $result = $this->result;
+
         return mysql_fetch_row($result);
     }
 
-    public function fetchassoc($result=null){
+    public function fetchassoc($result=null)
+    {
         if(!$result)
             $result = $this->result;
+
         return mysql_fetch_assoc($result);
     }
 
-    public function getNumRows($result=null){
+    public function getNumRows($result=null)
+    {
         if(!$result)
             $result = $this->result;
+
         return mysql_num_rows($result);
     }
 
-    public function freeresult($result=null){
+    public function freeresult($result=null)
+    {
         if(!$result)
             $result = $this->result;
+
         return mysql_free_result($result);
     }
 
-    public function lastid(){
+    public function lastid()
+    {
         return mysql_insert_id($this->link);
     }
 
-    public function getError($link=null){
+    public function getError($link=null)
+    {
         if(!$link)
             $link = $this->link;
+
         return mysql_errno($link).": ".mysql_error($link);
     }
 
-    public function __destruct(){
+    public function __destruct()
+    {
         $this->close();
         unset($this);
     }

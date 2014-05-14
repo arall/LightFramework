@@ -1,20 +1,20 @@
 <?php
 
-//Configuration
-include("config.php");
-
 //Autoload Classes
-function __autoload($class_name) {
-	//System
-	$file = "system".DIRECTORY_SEPARATOR."classes".DIRECTORY_SEPARATOR.strtolower($class_name).".class.php";
-    if (is_file($file)){
+function __autoload($class_name)
+{
+    //System
+    $file = "system".DIRECTORY_SEPARATOR."classes".DIRECTORY_SEPARATOR.strtolower($class_name).".class.php";
+    if (is_file($file)) {
         include $file;
+
         return;
     }
-	//Custom
+    //Custom
     $file = "classes".DIRECTORY_SEPARATOR.strtolower($class_name).".class.php";
-    if (is_file($file)){
+    if (is_file($file)) {
         include $file;
+
         return;
     }
 }
@@ -36,4 +36,3 @@ $registry = new Registry();
 //Router
 $router = new Router();
 $router->delegate();
-

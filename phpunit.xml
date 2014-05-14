@@ -1,0 +1,15 @@
+<phpunit bootstrap="tests/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	syntaxCheck="false"
+>
+	<testsuitest>
+		<testsuite name="App Tests">
+			<directory>tests</directory>
+		</testsuite>
+	</testsuitest>
+</phpunit>

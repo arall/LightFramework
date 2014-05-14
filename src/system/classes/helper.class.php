@@ -4,8 +4,8 @@
  *
  * @package LightFramework\Core
  */
-class Helper{
-
+class Helper
+{
     /**
      * Make a sortable link for a table in a form
      *
@@ -13,16 +13,18 @@ class Helper{
      * @param  string $text  Text
      * @return string HTML Link
      */
-    public function sortableLink($field="", $text=""){
+    public function sortableLink($field="", $text="")
+    {
         $order = $field;
         $orderDir = "ASC";
-        if($_REQUEST['order']==$field){
+        if ($_REQUEST['order']==$field) {
              $cssClass = "sort-by-attributes-alt";
-            if($_REQUEST['orderDir']=="ASC"){
+            if ($_REQUEST['orderDir']=="ASC") {
                 $orderDir = "DESC";
                 $cssClass = "sort-by-attributes";
             }
         }
+
         return
             "<a href='#' class='sortable' data-order='".Helper::sanitize($order)."' data-orderDir='".Helper::sanitize($orderDir)."'>
                 ".Helper::sanitize($text)."
@@ -36,7 +38,8 @@ class Helper{
      * @param  string $string String to be sanitized
      * @return string Sanitized string
      */
-    public function sanitize($string){
+    public function sanitize($string)
+    {
         return htmlspecialchars($string, ENT_QUOTES);
     }
 
@@ -46,10 +49,11 @@ class Helper{
      * @param  string $string Debug Message
      * @return string HTML formated Message
      */
-    public function printDebugMessage($string=""){
-        if(is_array($string) || is_object($string)){
+    public function printDebugMessage($string="")
+    {
+        if (is_array($string) || is_object($string)) {
             return "<pre>".Helper::sanitize(print_r($string, true))."</pre>";
-        }else{
+        } else {
             return Helper::sanitize($string);
         }
     }
@@ -60,13 +64,15 @@ class Helper{
      * @param  string $className Class name
      * @return array  Array of allowed fields (vars)
      */
-    public function getClassFields($className){
+    public function getClassFields($className)
+    {
         $fields = array();
         $vars = get_class_vars($className);
-        foreach($vars as  $name=>$value){
+        foreach ($vars as  $name=>$value) {
             if(in_array($name, $className::$reservedVars) || in_array($name, $className::$reservedVarsChild)) continue;
             $fields[] = $name;
         }
+
         return $fields;
     }
 
@@ -76,18 +82,19 @@ class Helper{
      * @param  string $date Non-human readable date
      * @return string Human readable date
      */
-    public function humanDate($date=""){
-        if($date && $date!="0000-00-00 00:00:00" && $date!="00:00:00" && $date!="0000-00-00"){
-             if(strlen($date)>8){
-				 if(strlen($date)>10){
-					return date("H:i:s d/m/Y", strtotime($date));
-				}else{
-					return date("d/m/Y", strtotime($date));
-				}
-			}else{
-				return date("H:i:s", strtotime($date));
-			}
-        }else{
+    public function humanDate($date="")
+    {
+        if ($date && $date!="0000-00-00 00:00:00" && $date!="00:00:00" && $date!="0000-00-00") {
+             if (strlen($date)>8) {
+                 if (strlen($date)>10) {
+                    return date("H:i:s d/m/Y", strtotime($date));
+                } else {
+                    return date("d/m/Y", strtotime($date));
+                }
+            } else {
+                return date("H:i:s", strtotime($date));
+            }
+        } else {
             return "-";
         }
     }
@@ -98,9 +105,11 @@ class Helper{
      * @param  integer $precision Precision
      * @return string  Human readable size
      */
-    public function formatBytes($bytes, $precision=2) {
+    public function formatBytes($bytes, $precision=2)
+    {
         $base = @log($bytes) / log(1024);
         $suffixes = array('B', 'KB', 'MB', 'GB', 'TB');
+
         return round(pow(1024, $base - floor($base)), $precision) ." ". $suffixes[floor($base)];
     }
 }
