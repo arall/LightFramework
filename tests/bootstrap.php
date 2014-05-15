@@ -7,4 +7,4 @@ if (is_file($composerAutoload)) {
 }
 
 //Load Config
-require_once(__DIR__ . '/../src/config.php');
+require_once(__DIR__ . '/../config.php');
