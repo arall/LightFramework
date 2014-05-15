@@ -19,13 +19,8 @@ function __autoload($class_name)
     }
 }
 
-//Libs
-//SQL Formater (For better debugging)
-include 'system/libs/SqlFormatter.php';
-//PHPMailer
-include 'system/libs/phpmailer/class.phpmailer.php';
-include 'system/libs/phpmailer/class.smtp.php';
-include 'system/libs/phpmailer/class.pop3.php';
+//Vendors
+require '../vendor/autoload.php';
 
 //Languages
 $language = new Language();
