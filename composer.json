@@ -12,12 +12,12 @@
     ],
 	"autoload": {
 		"classmap": [
-			"src/classes/",
-			"src/system/classes/"
+			"classes/",
+			"system/classes/"
 		]
 	},
 	"require": {
 		"phpmailer/phpmailer": "dev-master",
 		"jdorn/sql-formatter": "1.3.*@dev"
-	},
+	}
 }

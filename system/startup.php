@@ -20,7 +20,7 @@ function __autoload($class_name)
 }
 
 //Vendors
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 //Languages
 $language = new Language();
