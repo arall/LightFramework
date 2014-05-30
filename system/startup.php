@@ -1,33 +1,19 @@
 <?php
 
-//Autoload Classes
-function __autoload($class_name)
-{
-    //System
-    $file = "system".DIRECTORY_SEPARATOR."classes".DIRECTORY_SEPARATOR.strtolower($class_name).".class.php";
-    if (is_file($file)) {
-        include $file;
+//Functions
+require 'system/functions.php';
 
-        return;
-    }
-    //Custom
-    $file = "classes".DIRECTORY_SEPARATOR.strtolower($class_name).".class.php";
-    if (is_file($file)) {
-        include $file;
-
-        return;
-    }
-}
-
-//Vendors
+//Composer autoload
 require 'vendor/autoload.php';
 
-//Languages
+//Language init
 $language = new Language();
 
-//Registry
+//Registry init
 $registry = new Registry();
 
-//Router
+//Router init
 $router = new Router();
+
+//Delegate
 $router->delegate();

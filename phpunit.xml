@@ -1,15 +1,25 @@
 <phpunit bootstrap="tests/bootstrap.php"
-	colors="true"
-	convertErrorsToExceptions="true"
-	convertNoticesToExceptions="true"
-	convertWarningsToExceptions="true"
-	processIsolation="false"
-	stopOnFailure="false"
-	syntaxCheck="false"
+		 colors="true"
+		 stopOnFailure="false"
+		 syntaxCheck="false"
 >
 	<testsuitest>
-		<testsuite name="App Tests">
-			<directory>tests</directory>
+		<testsuite name="Framework Tests">
+			<directory>tests/</directory>
 		</testsuite>
 	</testsuitest>
+
+	<php>
+        <const name="PHPUNIT_DBHOST" value="localhost" />
+        <const name="PHPUNIT_DBUSER" value="root" />
+        <const name="PHPUNIT_DBPASS" value="" />
+        <const name="PHPUNIT_DBNAME" value="lightFramework_test" />
+    </php>
+
+	<selenium>
+	  	<browser host="localhost"
+	  	 		 port="4444"
+	        	 timeout="30000"/>
+	</selenium>
+
 </phpunit>

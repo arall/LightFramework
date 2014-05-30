@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Model Class
  *
@@ -70,15 +71,16 @@ abstract class Model
             //Id
             } else {
                 $db = Registry::getDb();
-                $query = "SELECT * FROM `".$this->dbTable."` WHERE `".$this->idField."`=".(int) $id;
-                if ($db->query($query)) {
-                    if ($db->getNumRows()) {
-                        $row = $db->fetcharray();
-                        $vars = array_keys(get_class_vars($this->className));
-                        foreach ($row as $name=>$value) {
-                            if (in_array($name, $vars)) {
-                                $this->$name = $value;
-                            }
+                $rows = $db->query("SELECT * FROM `".$this->dbTable."` WHERE `".$this->idField."` = :id ",
+                    array(
+                        ":id" => $id
+                    )
+                );
+                if (count($rows)) {
+                    $vars = array_keys(get_class_vars($this->className));
+                    foreach ($rows[0] as $name=>$value) {
+                        if (in_array($name, $vars)) {
+                            $this->$name = $value;
                         }
                     }
                 }
@@ -171,26 +173,29 @@ abstract class Model
         //Pre Update
         $this->preUpdate($array);
         //Prepare SQL vars
-        $values = array();
+        $idField = $this->idField;
+        $set = array();
+        $params = array();
         foreach (get_class_vars($this->className) as  $name=>$value) {
             if($name==$this->idField) continue;
             if(in_array($name,$this->reservedVars)) continue;
             if(in_array($name,$this->reservedVarsChild)) continue;
             if (isset($this->$name)) {
-                $values[$name] = "`".$name."`"."='".@mysql_real_escape_string($this->$name)."'";
+                $set[] = "`".$name."`"." = :".$name;
+                $params[":".$name] = ($this->$name);
             }
+            $params[":id"] = $this->$idField;
         }
         //SQL
-        $idField = $this->idField;
-        $query = "UPDATE `".$this->dbTable."` SET ".implode(" , ",$values)." WHERE `".$this->idField."`=".(int) $this->$idField;
-        if ($db->query($query)) {
+        $res = $db->query("UPDATE `".$this->dbTable."` SET ".implode(" , ",$set)." WHERE `".$this->idField."`=:id", $params);
+        if ($res) {
             //Post Update
             $this->postUpdate($array);
 
             return true;
         } else {
             if($config->get("debug"))
-                Registry::addMessage($db->getError()."<br>".$query, "error");
+                Registry::addMessage($db->error, "error");
         }
     }
 
@@ -215,28 +220,32 @@ abstract class Model
         }
         //Pre Insert
         $this->preInsert();
+        $values1 = array();
+        $values2 = array();
+        $params = array();
          //Prepare SQL vars
         foreach (get_class_vars($this->className) as $name=>$value) {
             if($name==$this->idField) continue;
             if(in_array($name,$this->reservedVars)) continue;
             if(in_array($name,$this->reservedVarsChild)) continue;
             if (isset($this->$name)) {
-                $values1[$name] = "`".$name."`";
-                $values2[$name]=" '".@mysql_real_escape_string($this->$name)."' ";
+                $values1[] = "`".$name."`";
+                $values2[] = ":".$name;
+                $params[":".$name] = $this->$name;
             }
         }
         //SQL
-        $query = "INSERT INTO `".$this->dbTable."` (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")";
-        if ($db->query($query)) {
+        $res = $db->query("INSERT INTO `".$this->dbTable."` (".implode(" , ",$values1).") VALUES (".implode(" , ",$values2).")", $params);
+        if ($res) {
             $idField = $this->idField;
-            $this->$idField = $db->lastid();
+            $this->$idField = $db->lastInsertId();
             //Post Insert
             $this->postInsert($array);
 
             return true;
         } else {
             if($config->get("debug"))
-                Registry::addMessage($db->getError()."<br>".$query, "error");
+                Registry::addMessage($db->error, "error");
         }
     }
 
@@ -258,15 +267,19 @@ abstract class Model
         $this->preDelete($array);
         //Delete
         $idField = $this->idField;
-        $query = "DELETE FROM `".$this->dbTable."` WHERE `".$this->idField."`=".(int) $this->$idField;
-        if ($db->Query($query)) {
+        $res = $db->query("DELETE FROM `".$this->dbTable."` WHERE `".$this->idField."` = :id ",
+            array(
+                ":id" => $this->$idField
+            )
+        );
+        if ($res) {
             //Post Insert
             $this->postDelete($array);
 
             return true;
         } else {
             if($config->get("debug"))
-                Registry::addMessage($db->getError()."<br>".$query, "error");
+                Registry::addMessage($db->error, "error");
         }
     }
 }

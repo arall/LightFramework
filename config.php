@@ -31,27 +31,5 @@ $_config['dbName'] = "lightFramework";
 //Urls/Paths
 $_config['path'] = dirname(__FILE__);
 $_config['host'] = $_SERVER["SERVER_NAME"];
-$_config['dir'] = str_replace("index.php","",$_SERVER["SCRIPT_NAME"]);
+$_config['dir'] = str_replace("index.php", "", $_SERVER["SCRIPT_NAME"]);
 $_config['url'] = "http://".$_config['host'].$_config['dir'];
-
-//Functions
-function print_pre($array="", $return=false)
-{
-    $out = "<pre>";
-    $out .= print_r($array, true);
-    $out .= "</pre>";
-    if ($return) {
-        return $out;
-    } else {
-        echo $out;
-    }
-}
-
-function redirect($url, $message="", $type="")
-{
-    if ($message) {
-        Registry::addMessage($message, $type);
-    }
-    header("Location: ".$url);
-    die();
-}

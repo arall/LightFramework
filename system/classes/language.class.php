@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Language Class
  *
@@ -28,6 +29,7 @@ class Language
         session_start();
         //Get current langs
         self::$languages = self::getLanguages();
+        $lang = "";
         //Detect lang change
         if ($_REQUEST['lang'] && in_array($_REQUEST['lang'], self::$languages)) {
             $lang = $_REQUEST['lang'];

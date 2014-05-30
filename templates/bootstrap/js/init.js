@@ -117,7 +117,7 @@ function checkFormField(formElement, fieldName, fieldValue){
 		    value: fieldValue
 		}).appendTo(formElement);
 	}else{
-		return field;
+		field.val(fieldValue);
 	}
 }
 

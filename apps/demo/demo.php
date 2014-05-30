@@ -2,22 +2,33 @@
 //No direct access
 defined('_EXE') or die('Restricted access');
 
+/**
+ * Users Controller
+ */
 class demoController extends Controller
 {
+    /**
+     * Init
+     */
     public function init()
     {
-        //Must be logged
         $user = Registry::getUser();
+        //User must be logged
         if (!$user->id) {
             redirect(Url::site("login"));
         }
     }
 
+    /**
+     * Default list view
+     */
     public function index()
     {
         //This is a simple Debug Message
         Registry::addDebugMessage("Sample debug message");
         $config = Registry::getConfig();
+        //Pagination
+        $pag = array();
         //Total
         $pag['total'] = 0;
         //Limit
@@ -34,6 +45,9 @@ class demoController extends Controller
         $this->render($html);
     }
 
+    /**
+     * Edit form view
+     */
     public function edit()
     {
         $url = Registry::getUrl();
@@ -45,33 +59,45 @@ class demoController extends Controller
         $this->render($html);
     }
 
+    /**
+     * Save action
+     */
     public function save()
     {
         $demo = new Demo($_REQUEST['id']);
+        //Editing
         if ($demo->id) {
-            $res = $demo->update($_REQUEST);
-            if ($res) {
+            //Update Demo
+            if ($demo->update($_REQUEST)) {
+                //Add success message
                 Registry::addMessage(Registry::translate("CTRL_DEMO_UPDATE_OK"), "success", "", Url::site("demo"));
             }
+        //Creating
         } else {
-            $res = $demo->insert($_REQUEST);
-            if ($res) {
+            //Insert Demo
+            if ($demo->insert($_REQUEST)) {
+                //Add success message
                 Registry::addMessage(Registry::translate("CTRL_DEMO_INSERT_OK"), "success", "", Url::site("demo"));
             }
         }
+        //Show ajax JSON response
         $this->ajax();
     }
 
+    /**
+     * Delete action
+     */
     public function delete()
     {
-        $url = Registry::getUrl();
         $demo = new Demo($_REQUEST['id']);
         if ($demo->id) {
-            $res = $demo->delete();
-            if ($res) {
+            //Delete Demo
+            if ($demo->delete()) {
+                //Add success message
                 Registry::addMessage(Registry::translate("CTRL_DEMO_DELETE_OK"), "success", "", Url::site("demo"));
             }
         }
+        //Show ajax JSON response
         $this->ajax();
     }
 }

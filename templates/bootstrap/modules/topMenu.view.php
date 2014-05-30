@@ -20,9 +20,9 @@
             <ul class="nav navbar-nav">
                 <?php $url = Registry::getUrl(); ?>
                 <?php $active[$url->app][$url->action] = "active"; ?>
-                <?php if(!$user->id){ ?>
+                <?php if (!$user->id) { ?>
                     <li class="<?=$active['login']['index']?>">
-                        <a href="<?=Url::site("login")?>">  
+                        <a href="<?=Url::site("login")?>">
                             <span class="glyphicon glyphicon-log-in"></span>
                             <?=Registry::translate("MENU_LOGIN")?>
                         </a>
@@ -33,7 +33,7 @@
                             <?=Registry::translate("MENU_REGISTER")?>
                         </a>
                     </li>
-                <?php }else{ ?>
+                <?php } else { ?>
                     <li class="<?=$active['demo']['index']?>">
                         <a href="<?=Url::site("demo")?>">
                             <span class="glyphicon glyphicon-star"></span>
@@ -46,7 +46,7 @@
                             <?=Registry::translate("MENU_ACCOUNT")?>
                         </a>
                     </li>
-                    <?php if($user->roleId==2){ ?>
+                    <?php if ($user->roleId==2) { ?>
                         <li class="<?=$active['users']['index']?>">
                             <a href="<?=Url::site("users")?>">
                                 <span class="glyphicon glyphicon-user"></span>
@@ -56,17 +56,17 @@
                     <?php } ?>
                 <?php } ?>
             </ul>
-            <?php if($user->id){ ?>
+            <?php if ($user->id) { ?>
                 <ul class="nav navbar-nav navbar-right">
                     <?php $languages = Language::getLanguages(); ?>
-                    <?php if(count($languages)){ ?>
+                    <?php if (count($languages)) { ?>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <?=Registry::translate("MENU_LANGUAGE")?>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <?php foreach($languages as $lang){ ?>
+                                <?php foreach ($languages as $lang) { ?>
                                     <li>
                                         <a href="<?=Url::site("?lang=".$lang);?>">
                                             <?=Registry::translate(strtoupper($lang));?>
@@ -76,7 +76,7 @@
                             </ul>
                         </li>
                     <?php } ?>
-                    <li>
+                    <li class="exit">
                         <a href="<?=Url::site("login/doLogout");?>">
                             <span class="glyphicon glyphicon-off"></span>
                             <?=Registry::translate("MENU_LOGOUT")?>

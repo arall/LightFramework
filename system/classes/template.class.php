@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template Class
  *
@@ -71,6 +72,7 @@ class Template
     public function renderEmail($view, $vars=array(), $template="")
     {
         $config = Registry::getConfig();
+        $originalTemplate = "";
         if ($template) {
             $originalTemplate = $config->get("template");
             $config->set("template", $template);

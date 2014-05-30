@@ -33,6 +33,28 @@ class Helper
     }
 
     /**
+     * Make a sort inputs.
+     *
+     * @return string HTML form inputs
+     */
+    public function sortInputs()
+    {
+        return "<input type='hidden' name='order' value='".Helper::sanitize($_REQUEST["order"])."'>
+            <input type='hidden' name='orderDir' value='".Helper::sanitize($_REQUEST["orderDir"])."'>";
+    }
+
+    /**
+     * Make a pagination form inputs.
+     *
+     * @return string HTML inputs
+     */
+    public function paginationInputs()
+    {
+        return "<input type='hidden' name='limit' value='".Helper::sanitize($_REQUEST["limit"])."'>
+            <input type='hidden' name='limitStart' value='".Helper::sanitize($_REQUEST["limitStart"])."'>";
+    }
+
+    /**
      * Sanitizes an string to be printed in a HTML view
      *
      * @param  string $string String to be sanitized

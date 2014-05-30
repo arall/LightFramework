@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Controller Class
  *
@@ -42,7 +43,7 @@ abstract class Controller
      * @param string $name
      * @param mixed  $value
      */
-    public function setData($key, $data="")
+    public function setData($key, $data=null)
     {
         $this->data[$key] = $data;
     }

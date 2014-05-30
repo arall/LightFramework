@@ -1,31 +1,32 @@
 <?php
+
 /**
  * Config Class
  *
  * @package LightFramework\Core
  */
-class Database extends PDO
+class Database
 {
     /**
-     * Current Query
+     * Current PDO object
+     *
+     * @var object
+     */
+    public $pdo;
+
+    /**
+     * Current PDO statement object
+     *
+     * @var object
+     */
+    public $prepared;
+
+    /**
+     * Current error
      *
      * @var string
      */
-    public $query;
-
-    /**
-     * Current result
-     *
-     * @var resource
-     */
-    public $result;
-
-    /**
-     * Current connection
-     *
-     * @var resource
-     */
-    public $link;
+    public $error;
 
     /**
      * Constructor
@@ -35,55 +36,26 @@ class Database extends PDO
      * @param string $host     DB user
      * @param string $pass     DB user password
      * @param string $database DB name
+     * @param string $charset  DB Charset
      *
      * @return bool
      */
-    public function __construct($host="localhost", $user="", $pass="", $database="")
+    public function __construct($host="localhost", $user="", $pass="", $database="", $charset="")
     {
-        if(!function_exists("mysql_connect"))
-
-            return false;
-        $this->link = mysql_connect($host, $user, $pass, true) or die("Error: Cannot connect to host: ".$host);
-        mysql_select_db($database) or die("Error: Cannot read the database: ".$database);
-        $this->mysql_set_charset("utf8");
-        $opened = true;
-
-        return $opened;
+        $dsn = "mysql:host=".$host.";dbname=".$database.";";
+        if ($charset) {
+            $dsn .= "charset=".$charset;
+        }
+        try {
+            $this->pdo = new PDO($dsn, $user, $pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        } catch (PDOException $e) {
+            die("Database error: ".$e->getMessage());
+        }
     }
 
-    /**
-     * Set a charset on DB connection
-     * @param  string $charset Charset
-     * @return bool
-     */
-    public function mysql_set_charset($charset="utf8")
-    {
-        return $this->query("SET character_set_results='$charset',character_set_client='$charset',character_set_connection='$charset',character_set_database='$charset',character_set_server='$charset'");
-    }
-
-    /**
-     * Closes the current connection
-     *
-     * @return bool
-     */
-    public function close()
-    {
-        if(!function_exists("mysql_close"))
-
-            return false;
-        mysql_close($this->link);
-
-        return true;
-    }
-
-    /**
-     * Execute the passed query on the current connection
-     *
-     * @param string $query
-     *
-     * @return bool
-     */
-    public function query($query)
+    public function query($query, $params=null, $fetchmode=PDO::FETCH_ASSOC)
     {
         $config = Registry::getConfig();
         //Debug
@@ -95,15 +67,41 @@ class Database extends PDO
             //Current Query starting time
             $msc = microtime(true);
         }
-        $this->query = $query;
-        $this->result = mysql_query($query, $this->link);
+        try {
+            //Prepare the query
+            $this->prepared = $this->pdo->prepare($query);
+            //Bind Params
+            if (count($params)) {
+                foreach ($params as $var=>&$value) {
+                    //Bind
+                    $this->prepared->bindParam($var, $value);
+                    //Debug
+                    if ($config->get("debug")) {
+                        //Debug Printable
+                        $query = str_replace($var, "'".$value."'", $query);
+                    }
+                }
+            }
+            //Execute the statment
+            $this->prepared->execute();
+            $statement = strtolower(substr($query, 0 , 6));
+            if ($statement==='select') {
+                $result =  $this->prepared->fetchAll($fetchmode);
+            } elseif ($statement==='insert' ||  $statement==='update' || $statement==='delete') {
+                $result = $this->prepared->rowCount();
+            } else {
+                $result = NULL;
+            }
+        } catch (PDOException $e) {
+            $this->error = $e->getMessage();
+        }
         //Debug
         if ($config->get("debug")) {
             //Error?
-            if (!$this->result) {
+            if ($this->error) {
                 Registry::setDebug("sqlError", true);
                 //SQL Error
-                $error = $this->getError();
+                $error = $this->error;
                 //Backtrace
                 ob_start();
                 debug_print_backtrace();
@@ -125,74 +123,11 @@ class Database extends PDO
             Registry::setDebug("sqlTime", (int) $sqlTime += $msc);
         }
 
-        return $this->result;
+        return $result;
     }
 
-    public function fetcharray($result=null)
+    public function lastInsertId()
     {
-        if(!$result)
-            $result = $this->result;
-
-        return @mysql_fetch_array($result);
-    }
-
-    public function loadArrayList($result=null)
-    {
-        while ($row = $this->fetchassoc($result)) {
-            $array[] = $row;
-        }
-
-        return $array;
-    }
-
-    public function fetchrow($result=null)
-    {
-        if(!$result)
-            $result = $this->result;
-
-        return mysql_fetch_row($result);
-    }
-
-    public function fetchassoc($result=null)
-    {
-        if(!$result)
-            $result = $this->result;
-
-        return mysql_fetch_assoc($result);
-    }
-
-    public function getNumRows($result=null)
-    {
-        if(!$result)
-            $result = $this->result;
-
-        return mysql_num_rows($result);
-    }
-
-    public function freeresult($result=null)
-    {
-        if(!$result)
-            $result = $this->result;
-
-        return mysql_free_result($result);
-    }
-
-    public function lastid()
-    {
-        return mysql_insert_id($this->link);
-    }
-
-    public function getError($link=null)
-    {
-        if(!$link)
-            $link = $this->link;
-
-        return mysql_errno($link).": ".mysql_error($link);
-    }
-
-    public function __destruct()
-    {
-        $this->close();
-        unset($this);
+        return $this->pdo->lastInsertId();
     }
 }

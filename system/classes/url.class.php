@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Url Class
  *
@@ -52,9 +53,9 @@ class Url
         }
         //Set Url
         $this->url = $url;
-        //Set App
+        //Set Default App
         $this->app = $config->get("defaultApp");
-        //Set Action
+        //Set Default Action
         $this->action = "index";
         if ($url) {
             //Fix / on first char (var[0] emty)
@@ -77,7 +78,7 @@ class Url
             }
             //GET Vars
             if (count($vars)>2) {
-                for ($i=2;$i<count($vars);$i++) {
+                for ($i = 2; $i < count($vars); $i++) {
                     $this->vars[$i-2] = $vars[$i];
                 }
             }

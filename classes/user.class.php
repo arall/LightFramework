@@ -1,48 +1,149 @@
 <?php
+
+/**
+ * User Class
+ *
+ * @package LightFramework\Core
+ */
 class User extends Model
 {
+    /**
+     * Id
+     * @var int
+     */
     public $id;
+
+    /**
+     * Status Id
+     * @var int
+     */
     public $statusId;
+
+    /**
+     * Role Id
+     * @var int
+     */
     public $roleId;
+
+    /**
+     * Email
+     * @var string
+     */
     public $email;
+
+    /**
+     * Username
+     * @var string
+     */
     public $username;
+
+    /**
+     * Password
+     * @var string
+     */
     public $password;
+
+    /**
+     * Recovery Hash
+     * @var string
+     */
     public $recoveryHash;
+
+    /**
+     * Language code
+     * @var string
+     */
     public $language;
+
+    /**
+     * Insert date
+     * @var string
+     */
     public $dateInsert;
+
+    /**
+     * Update date
+     * @var string
+     */
     public $dateUpdate;
+
+    /**
+     * Last visit date
+     * @var string
+     */
     public $lastvisitDate;
 
+    /**
+     * Status CSS classes
+     * @var array
+     */
     public $statusesCss = array(
         0 => "danger",
         1 => "success",
     );
+
+    /**
+     * Status types
+     * @var array
+     */
     public $statuses = array(
         0 => "MODL_USER_STATUS_0",
         1 => "MODL_USER_STATUS_1",
     );
+
+    /**
+     * Roles
+     * @var array
+     */
     public $roles = array(
         1 => "MODL_USER_ROLE_1",
         2 => "MODL_USER_ROLE_2"
     );
+
+    /**
+     * Reserved vars (not at database table)
+     * @var array
+     */
     public static $reservedVarsChild = array("roles", "statuses", "statusesCss");
 
+    /**
+     * Class initialization
+     *
+     * @return void
+     */
     public function init()
     {
         parent::$dbTable = "users";
         parent::$reservedVarsChild = self::$reservedVarsChild;
     }
 
+    /**
+     * Get the user status
+     *
+     * @return string User status
+     */
     public function getStatusString()
     {
         return $this->statuses[$this->statusId];
     }
 
+    /**
+     * Get the CSS class for user status
+     *
+     * @return string CSS Class
+     */
     public function getStatusCssString()
     {
         return $this->statusesCss[$this->statusId];
     }
 
+    /**
+     * Get the role of the user
+     *
+     * @param integer $roleId Role (optional)
+     *
+     * @return string Role
+     */
     public function getRoleString($roleId=0)
     {
         if (!$roleId) {
@@ -55,6 +156,11 @@ class User extends Model
         }
     }
 
+    /**
+     * Insert validation
+     *
+     * @return array Object Messages
+     */
     public function validateInsert()
     {
         //Check username already exists
@@ -77,6 +183,16 @@ class User extends Model
         return Registry::getMessages(true);
     }
 
+    /**
+     * Pre-Insert actions
+     *
+     * Default language if none was introduced
+     * Password encryption
+     * Creation date
+     * Force role to non-admin
+     *
+     * @return void
+     */
     public function preInsert($data=array())
     {
         $config = Registry::getConfig();
@@ -84,14 +200,19 @@ class User extends Model
         if (!$data['language']) {
             $this->language = $config->get("defaultLang");
         }
-        //Passwd encryption
+        //Password encryption
         $this->password = User::encrypt($this->password);
-        //Register Date
+        //Creation Date
         $this->dateInsert = date("Y-m-d H:i:s");
         //Force to non-admin
         $this->roleId = 1;
     }
 
+    /**
+     * Update validation
+     *
+     * @return array Object Messages
+     */
     public function validateUpdate()
     {
         //Check username already exists
@@ -114,44 +235,68 @@ class User extends Model
         return Registry::getMessages(true);
     }
 
+    /**
+     * Pre-Update actions
+     *
+     * Password encryption
+     * Update date
+     *
+     * @return void
+     */
     public function preUpdate($data=array())
     {
         //Prevent blank password override
         if ($data['password']) {
+            //Password encryption
             $this->password = User::encrypt($data['password']);
         } else {
+            //Empty password to keep the current one
             $this->password = null;
         }
         //Update Date
         $this->dateUpdate = date("Y-m-d H:i:s");
     }
 
-    public function login($login, $password)
+    /**
+     * Login
+     *
+     * @param string $login    Username or email
+     * @param string $password Plain password
+     *
+     * @return bool
+     */
+    public static function login($login, $password)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `users` WHERE
-        (	`username`='".htmlspecialchars(mysql_real_escape_string(trim($login)))."' OR
-            `email`='".htmlspecialchars(mysql_real_escape_string(trim($login)))."'
-        ) AND `password`='".User::encrypt($password)."' AND `statusId`=1 LIMIT 1;";
-        if ($db->query($query)) {
-            if ($db->getNumRows()) {
-                $row = $db->fetcharray();
-                $user = new User($row);
-                //Set Session
-                session_start();
-                $_SESSION['userId'] = $user->id;
-                $_SESSION['lang'] = $user->language;
-                //Update lastVisitDate
-                $user->lastvisitDate = date("Y-m-d H:i:s");
-                $user->update();
+        $rows = $db->query("SELECT * FROM `users` WHERE (username=:username OR email=:email) AND password=:password",
+            array(
+                ":email" => $login,
+                ":username" => $login,
+                ":password" => User::encrypt($password)
+            )
+        );
+        if ($rows) {
+            $user = new User($rows[0]);
+            //Set Session
+            session_start();
+            $_SESSION['userId'] = $user->id;
+            $_SESSION['lang'] = $user->language;
+            //Update lastVisitDate
+            $user->lastvisitDate = date("Y-m-d H:i:s");
+            $user->update();
 
-                return true;
-            }
+            return true;
         }
     }
 
-    public function logout()
+    /**
+     * Logout
+     *
+     * @return bool
+     */
+    public static function logout()
     {
+        //Destroy PHP Session
         session_start();
         $_SESSION = array();
         session_unset();
@@ -160,91 +305,137 @@ class User extends Model
         return true;
     }
 
-    public function encrypt($password="")
+    /**
+     * Password encryption
+     *
+     * @param string $password Plain password
+     *
+     * @return string Encrypted password
+     */
+    public static function encrypt($password="")
     {
         return md5(sha1(trim($password)));
     }
 
-    public function select($data=array(), $limit=0, $limitStart=0, &$total=null)
+    /**
+     * Object selection
+     *
+     * @param array   $data       Conditionals and Order values
+     * @param integer $limit      Limit
+     * @param integer $limitStart Limit start
+     * @param int     $total      Total rows found
+     *
+     * @return array Objects found
+     */
+    public static function select($data=array(), $limit=0, $limitStart=0, &$total=null)
     {
         $db = Registry::getDb();
         //Query
         $query = "SELECT * FROM `users` WHERE 1=1 ";
         //Total
-        if ($db->Query($query)) {
-            $total = $db->getNumRows();
+        $total = count($db->Query($query));
+        if ($total) {
             //Order
             if ($data['order'] && $data['orderDir']) {
                 //Secure Field
                 $orders = array("ASC", "DESC");
                 if (@in_array($data['order'], array_keys(get_class_vars(__CLASS__))) && in_array($data['orderDir'], $orders)) {
-                    $query .= " ORDER BY `".mysql_real_escape_string($data['order'])."` ".mysql_real_escape_string($data['orderDir']);
+                    $query .= " ORDER BY `".$data['order']."` ".$data['orderDir'];
                 }
             }
             //Limit
             if ($limit) {
                 $query .= " LIMIT ".(int) $limitStart.", ".(int) $limit;
             }
-            if ($total) {
-                if ($db->Query($query)) {
-                    if ($db->getNumRows()) {
-                        $rows = $db->loadArrayList();
-                        foreach ($rows as $row) {
+            $rows = $db->Query($query);
+            if (count($rows)) {
+                foreach ($rows as $row) {
+                    foreach ($rows as $row) {
                             $results[] = new User($row);
                         }
-
-                        return $results;
-                    }
                 }
+
+                return $results;
             }
         }
     }
 
-    public function getUserByEmail($email, $ignoreId=0)
+    /**
+     * Get an User by email
+     *
+     * @param string  $email    Email to search
+     * @param integer $ignoreId User id to be ignored (optional)
+     *
+     * @return bool|object User
+     */
+    public static function getUserByEmail($email, $ignoreId=0)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `users` WHERE `email`='".htmlentities(mysql_real_escape_string($email))."'";
+        $params = array();
+        $query = "SELECT * FROM `users` WHERE email = :email";
+        $params[":email"] = $email;
+        //Ignore Id
         if ($ignoreId) {
-            $query .= " AND `id` !=".(int) $ignoreId;
+            $params[":ignoreId"] = $ignoreId;
+            $query .= " AND `id` != :ignoreId";
         }
-        if ($db->Query($query)) {
-            if ($db->getNumRows()) {
-                $row = $db->fetcharray();
-
-                return new User($row);
-            }
+        $rows = $db->query($query, $params);
+        if (count($rows)) {
+            return new User($rows[0]);
         }
     }
 
-    public function getUserByUsername($username, $ignoreId=0)
+    /**
+     * Get an User by username
+     *
+     * @param string  $username Username to search
+     * @param integer $ignoreId User id to be ignored (optional)
+     *
+     * @return bool|object User
+     */
+    public static function getUserByUsername($username, $ignoreId=0)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `users` WHERE `username`='".htmlentities(mysql_real_escape_string($username))."'";
+        $params = array();
+        $query = "SELECT * FROM `users` WHERE username = :username";
+        $params[":username"] = $username;
+        //Ignore Id
         if ($ignoreId) {
-            $query .= " AND `id` !=".(int) $ignoreId;
+            $params[":ignoreId"] = $ignoreId;
+            $query .= " AND `id` != :ignoreId";
         }
-        if ($db->Query($query)) {
-            if ($db->getNumRows()) {
-                $row = $db->fetcharray();
-
-                return new User($row);
-            }
+        $rows = $db->query($query, $params);
+        if (count($rows)) {
+            return new User($rows[0]);
         }
     }
 
-    public function getUserByRecoveryHash($hash)
+    /**
+     * Get an User by Recovery hash
+     *
+     * @param string $hash Hash to search
+     *
+     * @return bool|object User
+     */
+    public static function getUserByRecoveryHash($hash)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `users` WHERE `recoveryHash`='".htmlentities(mysql_real_escape_string($hash))."'";
-        if ($db->Query($query)) {
-            if ($db->getNumRows()) {
-                $row = $db->fetcharray();
-
-                return new User($row);
-            }
+        $query = "SELECT * FROM `users` WHERE recoveryHash = :recoveryHash";
+        $rows = $db->query("SELECT * FROM `users` WHERE recoveryHash = :recoveryHash",
+            array(
+                ":recoveryHash" => $recoveryHash
+            )
+        );
+        if (count($rows)) {
+            return new User($rows[0]);
         }
     }
 
+    /**
+     * Sends a recovery email to current User
+     *
+     * @return bool
+     */
     public function sendRecovery()
     {
         $this->recoveryHash = bin2hex(openssl_random_pseudo_bytes(16));
@@ -260,6 +451,10 @@ class User extends Model
                 ), "bootstrap"
             )
         );
-        $mailer->send();
+        if ($mailer->send()) {
+            return true;
+        } else {
+            Registry::addMessage(Registry::translate("MODL_USER_RECOVERY_EMAIL_ERROR"), "error");
+        }
     }
 }

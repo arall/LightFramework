@@ -1,18 +1,58 @@
 <?php
+
+/**
+ * Demo Class
+ *
+ * @package LightFramework\Demo
+ */
 class Demo extends Model
 {
+    /**
+     * Id
+     * @var int
+     */
     public $id;
+
+    /**
+     * User owner
+     * @var int
+     */
     public $userId;
+
+    /**
+     * Demo string
+     * @var string
+     */
     public $string;
+
+    /**
+     * Insert date
+     * @var string
+     */
     public $dateInsert;
+
+    /**
+     * Update date
+     * @var string
+     */
     public $dateUpdate;
 
+    /**
+     * Class initialization
+     *
+     * @return void
+     */
     public function init()
     {
         parent::$dbTable = "demos";
         parent::$reservedVarsChild = self::$reservedVarsChild;
     }
 
+    /**
+     * Insert validation
+     *
+     * @return array Object Messages
+     */
     public function validateInsert()
     {
         //Ajax Debug Message Example
@@ -29,6 +69,14 @@ class Demo extends Model
         return Registry::getMessages(true);
     }
 
+    /**
+     * Pre-Insert actions
+     *
+     * Ownser user (current)
+     * Creation date
+     *
+     * @return void
+     */
     public function preInsert()
     {
         $user = Registry::getUser();
@@ -36,6 +84,11 @@ class Demo extends Model
         $this->dateInsert = date("Y-m-d H:i:s");
     }
 
+    /**
+     * Update validation
+     *
+     * @return array Object Messages
+     */
     public function validateUpdate()
     {
         //Ajax Debug Message Example
@@ -52,31 +105,56 @@ class Demo extends Model
         return Registry::getMessages(true);
     }
 
+    /**
+     * Pre-Update actions
+     *
+     * Update date
+     *
+     * @return void
+     */
     public function preUpdate()
     {
         $this->dateUpdate = date("Y-m-d H:i:s");
     }
 
+    /**
+     * Get a Demo by string
+     *
+     * @param string  $string   String to search
+     * @param integer $ignoreId User id to be ignored (optional)
+     *
+     * @return bool|object Demo
+     */
     public function getDemoByString($string="", $ignoreId=0)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `demos` WHERE `string`!='".mysql_real_escape_string($string)."'";
+        $params = array();
+        $query = "SELECT * FROM `demos` WHERE string = :string";
+        $params[":string"] = $string;
+        //Ignore Id
         if ($ignoreId) {
-            $query .= " AND `id`!=".(int) $ignoreId;
+            $params[":ignoreId"] = $ignoreId;
+            $query .= " AND `id` != :ignoreId";
         }
-        if ($db->Query($query)) {
-            if ($db->getNumRows()) {
-                $row = $db->fetcharray();
-
-                return new Demo($row);
-            }
+        $rows = $db->query($query, $params);
+        if ($rows) {
+            return new Demo($rows[0]);
         }
     }
 
+    /**
+     * Object selection (multiple)
+     *
+     * @param array   $data       Conditionals and Order values
+     * @param integer $limit      Limit
+     * @param integer $limitStart Limit start
+     * @param int     $total      Total rows found
+     *
+     * @return array Array ob Demo and User objects
+     */
     public function select($data=array(), $limit=0, $limitStart=0, &$total=null)
     {
         $db = Registry::getDb();
-
         //Select field builder
         $tables = array(
             //Demo
@@ -96,36 +174,36 @@ class Demo extends Model
         FROM `demos` as `demo`
             LEFT JOIN `users` as `user` ON `user`.`id`=`demo`.`userId`
         WHERE 1=1 ";
+
+        //Where
+        $params = array();
+
         //Total
-        if ($db->Query($query)) {
-            $total = $db->getNumRows();
+        $total = count($db->Query($query, $params));
+        if ($total) {
             //Order
             if ($data['order'] && $data['orderDir']) {
                 //Secure Field
                 $orders = array("ASC", "DESC");
                 $tmp = explode(".", $data['order']);
                 if (@in_array($tmp[1], $tables[$tmp[0]]) && in_array($data['orderDir'], $orders)) {
-                    $query .= " ORDER BY ".mysql_real_escape_string("`".$tmp[0]."`.`".$tmp[1]."`")." ".mysql_real_escape_string($data['orderDir']);
+                    $query .= " ORDER BY `".$tmp[0]."`.`".$tmp[1]."` ".$data['orderDir'];
                 }
             }
             //Limit
             if ($limit) {
                 $query .= " LIMIT ".(int) $limitStart.", ".(int) $limit;
             }
-            if ($total) {
-                if ($db->Query($query)) {
-                    if ($db->getNumRows()) {
-                        $rows = $db->loadArrayList();
-                        foreach ($rows as $row) {
-                            $results[] = array(
-                                "demo" => new Demo($row, "demo"),
-                                "user" => new User($row, "user")
-                            );
-                        }
-
-                        return $results;
-                    }
+            $rows = $db->Query($query, $params);
+            if (count($rows)) {
+                foreach ($rows as $row) {
+                    $results[] = array(
+                        "demo" => new Demo($row, "demo"),
+                        "user" => new User($row, "user")
+                    );
                 }
+
+                return $results;
             }
         }
     }
