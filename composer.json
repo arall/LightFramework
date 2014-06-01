@@ -22,6 +22,7 @@
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
-		"phpunit/phpunit-selenium": "dev-master"
+		"phpunit/phpunit-selenium": "dev-master",
+		"phpunit/dbunit": "dev-master"
 	}
 }

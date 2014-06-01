@@ -52,7 +52,7 @@ class accountController extends Controller
         //Update User
         if ($user->update($_REQUEST)) {
             //Add success message
-            Registry::addMessage(Registry::translate("CTRL_ACCOUNT_UPDATE_OK"), "success", "", Url::site());
+            Registry::addMessage(Registry::translate("CTRL_ACCOUNT_UPDATED_OK"), "success", "", Url::site());
         }
         //Show ajax JSON response
         $this->ajax();

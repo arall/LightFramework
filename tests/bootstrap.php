@@ -14,6 +14,3 @@ require_once(__DIR__ . '/../system/functions.php');
 
 //Load Selenium Config
 require_once(__DIR__ . '/seleniumConfig.php');
-
-//Database init
-require_once(__DIR__ . '/database.php');

@@ -52,8 +52,7 @@ class usersController extends Controller
     public function edit()
     {
         $url = Registry::getUrl();
-        $user = new User($url->vars[0]);
-        $this->setData("user", $user);
+        $this->setData("user", new User($url->vars[0]));
         //Load View to Template var
         $html = $this->view("views.edit");
         //Render the Template

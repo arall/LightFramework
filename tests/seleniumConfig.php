@@ -12,6 +12,4 @@ class seleniumConfig
     public $screenShotPath = 'tests/system/screenshots';
     //Browser
     public $browser = 'firefox';
-    public $cache = 'off';
-    public $windowSize = array(1280, 1024);
 }

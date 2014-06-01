@@ -27,7 +27,7 @@
                                 <?=Registry::translate("VIEW_ACCOUNT_FIELDS_USERNAME");?>
                             </label>
                             <div class="col-sm-10">
-                                <input type="text" id="name" name="name" class="form-control" value="<?=Helper::sanitize($user->username);?>">
+                                <input type="text" id="username" name="username" class="form-control" value="<?=Helper::sanitize($user->username);?>">
                             </div>
                         </div>
                         <!-- Email -->

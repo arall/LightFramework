@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /apps/
+Disallow: /classes/
+Disallow: /languages/
+Disallow: /system/
+Disallow: /templates/
+Disallow: /tests/
+Disallow: /uploads/
+Disallow: /utils/
+Disallow: /vendor/

@@ -21,12 +21,7 @@ CREATE TABLE IF NOT EXISTS `demos` (
   `dateUpdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-# Dumping data for table lightframework.demos: ~0 rows (approximately)
-DELETE FROM `demos`;
-/*!40000 ALTER TABLE `demos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `demos` ENABLE KEYS */;
-
+DELETE FROM demos;
 
 # Dumping structure for table lightframework.users
 DROP TABLE IF EXISTS `users`;
@@ -43,13 +38,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `dateUpdate` datetime DEFAULT NULL,
   `lastvisitDate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DELETE FROM users;
 
-# Dumping data for table lightframework.users: ~1 rows (approximately)
-DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `statusId`, `roleId`, `email`, `username`, `password`, `recoveryHash`, `language`, `dateInsert`, `dateUpdate`, `lastvisitDate`) VALUES
-	(4, 1, 2, 'admin@admin.com', 'admin', '0c7540eb7e65b553ec1ba6b20de79608', '', 'en_GB', '2012-11-12 18:36:46', '2014-02-25 19:26:53', '2014-02-25 19:26:53');
+INSERT INTO `users` (`id`, `statusId`, `roleId`, `email`, `username`, `password`, `language`, `dateInsert`) VALUES
+	(1, 1, 2, 'admin@LightFramework.localhost', 'admin', '0c7540eb7e65b553ec1ba6b20de79608', 'en_GB', NOW());
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

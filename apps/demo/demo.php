@@ -51,8 +51,7 @@ class demoController extends Controller
     public function edit()
     {
         $url = Registry::getUrl();
-        $demo = new Demo($url->vars[0]);
-        $this->setData("demo", $demo);
+        $this->setData("demo", new Demo($url->vars[0]));
         //Load View to Template var
         $html = $this->view("views.edit");
         //Render the Template

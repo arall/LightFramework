@@ -5,16 +5,9 @@
 >
 	<testsuitest>
 		<testsuite name="Framework Tests">
-			<directory>tests/</directory>
+			<directory>tests/system/</directory>
 		</testsuite>
 	</testsuitest>
-
-	<php>
-        <const name="PHPUNIT_DBHOST" value="localhost" />
-        <const name="PHPUNIT_DBUSER" value="root" />
-        <const name="PHPUNIT_DBPASS" value="" />
-        <const name="PHPUNIT_DBNAME" value="lightFramework_test" />
-    </php>
 
 	<selenium>
 	  	<browser host="localhost"
