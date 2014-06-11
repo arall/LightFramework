@@ -36,6 +36,17 @@ class Url
      */
     public function __construct()
     {
+        $this->build($_SERVER['REQUEST_URI']);
+    }
+
+    /**
+     * URL Builder
+     *
+     * @param  string $uri URL URI
+     * @return void
+     */
+    public function build($uri)
+    {
         //Get the current config
         $config = Registry::getConfig();
         //Fix extra slashes
@@ -44,7 +55,7 @@ class Url
             $dir = "";
         }
         //Read URL
-        $url = str_replace("//", "/", str_replace($dir, "", $_SERVER['REQUEST_URI']));
+        $url = trim(str_replace("//", "/", str_replace($dir, "", $uri)), "/");
         //Exclude GET params
         if (strstr($url, "?")) {
             $url = substr($url, 0, strpos($url, "?"));
@@ -57,24 +68,13 @@ class Url
         $this->app = $config->get("defaultApp");
         //Set Default Action
         $this->action = "index";
+        //URL contruction
         if ($url) {
-            //Fix / on first char (var[0] emty)
-            if ($url[0]=="/") {
-                $url = substr($url, 1);
-            }
             //Read Vars
             $vars = explode("/", $url);
-            //Fix
-            if ($vars[1] && !$vars[0]) {
-                $this->app = $vars[1];
-                if ($vars[2]) {
-                    $this->action = $vars[2];
-                }
-            } elseif ($vars[0]) {
-                $this->app = $vars[0];
-                if ($vars[1]) {
-                    $this->action = $vars[1];
-                }
+            $this->app = $vars[0];
+            if ($vars[1]) {
+                $this->action = $vars[1];
             }
             //GET Vars
             if (count($vars)>2) {

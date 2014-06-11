@@ -350,9 +350,7 @@ class User extends Model
             $rows = $db->Query($query);
             if (count($rows)) {
                 foreach ($rows as $row) {
-                    foreach ($rows as $row) {
-                            $results[] = new User($row);
-                        }
+                    $results[] = new User($row);
                 }
 
                 return $results;
@@ -417,10 +415,9 @@ class User extends Model
      *
      * @return bool|object User
      */
-    public static function getUserByRecoveryHash($hash)
+    public static function getUserByRecoveryHash($recoveryHash)
     {
         $db = Registry::getDb();
-        $query = "SELECT * FROM `users` WHERE recoveryHash = :recoveryHash";
         $rows = $db->query("SELECT * FROM `users` WHERE recoveryHash = :recoveryHash",
             array(
                 ":recoveryHash" => $recoveryHash

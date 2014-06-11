@@ -41,7 +41,7 @@ class Router
             Registry::preserveDebug();
         } else {
             if($config->get("debug"))
-                die("Acction not found: ".$action);
+                die("Acction '".$action."' not found in '".$class."' controller");
             else
                 redirect(Url::site());
         }
