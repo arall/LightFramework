@@ -5,4 +5,8 @@ LightFramework
 
 Simple and light PHP Framework.
 
-Read the wiki!
+### TO-DO
+- Error/exception handler.
+- Menu system.
+- Less code.
+- Remove Debug messages

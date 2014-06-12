@@ -34,7 +34,7 @@ abstract class Controller
         if(!$app)
             $app = $url->app;
 
-        return $config->get("path").DIRECTORY_SEPARATOR."apps".DIRECTORY_SEPARATOR.$app.DIRECTORY_SEPARATOR;
+        return $config->get("path").DIRECTORY_SEPARATOR."apps".DIRECTORY_SEPARATOR.$url->router.DIRECTORY_SEPARATOR.$app.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -60,6 +60,7 @@ abstract class Controller
     public function view($view, $app="")
     {
         $config = Registry::getConfig();
+
         $template = Registry::getTemplate();
         //Including the controller as data, to enable modules/views inside other views
         $this->data['controller'] = $this;

@@ -158,6 +158,16 @@ class Registry
     }
 
     /**
+     * Set an Url object
+     *
+     * @return object Url
+     */
+    public static function setUrl($urlObject)
+    {
+        self::$url = $urlObject;
+    }
+
+    /**
      * Get the current Language object
      *
      * @param  string $lang Desired language

@@ -14,6 +14,12 @@ class Url
     public $url;
 
     /**
+     * Router (Optional)
+     * @var string
+     */
+    public $router;
+
+    /**
      * Current App name
      * @var string
      */
@@ -33,6 +39,7 @@ class Url
 
     /**
      * Contructor
+     * @return void
      */
     public function __construct()
     {
@@ -40,9 +47,9 @@ class Url
     }
 
     /**
-     * URL Builder
+     * Fill URL Object data.
      *
-     * @param  string $uri URL URI
+     * @param  string $uri URL Uri
      * @return void
      */
     public function build($uri)
@@ -84,6 +91,9 @@ class Url
             }
         }
         //POST is mandatory
+        if ($_POST['router']) {
+            $this->router = $_POST['router'];
+        }
         if ($_POST['app']) {
             $this->app = $_POST['app'];
         }
