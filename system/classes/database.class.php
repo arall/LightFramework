@@ -57,6 +57,7 @@ class Database
 
     public function query($query, $params=null, $fetchmode=PDO::FETCH_ASSOC)
     {
+        $this->error = null;
         $config = Registry::getConfig();
         //Debug
         if ($config->get("debug")) {

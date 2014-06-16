@@ -92,12 +92,23 @@ class Router
      */
     public function launch($class, $appName, $action="index")
     {
+        //Get the current Url
+        $url = Registry::getUrl();
         //Class exist?
         if (class_exists($class)) {
             //Init
             $controller = new $class();
             //Check if the acction exists
             if (method_exists($controller, $action)) {
+                //Router?
+                if ($url->router) {
+                    //Load the App
+                    $path = self::getAppPath($url->router);
+                    $router = $url->router."ControllerRouter";
+                    include_once($path);
+                    //Init
+                    $controllerRouter = new $router();
+                }
                 //Launch the App Action
                 $controller->$action();
                 //Preserve Current Debug
@@ -106,8 +117,6 @@ class Router
             } elseif (strpos($class, "ControllerRouter")) {
                 //New App Path
                 $appPath = self::getAppPath($action, $appName);
-                //Get the current Url
-                $url = Registry::getUrl();
                 //Set new URL
                 $url->router = $appName;
                 $url->app = $action;
