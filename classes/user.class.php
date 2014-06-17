@@ -349,6 +349,7 @@ class User extends Model
             }
             $rows = $db->Query($query);
             if (count($rows)) {
+                $results = array();
                 foreach ($rows as $row) {
                     $results[] = new User($row);
                 }

@@ -45,6 +45,12 @@ class Url
         $this->build($_SERVER['REQUEST_URI']);
     }
 
+    /**
+     * URL build
+     *
+     * @param  string $uri URL URI
+     * @return void
+     */
     public function build($uri)
     {
         //Get the current config
@@ -73,6 +79,16 @@ class Url
             }
         }
         //POST is mandatory
+        $this->checkPost();
+    }
+
+    /**
+     * Check POST parameters override
+     *
+     * @return void
+     */
+    private function checkPost()
+    {
         if ($_POST['router']) {
             $this->router = $_POST['router'];
         }

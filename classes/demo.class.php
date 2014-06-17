@@ -162,6 +162,7 @@ class Demo extends Model
             //User
             "user" => Helper::getClassFields("User"),
         );
+        $selects = array();
         foreach ($tables as $table=>$fields) {
             foreach ($fields as $field) {
                 $selects[] = "`".$table."`.`".$field."` as `".$table."_".$field."`";
@@ -196,6 +197,7 @@ class Demo extends Model
             }
             $rows = $db->Query($query, $params);
             if (count($rows)) {
+                $results = array();
                 foreach ($rows as $row) {
                     $results[] = array(
                         "demo" => new Demo($row, "demo"),
