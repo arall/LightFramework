@@ -51,7 +51,8 @@ class Database
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         } catch (PDOException $e) {
-            die("Database error: ".$e->getMessage());
+            //Show error
+            Error::render("Database error: ".$e->getMessage());
         }
     }
 

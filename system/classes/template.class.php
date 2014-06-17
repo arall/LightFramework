@@ -36,7 +36,8 @@ class Template
         //Check if file exists
         $filePath = $file.'.php';
         if (!file_exists($filePath)) {
-            die("File not found: ".$filePath);
+            //Show error
+            Error::render("File not found: ".$filePath);
         }
 
         return self::loadTemplateFile($filePath, $vars);
@@ -63,13 +64,29 @@ class Template
     }
 
     /**
+     * Prints the HTML string passed by param on the current Template
+     *
+     * @param string $layer Template layer (index.layer.php by default)
+     * @param array  $vars  List of values to pass trought
+     */
+    public static function render($layer="index", $vars=array())
+    {
+        $template = Registry::getTemplate();
+        $config = Registry::getConfig();
+        $path = $config->get("path").DIRECTORY_SEPARATOR."templates".DIRECTORY_SEPARATOR.$template->name.
+            DIRECTORY_SEPARATOR.str_replace(".", DIRECTORY_SEPARATOR, $layer).".layer";
+        $html = self::loadTemplate($path, $vars);
+        echo $html;
+    }
+
+    /**
      * Render a Email Template
      * @param  string $view     Email View
      * @param  array  $vars     List of values to pass trought
      * @param  string $template Template to be used
      * @return string HTML
      */
-    public function renderEmail($view, $vars=array(), $template="")
+    public static function renderEmail($view, $vars=array(), $template="")
     {
         $config = Registry::getConfig();
         $originalTemplate = "";

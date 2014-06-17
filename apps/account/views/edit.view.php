@@ -48,7 +48,7 @@
                                 <input type="password" id="password" name="password" class="form-control">
                             </div>
                         </div>
-                        <!-- Buttons -->
+                        <!-- Language -->
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
                                 <?=Registry::translate("VIEW_ACCOUNT_FIELDS_LANGUAGE");?>

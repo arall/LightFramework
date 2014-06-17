@@ -50,16 +50,12 @@ class Router
     {
         //Appname
         $appName = current(explode(".", end(explode(DIRECTORY_SEPARATOR, $appPath))));
-        //Get the current Config
-        $config = Registry::getConfig();
         //Securize
         $appPath = str_replace("..", "", $appPath);
         //Check if the app path exists
         if (is_readable($appPath)==false) {
-            if($config->get("debug"))
-                die("App not found: ".$appPath);
-            else
-                redirect(Url::site());
+            //Show error
+            Error::render("App not found: ".$appPath);
         } else {
             //Load the App
             include_once($appPath);
@@ -72,10 +68,8 @@ class Router
             } elseif (class_exists($controllerRouterClass)) {
                 $class = $controllerRouterClass;
             } else {
-                if($config->get("debug"))
-                    die("Acction not found: ".$action);
-                else
-                    redirect(Url::site());
+                //Show error
+                Error::render("Acction not found: ".$action);
             }
             //Launch
             self::launch($class, $appName, $action);
@@ -107,7 +101,7 @@ class Router
                     $router = $url->router."ControllerRouter";
                     include_once($path);
                     //Init
-                    $controllerRouter = new $router();
+                    new $router();
                 }
                 //Launch the App Action
                 $controller->$action();
@@ -126,12 +120,8 @@ class Router
                 //Route
                 self::route($appPath, $url->action);
             } else {
-                //Get the current Config
-                $config = Registry::getConfig();
-                if($config->get("debug"))
-                    die("Acction not found: ".$action);
-                else
-                    redirect(Url::site());
+                //Show error
+                Error::render("Acction not found: ".$action);
             }
         }
     }

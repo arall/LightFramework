@@ -39,3 +39,15 @@ div.main{
 .pagination>li>a{
     cursor: pointer;
 }
+
+
+/* Error Layout */
+@media (min-width: 768px){
+	body.error .container {
+		max-width: 730px;
+	}
+}
+.error-div{
+	margin-top: 10%;
+	text-align: center;
+}
