@@ -3,7 +3,7 @@
 defined('_EXE') or die('Restricted access');
 
 /**
- * Users Controller
+ * Demo Controller
  */
 class demoController extends Controller
 {
