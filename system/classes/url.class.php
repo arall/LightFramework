@@ -39,36 +39,18 @@ class Url
 
     /**
      * Contructor
-     * @return void
      */
     public function __construct()
     {
         $this->build($_SERVER['REQUEST_URI']);
     }
 
-    /**
-     * Fill URL Object data.
-     *
-     * @param  string $uri URL Uri
-     * @return void
-     */
     public function build($uri)
     {
         //Get the current config
         $config = Registry::getConfig();
-        //Fix extra slashes
-        $dir = $config->get("dir");
-        if ($dir == "/") {
-            $dir = "";
-        }
-        //Read URL
-        $url = trim(str_replace("//", "/", str_replace($dir, "", $uri)), "/");
-        //Exclude GET params
-        if (strstr($url, "?")) {
-            $url = substr($url, 0, strpos($url, "?"));
-        } elseif (strstr($url, "&")) {
-            $url = substr($url, 0, strpos($url, "&"));
-        }
+        //Cleaning url
+        $url = $this->clean($uri);
         //Set Url
         $this->url = $url;
         //Set Default App
@@ -100,6 +82,30 @@ class Url
         if ($_POST['action']) {
             $this->action = $_POST['action'];
         }
+    }
+
+    /**
+     * Cleans an URI
+     *
+     * @param  string $uri URI
+     * @return string
+     */
+    private function clean($uri)
+    {
+        //Get the current config
+        $config = Registry::getConfig();
+        //Fix extra slashes
+        $dir = $config->get("dir");
+        //Read URL
+        $url = trim(str_replace("//", "/", str_replace($dir, "", $uri)), "/");
+        //Exclude GET params
+        if (strstr($url, "?")) {
+            $url = substr($url, 0, strpos($url, "?"));
+        } elseif (strstr($url, "&")) {
+            $url = substr($url, 0, strpos($url, "&"));
+        }
+
+        return $url;
     }
 
     /**
