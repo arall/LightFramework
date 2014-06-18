@@ -4,6 +4,7 @@
 	"homepage": "https://github.com/arall/LightFramework",
 	"keywords": ["framework", "highlight"],
     "type": "project",
+    "license": "MIT",
 	"authors": [
     	{
             "name": "Gerard Arall",
