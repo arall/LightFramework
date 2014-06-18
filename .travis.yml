@@ -9,5 +9,6 @@ php:
 
 before_script:
   - composer dump-autoload
+  - mysql -e 'create database lightFramework;'
 
 script: phpunit tests/
