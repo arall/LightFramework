@@ -273,17 +273,4 @@ class Registry
 
         return $messages;
     }
-
-    /**
-     * Translate a string using the current Language
-     *
-     * @param  string $string String to be translated
-     * @return string Translated string
-     */
-    public static function translate($string="")
-    {
-        $lang = self::getLanguage();
-
-        return $lang->translate($string);
-    }
 }

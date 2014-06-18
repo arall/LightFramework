@@ -2,16 +2,16 @@
 
 <h1>
     <span class="glyphicon glyphicon-user"></span>
-    <?=Registry::translate("VIEW_USERS_TITLE");?>
+    <?=Language::translate("VIEW_USERS_TITLE");?>
     <small>
-        <?=Registry::translate("VIEW_USERS_SUBTITLE_LIST");?>
+        <?=Language::translate("VIEW_USERS_SUBTITLE_LIST");?>
     </small>
 </h1>
 
 <div class="action">
     <a class="btn btn-primary ladda-button" href="<?=Url::site("admin/users/edit");?>" data-style="slide-left">
         <span class="glyphicon glyphicon-plus"></span>
-        <?=Registry::translate("BTN_NEW");?>
+        <?=Language::translate("BTN_NEW");?>
     </a>
 </div>
 
@@ -26,13 +26,13 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><?=Helper::sortableLink("id", Registry::translate("VIEW_USERS_FIELDS_ID"));?></th>
-                            <th><?=Helper::sortableLink("username", Registry::translate("VIEW_USERS_FIELDS_USERNAME"));?></th>
-                            <th><?=Helper::sortableLink("statusId", Registry::translate("VIEW_USERS_FIELDS_STATUS"));?></th>
-                            <th><?=Helper::sortableLink("roleId", Registry::translate("VIEW_USERS_FIELDS_ROLE"));?></th>
-                            <th><?=Helper::sortableLink("email", Registry::translate("VIEW_USERS_FIELDS_EMAIL"));?></th>
-                            <th><?=Helper::sortableLink("dateInsert", Registry::translate("VIEW_USERS_FIELDS_DATEINSERT"));?></th>
-                            <th><?=Helper::sortableLink("dateUpdate", Registry::translate("VIEW_USERS_FIELDS_DATEUPDATE"));?></th>
+                            <th><?=Helper::sortableLink("id", Language::translate("VIEW_USERS_FIELDS_ID"));?></th>
+                            <th><?=Helper::sortableLink("username", Language::translate("VIEW_USERS_FIELDS_USERNAME"));?></th>
+                            <th><?=Helper::sortableLink("statusId", Language::translate("VIEW_USERS_FIELDS_STATUS"));?></th>
+                            <th><?=Helper::sortableLink("roleId", Language::translate("VIEW_USERS_FIELDS_ROLE"));?></th>
+                            <th><?=Helper::sortableLink("email", Language::translate("VIEW_USERS_FIELDS_EMAIL"));?></th>
+                            <th><?=Helper::sortableLink("dateInsert", Language::translate("VIEW_USERS_FIELDS_DATEINSERT"));?></th>
+                            <th><?=Helper::sortableLink("dateUpdate", Language::translate("VIEW_USERS_FIELDS_DATEUPDATE"));?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,10 +46,10 @@
                                 </td>
                                 <td>
                                     <span class="label label-<?=$user->getStatusCssString();?>">
-                                        <?=Registry::translate($user->getStatusString());?>
+                                        <?=Language::translate($user->getStatusString());?>
                                     </span>
                                 </td>
-                                <td><?=Registry::translate($user->getRoleString());?></td>
+                                <td><?=Language::translate($user->getRoleString());?></td>
                                 <td><?=Helper::sanitize($user->email);?></td>
                                 <td><?=Helper::humanDate($user->dateInsert);?></td>
                                 <td><?=Helper::humanDate($user->dateUpdate);?></td>
@@ -62,7 +62,7 @@
             </div>
         <?php } else { ?>
             <blockquote>
-                <p><?=Registry::translate("VIEW_USERS_LIST_NO_DATA");?></p>
+                <p><?=Language::translate("VIEW_USERS_LIST_NO_DATA");?></p>
             </blockquote>
         <?php } ?>
     </form>

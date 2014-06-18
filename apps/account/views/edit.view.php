@@ -4,9 +4,9 @@
 
 <h1>
     <span class="glyphicon glyphicon-wrench"></span>
-    <?=Registry::translate("VIEW_ACCOUNT_TITLE");?>
+    <?=Language::translate("VIEW_ACCOUNT_TITLE");?>
     <small>
-        <?=Registry::translate("VIEW_ACCOUNT_SUBTITLE_EDIT");?>
+        <?=Language::translate("VIEW_ACCOUNT_SUBTITLE_EDIT");?>
     </small>
 </h1>
 
@@ -18,13 +18,13 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <?=Registry::translate("VIEW_ACCOUNT_PANEL_ACCOUNT_TITLE");?>
+                        <?=Language::translate("VIEW_ACCOUNT_PANEL_ACCOUNT_TITLE");?>
                     </div>
                     <div class="panel-body">
                         <!-- Username -->
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_ACCOUNT_FIELDS_USERNAME");?>
+                                <?=Language::translate("VIEW_ACCOUNT_FIELDS_USERNAME");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="username" name="username" class="form-control" value="<?=Helper::sanitize($user->username);?>">
@@ -33,7 +33,7 @@
                         <!-- Email -->
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_ACCOUNT_FIELDS_EMAIL");?>
+                                <?=Language::translate("VIEW_ACCOUNT_FIELDS_EMAIL");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="email" name="email" class="form-control" value="<?=Helper::sanitize($user->email);?>">
@@ -42,7 +42,7 @@
                         <!-- Password -->
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_ACCOUNT_FIELDS_PASSWORD");?>
+                                <?=Language::translate("VIEW_ACCOUNT_FIELDS_PASSWORD");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="password" id="password" name="password" class="form-control">
@@ -51,7 +51,7 @@
                         <!-- Language -->
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_ACCOUNT_FIELDS_LANGUAGE");?>
+                                <?=Language::translate("VIEW_ACCOUNT_FIELDS_LANGUAGE");?>
                             </label>
                             <div class="col-sm-10">
                                 <select class="form-control" name="language" id="language">
@@ -71,11 +71,11 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site();?>">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <?=Registry::translate("BTN_CANCEL");?>
+                                    <?=Language::translate("BTN_CANCEL");?>
                                 </a>
                                 <button class="btn btn-success ladda-button" data-style="slide-left">
                                     <span class="glyphicon glyphicon-ok"></span>
-                                    <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_CREATE");?>
+                                    <?=$user->id ? Language::translate("BTN_SAVE") : Language::translate("BTN_CREATE");?>
                                 </button>
                             </div>
                         </div>

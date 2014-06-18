@@ -66,22 +66,6 @@ class Language
     }
 
     /**
-     * Translate a string
-     *
-     * @param  string $string String to translate
-     * @return string Translated string
-     */
-    public function translate($string="")
-    {
-        $res = self::$strings[strtoupper($string)];
-        if (!$res) {
-            return $string;
-        } else {
-            return $res;
-        }
-    }
-
-    /**
      * Get current avariable languages
      *
      * @return array Languages
@@ -100,5 +84,21 @@ class Language
         }
 
         return $languages;
+    }
+
+    /**
+     * Translate a string using the current Language
+     *
+     * @param  string $string String to be translated
+     * @return string Translated string
+     */
+    public static function translate($string="")
+    {
+        $res = self::$strings[strtoupper($string)];
+        if (!$res) {
+            return $string;
+        } else {
+            return $res;
+        }
     }
 }

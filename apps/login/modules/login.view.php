@@ -5,7 +5,7 @@
         <div class="well">
             <fieldset>
                 <legend>
-                    <?=Registry::translate("VIEW_LOGIN_LOGIN_TITLE");?>
+                    <?=Language::translate("VIEW_LOGIN_LOGIN_TITLE");?>
                 </legend>
                 <?php $user = Registry::getUser(); ?>
                 <?php if (!$user->id) { ?>
@@ -13,19 +13,19 @@
                         <!-- Username -->
                         <div class="form-group">
                             <label for="login" class="col-sm-4 control-label">
-                                <?=Registry::translate("VIEW_LOGIN_LOGIN_FIELDS_USERNAME");?>
+                                <?=Language::translate("VIEW_LOGIN_LOGIN_FIELDS_USERNAME");?>
                             </label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="login" name="login" placeholder="<?=Registry::translate("VIEW_LOGIN_LOGIN_FIELDS_USERNAME");?>">
+                                <input type="text" class="form-control" id="login" name="login" placeholder="<?=Language::translate("VIEW_LOGIN_LOGIN_FIELDS_USERNAME");?>">
                             </div>
                         </div>
                         <!-- Password -->
                         <div class="form-group">
                             <label for="password" class="col-sm-4 control-label">
-                                <?=Registry::translate("VIEW_LOGIN_LOGIN_FIELDS_PASSWORD");?>
+                                <?=Language::translate("VIEW_LOGIN_LOGIN_FIELDS_PASSWORD");?>
                             </label>
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" id="password" name="password" placeholder="<?=Registry::translate("VIEW_LOGIN_LOGIN_FIELDS_PASSWORD");?>">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="<?=Language::translate("VIEW_LOGIN_LOGIN_FIELDS_PASSWORD");?>">
                             </div>
                         </div>
                         <!-- Buttons -->
@@ -33,11 +33,11 @@
                             <div class="col-sm-offset-4 col-sm-8">
                                 <button class="btn btn-primary ladda-button" data-style="slide-left">
                                     <span class="ladda-label">
-                                        <?=Registry::translate("BTN_LOGIN");?>
+                                        <?=Language::translate("BTN_LOGIN");?>
                                     </span>
                                 </button>
                                 <a href="<?=Url::site("login/recovery");?>">
-                                    <?=Registry::translate("VIEW_LOGIN_LOGIN_RECOVERY");?>
+                                    <?=Language::translate("VIEW_LOGIN_LOGIN_RECOVERY");?>
                                 </a>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                     <h3>Hi there <?=$user->username?>! :)</h3>
                     <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("login/doLogout")?>">
                         <span class="glyphicon glyphicon-off"></span>
-                        <?=Registry::translate("BTN_LOGOUT");?>
+                        <?=Language::translate("BTN_LOGOUT");?>
                     </a>
                 <?php } ?>
             </fieldset>

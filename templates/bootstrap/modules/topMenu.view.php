@@ -24,33 +24,33 @@
                     <li class="<?=$active['login']['index']?>">
                         <a href="<?=Url::site("login")?>">
                             <span class="glyphicon glyphicon-log-in"></span>
-                            <?=Registry::translate("MENU_LOGIN")?>
+                            <?=Language::translate("MENU_LOGIN")?>
                         </a>
                     </li>
                     <li class="<?=$active['login']['register']?>">
                         <a href="<?=Url::site("login/register")?>">
                             <span class="glyphicon glyphicon-plus"></span>
-                            <?=Registry::translate("MENU_REGISTER")?>
+                            <?=Language::translate("MENU_REGISTER")?>
                         </a>
                     </li>
                 <?php } else { ?>
                     <li class="<?=$active['demo']['index']?>">
                         <a href="<?=Url::site("demo")?>">
                             <span class="glyphicon glyphicon-star"></span>
-                            <?=Registry::translate("MENU_DEMO")?>
+                            <?=Language::translate("MENU_DEMO")?>
                         </a>
                     </li>
                     <li class="<?=$active['account']['index']?>">
                         <a href="<?=Url::site("account")?>">
                             <span class="glyphicon glyphicon-wrench"></span>
-                            <?=Registry::translate("MENU_ACCOUNT")?>
+                            <?=Language::translate("MENU_ACCOUNT")?>
                         </a>
                     </li>
                     <?php if ($user->roleId>=2) { ?>
                         <li class="<?=$active['users']['index']?>">
                             <a href="<?=Url::site("admin/users")?>">
                                 <span class="glyphicon glyphicon-user"></span>
-                                <?=Registry::translate("MENU_USERS")?>
+                                <?=Language::translate("MENU_USERS")?>
                             </a>
                         </li>
                     <?php } ?>
@@ -62,14 +62,14 @@
                     <?php if (count($languages)) { ?>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <?=Registry::translate("MENU_LANGUAGE")?>
+                                <?=Language::translate("MENU_LANGUAGE")?>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 <?php foreach ($languages as $lang) { ?>
                                     <li>
                                         <a href="<?=Url::site("?lang=".$lang);?>">
-                                            <?=Registry::translate(strtoupper($lang));?>
+                                            <?=Language::translate(strtoupper($lang));?>
                                         </a>
                                     </li>
                                 <?php } ?>
@@ -79,7 +79,7 @@
                     <li class="exit">
                         <a href="<?=Url::site("login/doLogout");?>">
                             <span class="glyphicon glyphicon-off"></span>
-                            <?=Registry::translate("MENU_LOGOUT")?>
+                            <?=Language::translate("MENU_LOGOUT")?>
                             <small><i>(<?=$user->username;?>)</i></small>
                         </a>
                     </li>

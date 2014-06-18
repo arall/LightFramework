@@ -58,10 +58,10 @@ class Demo extends Model
     {
         //Empty string?
         if (!$this->string) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
+            Registry::addMessage(Language::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
         //Already exising?
         } elseif ($this->getDemoByString($this->string, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
+            Registry::addMessage(Language::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
         }
         //Return messages avoiding deletion
         return Registry::getMessages(true);

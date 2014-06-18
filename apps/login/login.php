@@ -54,7 +54,7 @@ class loginController extends Controller
             //Send recovery email
             if ($user->sendRecovery()) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_LOGIN_RECOVERY_EMAIL_SENT"), "success");
+                Registry::addMessage(Language::translate("CTRL_LOGIN_RECOVERY_EMAIL_SENT"), "success");
             }
         }
         //Redirect to index
@@ -99,11 +99,11 @@ class loginController extends Controller
                 //Login
                 $user->login($user->email, $_REQUEST['password']);
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_LOGIN_PASSWORD_CHANGED_OK"), "success", "", Url::site());
+                Registry::addMessage(Language::translate("CTRL_LOGIN_PASSWORD_CHANGED_OK"), "success", "", Url::site());
             //Passwords does't match
             } else {
                 //Add error message
-                Registry::addMessage(Registry::translate("CTRL_LOGIN_PASSWORDS_DOESNT_MATCH"), "error", "password");
+                Registry::addMessage(Language::translate("CTRL_LOGIN_PASSWORDS_DOESNT_MATCH"), "error", "password");
             }
         }
         //Show ajax JSON response
@@ -122,7 +122,7 @@ class loginController extends Controller
             Registry::addMessage("", "", "", Url::site());
         } else {
             //Add error message and redirect to login form view
-            Registry::addMessage(Registry::translate("CTRL_LOGIN_LOGIN_ERROR"), "error", "login");
+            Registry::addMessage(Language::translate("CTRL_LOGIN_LOGIN_ERROR"), "error", "login");
         }
         //Show ajax JSON response
         $this->ajax();

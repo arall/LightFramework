@@ -2,16 +2,16 @@
 
 <h1>
     <span class="glyphicon glyphicon-star"></span>
-    <?=Registry::translate("VIEW_DEMO_TITLE");?>
+    <?=Language::translate("VIEW_DEMO_TITLE");?>
     <small>
-        <?=Registry::translate("VIEW_DEMO_SUBTITLE_LIST");?>
+        <?=Language::translate("VIEW_DEMO_SUBTITLE_LIST");?>
     </small>
 </h1>
 
 <div class="action">
     <a class="btn btn-primary ladda-label ladda-button" data-style="slide-left" href="<?=Url::site("demo/edit");?>">
         <span class="glyphicon glyphicon-plus"></span>
-        <?=Registry::translate("BTN_NEW");?>
+        <?=Language::translate("BTN_NEW");?>
     </a>
 </div>
 
@@ -24,11 +24,11 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><?=Helper::sortableLink("demo.id", Registry::translate("VIEW_DEMO_FIELDS_ID"));?></th>
-                            <th><?=Helper::sortableLink("demo.string", Registry::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
-                            <th><?=Helper::sortableLink("user.userId", Registry::translate("VIEW_DEMO_FIELDS_USER"));?></th>
-                            <th><?=Helper::sortableLink("demo.dateInsert", Registry::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
-                            <th><?=Helper::sortableLink("demo.dateUpdate", Registry::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
+                            <th><?=Helper::sortableLink("demo.id", Language::translate("VIEW_DEMO_FIELDS_ID"));?></th>
+                            <th><?=Helper::sortableLink("demo.string", Language::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
+                            <th><?=Helper::sortableLink("user.userId", Language::translate("VIEW_DEMO_FIELDS_USER"));?></th>
+                            <th><?=Helper::sortableLink("demo.dateInsert", Language::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
+                            <th><?=Helper::sortableLink("demo.dateUpdate", Language::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,7 +58,7 @@
             </div>
         <?php } else { ?>
             <blockquote>
-                <p><?=Registry::translate("VIEW_DEMO_LIST_NO_DATA");?></p>
+                <p><?=Language::translate("VIEW_DEMO_LIST_NO_DATA");?></p>
             </blockquote>
         <?php } ?>
     </form>

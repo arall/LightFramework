@@ -166,19 +166,19 @@ class User extends Model
     {
         //Check username already exists
         if (!$this->username) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
+            Registry::addMessage(Language::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
         } elseif ($this->getUserByUsername($this->username, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
+            Registry::addMessage(Language::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
         }
         //Check email
         if (!$this->email) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
+            Registry::addMessage(Language::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
         } elseif ($this->getUserByEmail($this->email, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
+            Registry::addMessage(Language::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
         }
         //Password?
         if ($this->password && strlen($this->password)<6) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_PASSWORD_SHORT"), "error", "password");
+            Registry::addMessage(Language::translate("MODL_USER_VALIDATE_PASSWORD_SHORT"), "error", "password");
         }
         //Return messages avoiding deletion
         return Registry::getMessages(true);
@@ -436,7 +436,7 @@ class User extends Model
         $this->update();
         $mailer = Registry::getMailer();
         $mailer->addAddress($this->email);
-        $mailer->Subject = utf8_decode(Registry::translate("EMAILS_ACCOUNT_RECOVERY_SUBJECT"));
+        $mailer->Subject = utf8_decode(Language::translate("EMAILS_ACCOUNT_RECOVERY_SUBJECT"));
         $mailer->msgHTML(
             Template::renderEmail(
                 "accountRecovery",
@@ -448,7 +448,7 @@ class User extends Model
         if ($mailer->send()) {
             return true;
         } else {
-            Registry::addMessage(Registry::translate("MODL_USER_RECOVERY_EMAIL_ERROR"), "error");
+            Registry::addMessage(Language::translate("MODL_USER_RECOVERY_EMAIL_ERROR"), "error");
         }
     }
 }

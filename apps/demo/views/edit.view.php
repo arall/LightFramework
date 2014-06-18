@@ -2,9 +2,9 @@
 
 <h1>
     <span class="glyphicon glyphicon-star"></span>
-    <?=Registry::translate("VIEW_DEMO_TITLE");?>
+    <?=Language::translate("VIEW_DEMO_TITLE");?>
     <small>
-        <?=$demo->id ? Registry::translate("VIEW_DEMO_SUBTITLE_EDIT") : Registry::translate("VIEW_DEMO_SUBTITLE_NEW");?>
+        <?=$demo->id ? Language::translate("VIEW_DEMO_SUBTITLE_EDIT") : Language::translate("VIEW_DEMO_SUBTITLE_NEW");?>
     </small>
 </h1>
 
@@ -17,13 +17,13 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <?=Registry::translate("VIEW_DEMO_PANEL_DEMO_TITLE");?>
+                        <?=Language::translate("VIEW_DEMO_PANEL_DEMO_TITLE");?>
                     </div>
                     <div class="panel-body">
                         <!-- String -->
                         <div class="form-group">
                             <label for="string" class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_DEMO_FIELDS_STRING");?>
+                                <?=Language::translate("VIEW_DEMO_FIELDS_STRING");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="string" name="string" class="form-control" value="<?=Helper::sanitize($demo->string);?>">
@@ -33,18 +33,18 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?php if ($demo->id) { ?>
-                                    <button class="btn btn-danger ladda-label ladda-button delete" data-style="slide-left" confirm="<?=Registry::translate("VIEW_DEMO_CONFIRM_DELETE")?>">
+                                    <button class="btn btn-danger ladda-label ladda-button delete" data-style="slide-left" confirm="<?=Language::translate("VIEW_DEMO_CONFIRM_DELETE")?>">
                                         <span class="glyphicon glyphicon-remove"></span>
-                                        <?=Registry::translate("BTN_DELETE");?>
+                                        <?=Language::translate("BTN_DELETE");?>
                                     </button>
                                 <?php } ?>
                                 <a class="btn btn-primary ladda-label ladda-button" data-style="slide-left" href="<?=Url::site("demo");?>">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <?=Registry::translate("BTN_CANCEL");?>
+                                    <?=Language::translate("BTN_CANCEL");?>
                                 </a>
                                 <button class="btn btn-success ladda-label ladda-button" data-style="slide-left">
                                     <span class="glyphicon glyphicon-ok"></span>
-                                    <?=$demo->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
+                                    <?=$demo->id ? Language::translate("BTN_SAVE") : Language::translate("BTN_NEW");?>
                                 </button>
                             </div>
                         </div>

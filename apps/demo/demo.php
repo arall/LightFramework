@@ -69,14 +69,14 @@ class demoController extends Controller
             //Update Demo
             if ($demo->update($_REQUEST)) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_DEMO_UPDATE_OK"), "success", "", Url::site("demo"));
+                Registry::addMessage(Language::translate("CTRL_DEMO_UPDATE_OK"), "success", "", Url::site("demo"));
             }
         //Creating
         } else {
             //Insert Demo
             if ($demo->insert($_REQUEST)) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_DEMO_INSERT_OK"), "success", "", Url::site("demo"));
+                Registry::addMessage(Language::translate("CTRL_DEMO_INSERT_OK"), "success", "", Url::site("demo"));
             }
         }
         //Show ajax JSON response
@@ -93,7 +93,7 @@ class demoController extends Controller
             //Delete Demo
             if ($demo->delete()) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_DEMO_DELETE_OK"), "success", "", Url::site("demo"));
+                Registry::addMessage(Language::translate("CTRL_DEMO_DELETE_OK"), "success", "", Url::site("demo"));
             }
         }
         //Show ajax JSON response

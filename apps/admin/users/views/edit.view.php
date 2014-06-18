@@ -4,9 +4,9 @@
 
 <h1>
     <span class="glyphicon glyphicon-user"></span>
-    <?=Registry::translate("VIEW_USERS_TITLE");?>
+    <?=Language::translate("VIEW_USERS_TITLE");?>
     <small>
-        <?=$user->id ? Registry::translate("VIEW_USERS_SUBTITLE_EDIT") : Registry::translate("VIEW_USERS_SUBTITLE_NEW");?>
+        <?=$user->id ? Language::translate("VIEW_USERS_SUBTITLE_EDIT") : Language::translate("VIEW_USERS_SUBTITLE_NEW");?>
     </small>
 </h1>
 
@@ -20,12 +20,12 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <?=Registry::translate("VIEW_USERS_PANEL_USER_TITLE");?>
+                        <?=Language::translate("VIEW_USERS_PANEL_USER_TITLE");?>
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_STATUS");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_STATUS");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="checkbox" class="switch" name="statusId" id="statusId" value="1" <?php if($user->statusId) echo "checked";?>>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_ROLE");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_ROLE");?>
                             </label>
                             <div class="col-sm-10">
                                 <select class="form-control" name="roleId" id="roleId">
@@ -42,7 +42,7 @@
                                     <?php foreach ($user->roles as $roleId=>$roleString) { ?>
                                         <?php if ($currentUser->roleId>$roleId || $currentUser->roleId>=2) { ?>
                                             <option value="<?=$roleId?>" <?=$s[$roleId]?>>
-                                                <?=Registry::translate($roleString);?>
+                                                <?=Language::translate($roleString);?>
                                             </option>
                                         <?php } ?>
                                     <?php } ?>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_USERNAME");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_USERNAME");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="username" name="username" class="form-control" value="<?=Helper::sanitize($user->username);?>">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_EMAIL");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_EMAIL");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="email" name="email" class="form-control" value="<?=Helper::sanitize($user->email);?>">
@@ -67,7 +67,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_PASSWORD");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_PASSWORD");?>
                             </label>
                             <div class="col-sm-10">
                                 <input type="password" id="password" name="password" class="form-control">
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">
-                                <?=Registry::translate("VIEW_USERS_FIELDS_LANGUAGE");?>
+                                <?=Language::translate("VIEW_USERS_FIELDS_LANGUAGE");?>
                             </label>
                             <div class="col-sm-10">
                                 <select class="form-control" name="language" id="language">
@@ -84,7 +84,7 @@
                                     <?php $s[$user->language] = "selected"; ?>
                                     <?php foreach ($languages as $lang) { ?>
                                         <option value="<?=$language?>" <?=$s[$lang]?>>
-                                            <?=Registry::translate($lang);?>
+                                            <?=Language::translate($lang);?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -93,18 +93,18 @@
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?php if ($user->id) { ?>
-                                    <button class="btn btn-danger ladda-button delete" data-style="slide-left" confirm="<?=Registry::translate("VIEW_USERS_CONFIRM_DELETE")?>">
+                                    <button class="btn btn-danger ladda-button delete" data-style="slide-left" confirm="<?=Language::translate("VIEW_USERS_CONFIRM_DELETE")?>">
                                         <span class="glyphicon glyphicon-remove"></span>
-                                        <?=Registry::translate("BTN_DELETE");?>
+                                        <?=Language::translate("BTN_DELETE");?>
                                     </button>
                                 <?php } ?>
                                 <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("admin/users");?>">
                                     <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <?=Registry::translate("BTN_CANCEL");?>
+                                    <?=Language::translate("BTN_CANCEL");?>
                                 </a>
                                 <button class="btn btn-success ladda-button" data-style="slide-left">
                                     <span class="glyphicon glyphicon-ok"></span>
-                                    <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
+                                    <?=$user->id ? Language::translate("BTN_SAVE") : Language::translate("BTN_NEW");?>
                                 </button>
                             </div>
                         </div>

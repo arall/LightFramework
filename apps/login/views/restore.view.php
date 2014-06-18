@@ -3,14 +3,14 @@
 <div class="well">
     <fieldset>
         <legend>
-            <?=Registry::translate("VIEW_LOGIN_RESTORE_TITLE");?>
+            <?=Language::translate("VIEW_LOGIN_RESTORE_TITLE");?>
         </legend>
         <form class="form-horizontal ajax" role="form" method="post" name="loginForm" id="loginForm" action="<?=Url::site("login/changePassword")?>">
             <input type="hidden" name="recoveryHash" value="<?=$user->recoveryHash?>">
             <!-- Password -->
             <div class="form-group">
                 <label for="login" class="col-sm-2 control-label">
-                    <?=Registry::translate("VIEW_LOGIN_RESTORE_FIELDS_PASSWORD");?>
+                    <?=Language::translate("VIEW_LOGIN_RESTORE_FIELDS_PASSWORD");?>
                 </label>
                 <div class="col-sm-10">
                     <input type="password" class="form-control" id="password" name="password">
@@ -19,7 +19,7 @@
             <!-- Repeat Password -->
             <div class="form-group">
                 <label for="login" class="col-sm-2 control-label">
-                    <?=Registry::translate("VIEW_LOGIN_RESTORE_FIELDS_REPEAT_PASSWORD");?>
+                    <?=Language::translate("VIEW_LOGIN_RESTORE_FIELDS_REPEAT_PASSWORD");?>
                 </label>
                 <div class="col-sm-10">
                     <input type="password" class="form-control" id="password2" name="password2">
@@ -30,7 +30,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <button class="btn btn-primary ladda-button" data-style="slide-left">
                         <span class="glyphicon glyphicon-ok"></span>
-                        <?=Registry::translate("BTN_SAVE");?>
+                        <?=Language::translate("BTN_SAVE");?>
                     </button>
                 </div>
             </div>
