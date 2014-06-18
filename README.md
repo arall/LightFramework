@@ -6,7 +6,7 @@ LightFramework
 LightFramework is a lightweight and simple web application framework.
 
 Installation
------
+------------
 
 ###Composer
 Also you can start a new project using this command:
@@ -42,6 +42,7 @@ To run the test suite, you need PHPUnit (and also Selenium):
     $ php composer.phar install --dev
     $ vendor/bin/phpunit
 
-# TO-DO
+TO-DO
+-----
 - Menu system
 - Less code
