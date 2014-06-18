@@ -157,30 +157,42 @@ class User extends Model
     }
 
     /**
+     * Insert and Update validation
+     * In this case, its the same for both methods
+     *
+     * @return bool
+     */
+    private function validate()
+    {
+        //Check username already exists
+        if (!$this->username) {
+            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
+        } elseif ($this->getUserByUsername($this->username, $this->id)) {
+            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
+        }
+        //Check email
+        if (!$this->email) {
+            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
+        } elseif ($this->getUserByEmail($this->email, $this->id)) {
+            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
+        }
+        //Password?
+        if ($this->password && strlen($this->password)<6) {
+            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_PASSWORD_SHORT"), "error", "password");
+        }
+        //Return messages avoiding deletion
+        return Registry::getMessages(true);
+    }
+
+    /**
      * Insert validation
      *
      * @return array Object Messages
      */
     public function validateInsert()
     {
-        //Check username already exists
-        if (!$this->username) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
-        } elseif ($this->getUserByUsername($this->username)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
-        }
-        //Check email
-        if (!$this->email) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
-        } elseif ($this->getUserByEmail($this->email)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
-        }
-        //Password?
-        if (!$this->password || strlen($this->password)<6) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_PASSWORD_SHORT"), "error", "password");
-        }
-
-        return Registry::getMessages(true);
+        //Validation
+        return $this->validate();
     }
 
     /**
@@ -215,24 +227,8 @@ class User extends Model
      */
     public function validateUpdate()
     {
-        //Check username already exists
-        if (!$this->username) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
-        } elseif ($this->getUserByUsername($this->username, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
-        }
-        //Check email
-        if (!$this->email) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
-        } elseif ($this->getUserByEmail($this->email, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
-        }
-        //Password?
-        if ($this->password && strlen($this->password)<6) {
-            Registry::addMessage(Registry::translate("MODL_USER_VALIDATE_PASSWORD_SHORT"), "error", "password");
-        }
-
-        return Registry::getMessages(true);
+        //Validation
+        return $this->validate();
     }
 
     /**

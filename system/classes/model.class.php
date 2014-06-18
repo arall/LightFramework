@@ -157,7 +157,7 @@ abstract class Model
      * @param  array $array Array of values to be setted (and replace the current object values).
      * @return bool
      */
-    public function update($array=array())
+    public function update($array = array())
     {
         $config = Registry::getConfig();
         $db = Registry::getDb();
@@ -177,10 +177,7 @@ abstract class Model
         $set = array();
         $params = array();
         foreach (get_class_vars($this->className) as  $name=>$value) {
-            if($name==$this->idField) continue;
-            if(in_array($name,$this->reservedVars)) continue;
-            if(in_array($name,$this->reservedVarsChild)) continue;
-            if (isset($this->$name)) {
+            if ($this->validateVar($name)) {
                 $set[] = "`".$name."`"." = :".$name;
                 $params[":".$name] = ($this->$name);
             }
@@ -205,7 +202,7 @@ abstract class Model
      * @param  array $array Array of values to be setted (and replace the current object values).
      * @return bool
      */
-    public function insert($array="")
+    public function insert($array = array())
     {
         $config = Registry::getConfig();
         $db = Registry::getDb();
@@ -225,10 +222,7 @@ abstract class Model
         $params = array();
          //Prepare SQL vars
         foreach (get_class_vars($this->className) as $name=>$value) {
-            if($name==$this->idField) continue;
-            if(in_array($name,$this->reservedVars)) continue;
-            if(in_array($name,$this->reservedVarsChild)) continue;
-            if (isset($this->$name)) {
+            if ($this->validateVar($name)) {
                 $values1[] = "`".$name."`";
                 $values2[] = ":".$name;
                 $params[":".$name] = $this->$name;
@@ -280,6 +274,28 @@ abstract class Model
         } else {
             if($config->get("debug"))
                 Registry::addMessage($db->error, "error");
+        }
+    }
+
+    /**
+     * Validates if a variable is able to set
+     *
+     * @param  string $varName Variable Name
+     * @return bool
+     */
+    private function validateVar($varName = "")
+    {
+        if ($varName == $this->idField) {
+            return false;
+        }
+        if (in_array($varName,$this->reservedVars)) {
+            return false;
+        }
+        if (in_array($varName, $this->reservedVarsChild)) {
+            return false;
+        }
+        if (isset($this->$varName)) {
+            return true;
         }
     }
 }

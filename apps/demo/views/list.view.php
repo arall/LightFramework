@@ -10,9 +10,8 @@
 
 <div class="action">
     <a class="btn btn-primary ladda-label ladda-button" data-style="slide-left" href="<?=Url::site("demo/edit");?>">
-        <span class="ladda-label">
-            <?=Registry::translate("BTN_NEW");?>
-        </span>
+        <span class="glyphicon glyphicon-plus"></span>
+        <?=Registry::translate("BTN_NEW");?>
     </a>
 </div>
 

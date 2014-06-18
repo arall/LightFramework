@@ -70,14 +70,14 @@ class usersController extends Controller
             //Update User
             if ($user->update($_REQUEST)) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_USERS_UPDATE_OK"), "success", "", Url::site("users"));
+                Registry::addMessage(Registry::translate("CTRL_USERS_UPDATE_OK"), "success", "", Url::site("admin/users"));
             }
         //Creating
         } else {
             //Insert User
             if ($user->insert($_REQUEST)) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_USERS_INSERT_OK"), "success", "", Url::site("users"));
+                Registry::addMessage(Registry::translate("CTRL_USERS_INSERT_OK"), "success", "", Url::site("admin/users"));
             }
         }
         //Show ajax JSON response
@@ -94,7 +94,7 @@ class usersController extends Controller
             //Delete User
             if ($user->delete()) {
                 //Add success message
-                Registry::addMessage(Registry::translate("CTRL_USERS_DELETE_OK"), "success", "", Url::site("users"));
+                Registry::addMessage(Registry::translate("CTRL_USERS_DELETE_OK"), "success", "", Url::site("admin/users"));
             }
         }
         //Show ajax JSON response

@@ -12,6 +12,7 @@
 
 <div class="main">
     <form method="post" name="mainForm" id="mainForm" action="<?=Url::site();?>" class="form-horizontal ajax" role="form" autocomplete="off">
+        <input type="hidden" name="router" id="router" value="admin">
         <input type="hidden" name="app" id="app" value="users">
         <input type="hidden" name="action" id="action" value="save">
         <input type="hidden" name="id" value="<?=$user->id?>">
@@ -93,20 +94,17 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?php if ($user->id) { ?>
                                     <button class="btn btn-danger ladda-button delete" data-style="slide-left" confirm="<?=Registry::translate("VIEW_USERS_CONFIRM_DELETE")?>">
-                                        <span class="ladda-label">
-                                            <?=Registry::translate("BTN_DELETE");?>
-                                        </span>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <?=Registry::translate("BTN_DELETE");?>
                                     </button>
                                 <?php } ?>
-                                <a class="btn btn-default ladda-button" data-spinner-color="#000" data-style="slide-left" href="<?=Url::site("users");?>">
-                                    <span class="ladda-label">
-                                        <?=Registry::translate("BTN_CANCEL");?>
-                                    </span>
+                                <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("admin/users");?>">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                    <?=Registry::translate("BTN_CANCEL");?>
                                 </a>
-                                <button class="btn btn-primary ladda-button" data-style="slide-left">
-                                    <span class="ladda-label">
-                                        <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
-                                    </span>
+                                <button class="btn btn-success ladda-button" data-style="slide-left">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
                                 </button>
                             </div>
                         </div>

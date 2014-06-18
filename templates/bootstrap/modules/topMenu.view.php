@@ -46,9 +46,9 @@
                             <?=Registry::translate("MENU_ACCOUNT")?>
                         </a>
                     </li>
-                    <?php if ($user->roleId==2) { ?>
+                    <?php if ($user->roleId>=2) { ?>
                         <li class="<?=$active['users']['index']?>">
-                            <a href="<?=Url::site("users")?>">
+                            <a href="<?=Url::site("admin/users")?>">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <?=Registry::translate("MENU_USERS")?>
                             </a>

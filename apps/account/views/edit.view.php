@@ -69,15 +69,13 @@
                         <!-- Buttons -->
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <a class="btn btn-default ladda-button" data-spinner-color="#000" data-style="slide-left" href="<?=Url::site();?>">
-                                    <span class="ladda-label">
-                                        <?=Registry::translate("BTN_CANCEL");?>
-                                    </span>
+                                <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site();?>">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                    <?=Registry::translate("BTN_CANCEL");?>
                                 </a>
-                                <button class="btn btn-primary ladda-button" data-style="slide-left">
-                                    <span class="ladda-label">
-                                        <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_CREATE");?>
-                                    </span>
+                                <button class="btn btn-success ladda-button" data-style="slide-left">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <?=$user->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_CREATE");?>
                                 </button>
                             </div>
                         </div>

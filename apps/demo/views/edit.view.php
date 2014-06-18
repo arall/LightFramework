@@ -34,20 +34,17 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?php if ($demo->id) { ?>
                                     <button class="btn btn-danger ladda-label ladda-button delete" data-style="slide-left" confirm="<?=Registry::translate("VIEW_DEMO_CONFIRM_DELETE")?>">
-                                        <span class="ladda-label">
-                                            <?=Registry::translate("BTN_DELETE");?>
-                                        </span>
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <?=Registry::translate("BTN_DELETE");?>
                                     </button>
                                 <?php } ?>
-                                <a class="btn btn-default ladda-label ladda-button" data-spinner-color="#000" data-style="slide-left" href="<?=Url::site("demo");?>">
-                                    <span class="ladda-label">
-                                        <?=Registry::translate("BTN_CANCEL");?>
-                                    </span>
+                                <a class="btn btn-primary ladda-label ladda-button" data-style="slide-left" href="<?=Url::site("demo");?>">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                    <?=Registry::translate("BTN_CANCEL");?>
                                 </a>
-                                <button class="btn btn-primary ladda-label ladda-button" data-style="slide-left">
-                                    <span class="ladda-label">
-                                        <?=$demo->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
-                                    </span>
+                                <button class="btn btn-success ladda-label ladda-button" data-style="slide-left">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <?=$demo->id ? Registry::translate("BTN_SAVE") : Registry::translate("BTN_NEW");?>
                                 </button>
                             </div>
                         </div>

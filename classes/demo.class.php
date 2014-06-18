@@ -49,6 +49,25 @@ class Demo extends Model
     }
 
     /**
+     * Insert and Update validation
+     * In this case, its the same for both methods
+     *
+     * @return bool
+     */
+    private function validate()
+    {
+        //Empty string?
+        if (!$this->string) {
+            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
+        //Already exising?
+        } elseif ($this->getDemoByString($this->string, $this->id)) {
+            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
+        }
+        //Return messages avoiding deletion
+        return Registry::getMessages(true);
+    }
+
+    /**
      * Insert validation
      *
      * @return array Object Messages
@@ -58,15 +77,8 @@ class Demo extends Model
         //Ajax Debug Message Example
         Registry::addDebugMessage("Starting Insert validation");
         Registry::addDebugMessage($this);
-        //Empty string?
-        if (!$this->string) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
-        //Already exising?
-        } elseif ($this->getDemoByString($this->string)) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
-        }
-        //Return messages avoiding deletion
-        return Registry::getMessages(true);
+        //Validation
+        return $this->validate();
     }
 
     /**
@@ -94,15 +106,8 @@ class Demo extends Model
         //Ajax Debug Message Example
         Registry::addDebugMessage("Starting Update validation");
         Registry::addDebugMessage($this);
-        //Empty string?
-        if (!$this->string) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
-        //Already exising?
-        } elseif ($this->getDemoByString($this->string, $this->id)) {
-            Registry::addMessage(Registry::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
-        }
-        //Return messages avoiding deletion
-        return Registry::getMessages(true);
+        //Validation
+        return $this->validate();
     }
 
     /**
@@ -125,7 +130,7 @@ class Demo extends Model
      *
      * @return bool|object Demo
      */
-    public function getDemoByString($string="", $ignoreId=0)
+    public static function getDemoByString($string="", $ignoreId=0)
     {
         $db = Registry::getDb();
         $params = array();
@@ -152,7 +157,7 @@ class Demo extends Model
      *
      * @return array Array ob Demo and User objects
      */
-    public function select($data=array(), $limit=0, $limitStart=0, &$total=null)
+    public static function select($data=array(), $limit=0, $limitStart=0, &$total=null)
     {
         $db = Registry::getDb();
         //Select field builder

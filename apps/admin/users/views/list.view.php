@@ -9,15 +9,16 @@
 </h1>
 
 <div class="action">
-    <a class="btn btn-primary ladda-button" href="<?=Url::site("users/edit");?>" data-style="slide-left">
-        <span class="ladda-label">
-            <?=Registry::translate("BTN_NEW");?>
-        </span>
+    <a class="btn btn-primary ladda-button" href="<?=Url::site("admin/users/edit");?>" data-style="slide-left">
+        <span class="glyphicon glyphicon-plus"></span>
+        <?=Registry::translate("BTN_NEW");?>
     </a>
 </div>
 
 <div class="main">
-    <form method="post" action="<?=Url::site("users")?>">
+    <form method="post" action="<?=Url::site("")?>">
+        <input type="hidden" name="router" id="router" value="admin">
+        <input type="hidden" name="app" id="app" value="users">
         <?=Helper::sortInputs();?>
         <?=Helper::paginationInputs();?>
         <?php if (count($results)) { ?>
@@ -39,7 +40,7 @@
                             <tr>
                                 <td><?=$user->id;?></a></td>
                                 <td>
-                                    <a href="<?=Url::site("users/edit/".$user->id);?>">
+                                    <a href="<?=Url::site("admin/users/edit/".$user->id);?>">
                                         <?=Helper::sanitize($user->username);?>
                                     </a>
                                 </td>

@@ -44,7 +44,8 @@
                     </form>
                 <?php } else { ?>
                     <h3>Hi there <?=$user->username?>! :)</h3>
-                    <a class="btn btn-primary" href="<?=Url::site("login/doLogout")?>">
+                    <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("login/doLogout")?>">
+                        <span class="glyphicon glyphicon-off"></span>
                         <?=Registry::translate("BTN_LOGOUT");?>
                     </a>
                 <?php } ?>
