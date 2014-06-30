@@ -66,33 +66,12 @@ class Language
     }
 
     /**
-     * Get current avariable languages
+     * Translate a string
      *
-     * @return array Languages
-     */
-    public function getLanguages()
-    {
-        $languages = array();
-        $langFiles = scandir("languages/");
-        if (count($langFiles)) {
-            foreach ($langFiles as $langFile) {
-                $tmp = explode(".", $langFile);
-                if ($tmp[0]) {
-                    $languages[] = $tmp[0];
-                }
-            }
-        }
-
-        return $languages;
-    }
-
-    /**
-     * Translate a string using the current Language
-     *
-     * @param  string $string String to be translated
+     * @param  string $string String to translate
      * @return string Translated string
      */
-    public static function translate($string="")
+    public function translate($string="")
     {
         $res = self::$strings[strtoupper($string)];
         if (!$res) {
@@ -100,5 +79,29 @@ class Language
         } else {
             return $res;
         }
+    }
+
+    /**
+     * Get current avariable languages
+     *
+     * @return array Languages
+     */
+    public function getLanguages()
+    {
+        $languages = array();
+        $path = "languages/";
+        if (file_exists($path)) {
+            $langFiles = scandir($path);
+            if (count($langFiles)) {
+                foreach ($langFiles as $langFile) {
+                    $tmp = explode(".", $langFile);
+                    if ($tmp[0]) {
+                        $languages[] = $tmp[0];
+                    }
+                }
+            }
+        }
+
+        return $languages;
     }
 }

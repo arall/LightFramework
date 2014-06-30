@@ -202,7 +202,7 @@ class Registry
      */
     public static function getUser()
     {
-        if (self::$user == NULL) {
+        if (self::$user == NULL || !self::$user->id) {
             session_start();
             self::$user = new User($_SESSION['userId']);
         }
