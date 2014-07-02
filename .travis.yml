@@ -8,7 +8,7 @@ php:
   - hhvm
 
 before_script:
-  - composer dump-autoload
+  - composer install
   - mysql -e 'create database lightFramework;'
   - mysql -uroot lightFramework < lightframework.sql
 
