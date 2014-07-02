@@ -15,7 +15,7 @@ class demoController extends Controller
         $user = Registry::getUser();
         //User must be logged
         if (!$user->id) {
-            redirect(Url::site("login"));
+            Helper::redirect(Url::site("login"));
         }
     }
 

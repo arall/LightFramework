@@ -9,8 +9,5 @@ if (is_file($composerAutoload)) {
 //Load Framework Config
 require_once(__DIR__ . '/../config.php');
 
-//Load Functions
-require_once(__DIR__ . '/../system/functions.php');
-
 //Load Selenium Config
 require_once(__DIR__ . '/seleniumConfig.php');

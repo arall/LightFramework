@@ -16,10 +16,10 @@ class usersController extends Controller
         $user = Registry::getUser();
         //User must be logged
         if (!$user->id) {
-            redirect(Url::site("login"));
+            Helper::redirect(Url::site("login"));
         //User must be admin
         } elseif ($user->roleId<2) {
-            redirect(Url::site());
+            Helper::redirect(Url::site());
         }
     }
 

@@ -58,7 +58,7 @@ class loginController extends Controller
             }
         }
         //Redirect to index
-        redirect(Url::site());
+        Helper::redirect(Url::site());
     }
 
     /**
@@ -78,7 +78,7 @@ class loginController extends Controller
             $this->render($html);
         } else {
             //Redirect to index
-            redirect(Url::site());
+            Helper::redirect(Url::site());
         }
     }
 
@@ -137,7 +137,7 @@ class loginController extends Controller
         //Logout
         $user->logout();
         //Redirect to index
-        redirect(Url::site());
+        Helper::redirect(Url::site());
     }
 
     /**
