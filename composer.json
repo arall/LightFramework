@@ -14,16 +14,16 @@
 	"autoload": {
 		"classmap": [
 			"classes/",
-			"system/classes/"
+			"libs/"
 		]
 	},
 	"require": {
-		"phpmailer/phpmailer": "dev-master",
-		"jdorn/sql-formatter": "1.3.*@dev"
+		"light-framework/core": "dev-master"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
 		"phpunit/phpunit-selenium": "dev-master",
 		"phpunit/dbunit": "dev-master"
-	}
+	},
+	"minimum-stability": "dev"
 }
