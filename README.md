@@ -5,23 +5,7 @@ LightFramework
 
 LightFramework is a lightweight and simple web application framework.
 
-Installation
-------------
-
-###Composer
-Also you can start a new project using this command:
-
-    $ composer create-project light-framework/light-framework --stability="dev"
-
-###GIT
-Cloning this repo with:
-
-    $ git clone https://github.com/arall/LightFramework.git
-
-###ZIP Download
-You also can download a ZIP file with all the framework from [here](https://github.com/arall/LightFramework/archive/master.zip).
-
-Requirements
+Installation / Requirements
 ------------
 
 LightFramework requires Composer to work. Simply install composer and run composer inside the base LightFramework directory.
