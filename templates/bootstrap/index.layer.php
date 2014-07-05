@@ -49,21 +49,10 @@
 
             <!--mainContainer-->
             <div class="container">
-                <!--alerts-->
-                <?php $messages = Registry::getMessages(); ?>
-                <div id="mensajes-sys">
-                <?php if ($messages) { ?>
-                    <?php foreach ($messages as $message) { ?>
-                        <?php if ($message->message) { ?>
-                            <div class="alert alert-<?=$message->type?>">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <?=$message->message?>
-                            </div>
-                        <?php } ?>
-                    <?php } ?>
-                <?php } ?>
-                </div>
-                <!--/alerts-->
+
+                <!--messages-->
+                <?=$controller->view("modules.messages");?>
+                <!--/messages-->
 
                 <!--content-->
                 <?=$content?>
@@ -71,43 +60,12 @@
 
               </div>
               <!--/mainContainer-->
+
         </div>
 
-        <!-- Debugging Modals -->
-        <?php $config = Registry::getConfig(); ?>
-        <?php if ($config->get("debug")) { ?>
-            <?php $debug = Registry::getDebug(); ?>
-            <!-- Current Queries Debug Modal -->
-            <?php $controller->setData("debug", $debug); ?>
-            <?php $controller->setData("debugModalId", "Current"); ?>
-            <?=$controller->view("modules.debugModalQueries");?>
-            <!-- Previous Queries Debug Modal -->
-            <?php if ($_SESSION['debug']['queries']) { ?>
-                <?php $controller->setData("debug", $_SESSION['debug']); ?>
-                <?php $controller->setData("debugModalId", "Last"); ?>
-                <?=$controller->view("modules.debugModalQueries");?>
-            <?php } ?>
-            <!-- Session Debug Modal -->
-            <?=$controller->view("modules.debugModalSession");?>
-            <!-- Current Messages Debug Modal -->
-            <?php $controller->setData("debug", $debug); ?>
-            <?php $controller->setData("debugModalId", "Current"); ?>
-            <?=$controller->view("modules.debugModalMessages");?>
-            <!-- Ajax Messages Debug Modal -->
-            <?php $controller->setData("debugModalId", "Ajax"); ?>
-            <?=$controller->view("modules.debugModalMessages");?>
-        <?php } ?>
-        <!-- /Debugging Modals -->
+        <!-- Debug -->
+        <?=$controller->view("modules.debug.menu");?>
+        <!-- /Debug -->
 
-          <!-- Footer -->
-          <footer class="footer">
-              <?php if ($config->get("debug")) { ?>
-                <!-- Debugging Menu -->
-                <?php $controller->setData("debug", $debug); ?>
-                <?=$controller->view("modules.debugMenu");?>
-                <!-- /Debugging Menu -->
-            <?php } ?>
-          </footer>
-          <!-- /Footer -->
     </body>
 </html>
