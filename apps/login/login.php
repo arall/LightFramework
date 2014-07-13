@@ -48,7 +48,7 @@ class loginController extends Controller
      */
     public function sendRecovery()
     {
-        $user = User::getUserByEmail($_REQUEST['email']);
+        $user = current(User::getBy("email", $_REQUEST['email']));
         //User exists?
         if ($user->id) {
             //Send recovery email
