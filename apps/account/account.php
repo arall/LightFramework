@@ -15,7 +15,7 @@ class accountController extends Controller
         $user = Registry::getUser();
         //User must be logged
         if (!$user->id) {
-            Helper::redirect(Url::site("login"));
+            Url::redirect(Url::site("login"));
         }
     }
 
