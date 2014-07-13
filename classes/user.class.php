@@ -167,13 +167,13 @@ class User extends Model
         //Check username already exists
         if (!$this->username) {
             Registry::addMessage(Language::translate("MODL_USER_VALIDATE_USERNAME_EMPTY"), "error", "username");
-        } elseif ($this->getUserByUsername($this->username, $this->id)) {
+        } elseif ($this->getBy("username", $this->username, $this->id)) {
             Registry::addMessage(Language::translate("MODL_USER_VALIDATE_USERNAME_TAKEN"), "error", "username");
         }
         //Check email
         if (!$this->email) {
             Registry::addMessage(Language::translate("MODL_USER_VALIDATE_EMAIL_EMPTY"), "error", "email");
-        } elseif ($this->getUserByEmail($this->email, $this->id)) {
+        } elseif ($this->getBy("email", $this->email, $this->id)) {
             Registry::addMessage(Language::translate("MODL_USER_VALIDATE_EMAIL_TAKEN"), "error", "email");
         }
         //Password?
@@ -352,76 +352,6 @@ class User extends Model
 
                 return $results;
             }
-        }
-    }
-
-    /**
-     * Get an User by email
-     *
-     * @param string  $email    Email to search
-     * @param integer $ignoreId User id to be ignored (optional)
-     *
-     * @return bool|object User
-     */
-    public static function getUserByEmail($email, $ignoreId=0)
-    {
-        $db = Registry::getDb();
-        $params = array();
-        $query = "SELECT * FROM `users` WHERE email = :email";
-        $params[":email"] = $email;
-        //Ignore Id
-        if ($ignoreId) {
-            $params[":ignoreId"] = $ignoreId;
-            $query .= " AND `id` != :ignoreId";
-        }
-        $rows = $db->query($query, $params);
-        if (count($rows)) {
-            return new User($rows[0]);
-        }
-    }
-
-    /**
-     * Get an User by username
-     *
-     * @param string  $username Username to search
-     * @param integer $ignoreId User id to be ignored (optional)
-     *
-     * @return bool|object User
-     */
-    public static function getUserByUsername($username, $ignoreId=0)
-    {
-        $db = Registry::getDb();
-        $params = array();
-        $query = "SELECT * FROM `users` WHERE username = :username";
-        $params[":username"] = $username;
-        //Ignore Id
-        if ($ignoreId) {
-            $params[":ignoreId"] = $ignoreId;
-            $query .= " AND `id` != :ignoreId";
-        }
-        $rows = $db->query($query, $params);
-        if (count($rows)) {
-            return new User($rows[0]);
-        }
-    }
-
-    /**
-     * Get an User by Recovery hash
-     *
-     * @param string $hash Hash to search
-     *
-     * @return bool|object User
-     */
-    public static function getUserByRecoveryHash($recoveryHash)
-    {
-        $db = Registry::getDb();
-        $rows = $db->query("SELECT * FROM `users` WHERE recoveryHash = :recoveryHash",
-            array(
-                ":recoveryHash" => $recoveryHash
-            )
-        );
-        if (count($rows)) {
-            return new User($rows[0]);
         }
     }
 

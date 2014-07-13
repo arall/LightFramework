@@ -60,7 +60,7 @@ class Demo extends Model
         if (!$this->string) {
             Registry::addMessage(Language::translate("MODL_DEMO_VALIDATE_STRING_EMPTY"), "error", "string");
         //Already exising?
-        } elseif ($this->getDemoByString($this->string, $this->id)) {
+        } elseif ($this->getBy("string", $this->string, $this->id)) {
             Registry::addMessage(Language::translate("MODL_DEMO_VALIDATE_STRING_TAKEN"), "error", "string");
         }
         //Return messages avoiding deletion
@@ -120,31 +120,6 @@ class Demo extends Model
     public function preUpdate()
     {
         $this->dateUpdate = date("Y-m-d H:i:s");
-    }
-
-    /**
-     * Get a Demo by string
-     *
-     * @param string  $string   String to search
-     * @param integer $ignoreId User id to be ignored (optional)
-     *
-     * @return bool|object Demo
-     */
-    public static function getDemoByString($string="", $ignoreId=0)
-    {
-        $db = Registry::getDb();
-        $params = array();
-        $query = "SELECT * FROM `demos` WHERE string = :string";
-        $params[":string"] = $string;
-        //Ignore Id
-        if ($ignoreId) {
-            $params[":ignoreId"] = $ignoreId;
-            $query .= " AND `id` != :ignoreId";
-        }
-        $rows = $db->query($query, $params);
-        if ($rows) {
-            return new Demo($rows[0]);
-        }
     }
 
     /**

@@ -67,7 +67,7 @@ class loginController extends Controller
     public function restore()
     {
         $url = Registry::getUrl();
-        $user = User::getUserByRecoveryHash($url->vars[0]);
+        $user = current(User::getBy("recoveryHash", $url->vars[0]));
         //User exists?
         if ($user->id) {
             //Setting data to View
@@ -87,7 +87,7 @@ class loginController extends Controller
      */
     public function changePassword()
     {
-        $user = User::getUserByRecoveryHash($_REQUEST["recoveryHash"]);
+        $user = current(User::getBy("recoveryHash", $_REQUEST["recoveryHash"]));
         //User exists?
         if ($user->id) {
             //Check if passwords match
