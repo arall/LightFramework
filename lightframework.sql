@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(50) DEFAULT NULL,
   `username` varchar(16) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
+  `token` varchar(32) DEFAULT NULL,
   `recoveryHash` varchar(32) DEFAULT NULL,
   `language` varchar(5) DEFAULT NULL,
   `dateInsert` datetime DEFAULT NULL,

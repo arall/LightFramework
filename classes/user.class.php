@@ -44,6 +44,12 @@ class User extends Model
     public $password;
 
     /**
+     * Cookie Token
+     * @var string
+     */
+    public $token;
+
+    /**
      * Recovery Hash
      * @var string
      */
@@ -256,12 +262,13 @@ class User extends Model
     /**
      * Login
      *
-     * @param string $login    Username or email
-     * @param string $password Plain password
+     * @param string $login      Username or email
+     * @param string $password   Plain password
+     * @param int    $expiration Expiration in Seconds
      *
      * @return bool
      */
-    public static function login($login, $password)
+    public static function login($login, $password, $expiration=7200)
     {
         $db = Registry::getDb();
         $rows = $db->query("SELECT * FROM `users` WHERE (username=:username OR email=:email) AND password=:password",
@@ -273,10 +280,9 @@ class User extends Model
         );
         if ($rows) {
             $user = new User($rows[0]);
-            //Set Session
-            session_start();
-            $_SESSION['userId'] = $user->id;
-            $_SESSION['lang'] = $user->language;
+            //Set Cookie
+            $user->token = bin2hex(openssl_random_pseudo_bytes(16));
+            setcookie('auth', $user->token, time() + $expiration, "/", NULL);
             //Update lastVisitDate
             $user->lastvisitDate = date("Y-m-d H:i:s");
             $user->update();
@@ -292,11 +298,8 @@ class User extends Model
      */
     public static function logout()
     {
-        //Destroy PHP Session
-        session_start();
-        $_SESSION = array();
-        session_unset();
-        session_destroy();
+        //Destroy Cookies
+        setcookie("auth", "", time());
 
         return true;
     }
