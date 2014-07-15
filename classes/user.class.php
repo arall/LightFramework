@@ -282,7 +282,8 @@ class User extends Model
             $user = new User($rows[0]);
             //Set Cookie
             $user->token = bin2hex(openssl_random_pseudo_bytes(16));
-            setcookie('auth', $user->token, time() + $expiration, "/", NULL);
+            $config = Registry::getConfig();
+            setcookie($config->get("cookie"), $user->token, time() + $expiration);
             //Update lastVisitDate
             $user->lastvisitDate = date("Y-m-d H:i:s");
             $user->update();
@@ -298,9 +299,10 @@ class User extends Model
      */
     public static function logout()
     {
+        $config = Registry::getConfig();
         //Destroy Cookies
-        unset($_COOKIE['auth']);
-        setcookie('auth', null, -1, '/');
+        unset($_COOKIE[$config->get("cookie")]);
+        setcookie($config->get("cookie"), null, -1);
 
         return true;
     }

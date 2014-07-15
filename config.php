@@ -12,6 +12,7 @@ $_config['template'] = "bootstrap";
 $_config['defaultApp'] = "demo";
 $_config['defaultLimit'] = 10;
 $_config['debug'] = true;
+$_config['cookie'] = "authLightFramework";
 
 //Mail
 $_config['mailHost'] = "";
