@@ -299,7 +299,8 @@ class User extends Model
     public static function logout()
     {
         //Destroy Cookies
-        setcookie("auth", "", time());
+        unset($_COOKIE['auth']);
+        setcookie('auth', null, -1, '/');
 
         return true;
     }
