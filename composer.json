@@ -13,7 +13,8 @@
     ],
 	"autoload": {
 		"classmap": [
-			"classes/"
+			"classes/",
+			"libs/"
 		]
 	},
 	"require": {

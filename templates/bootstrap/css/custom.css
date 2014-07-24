@@ -40,7 +40,6 @@ div.main{
     cursor: pointer;
 }
 
-
 /* Error Layout */
 @media (min-width: 768px){
 	body.error .container {
@@ -50,4 +49,29 @@ div.main{
 .error-div{
 	margin-top: 10%;
 	text-align: center;
+}
+
+/* Toolbar */
+.toolbar .title{
+	width: auto;
+	float: left;
+}
+.toolbar .tools{
+	padding-top: 30px;
+}
+.toolbar .tools button{
+	float: right;
+	margin-left: 15px;
+}
+
+/* Filters */
+form#mainForm div.fiters{
+	margin-bottom:15px
+}
+div.filters div.filter{
+	margin-bottom: 10px;
+}
+
+div.filters div.filter select{
+	width: 100%;
 }

@@ -1,26 +1,44 @@
 <?php defined('_EXE') or die('Restricted access'); ?>
 
-<h1>
-    <span class="glyphicon glyphicon-user"></span>
-    <?=Language::translate("VIEW_USERS_TITLE");?>
-    <small>
-        <?=Language::translate("VIEW_USERS_SUBTITLE_LIST");?>
-    </small>
-</h1>
-
-<div class="action">
-    <a class="btn btn-primary ladda-button" href="<?=Url::site("admin/users/edit");?>" data-style="slide-left">
-        <span class="glyphicon glyphicon-plus"></span>
-        <?=Language::translate("BTN_NEW");?>
-    </a>
-</div>
+<?php
+//Toolbar
+Toolbar::addTitle(Language::translate("VIEW_USERS_TITLE"), "glyphicon-user", Language::translate("VIEW_USERS_SUBTITLE_LIST"));
+//New button
+Toolbar::addButton(
+    array(
+        "title" => Language::translate("BTN_NEW"),
+        "app" => "users",
+        "action" => "edit",
+        "class" => "success",
+        "spanClass" => "plus",
+        "noAjax" => true,
+    )
+);
+//Render
+Toolbar::render();
+?>
 
 <div class="main">
-    <form method="post" action="<?=Url::site("")?>">
+    <form method="post" id="mainForm" name="mainForm" action="<?=Url::site()?>">
         <input type="hidden" name="router" id="router" value="admin">
         <input type="hidden" name="app" id="app" value="users">
+        <input type="hidden" name="action" id="action" value="">
+        <!-- Sortable -->
         <?=Helper::sortInputs();?>
         <?=Helper::paginationInputs();?>
+        <!-- Filters -->
+        <div class="row filters">
+            <!-- Search -->
+            <div class="col-sm-3 col-xs-6 filter">
+                <?=HTML::search();?>
+            </div>
+            <!-- Status -->
+            <div class="col-sm-3 col-xs-6 col-md-2 filter">
+                <?php $userNull = new User(); ?>
+                <?=HTML::select("statusId", $userNull->statuses, $_REQUEST["statusId"], array("class" => "change-submit"), array("id" => "-1", "display" => Language::translate("VIEW_USERS_FIELDS_STATUS"))); ?>
+            </div>
+        </div>
+        <!-- Results -->
         <?php if (count($results)) { ?>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -33,6 +51,7 @@
                             <th><?=Helper::sortableLink("email", Language::translate("VIEW_USERS_FIELDS_EMAIL"));?></th>
                             <th><?=Helper::sortableLink("dateInsert", Language::translate("VIEW_USERS_FIELDS_DATEINSERT"));?></th>
                             <th><?=Helper::sortableLink("dateUpdate", Language::translate("VIEW_USERS_FIELDS_DATEUPDATE"));?></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +72,10 @@
                                 <td><?=Helper::sanitize($user->email);?></td>
                                 <td><?=Helper::humanDate($user->dateInsert);?></td>
                                 <td><?=Helper::humanDate($user->dateUpdate);?></td>
+                                <td>
+                                    <?=HTML::formLink("btn-xs btn-primary", "pencil", Url::site("admin/users/edit/".$user->id)); ?>
+                                    <?=HTML::formLink("btn-xs btn-danger", "remove", Url::site("admin/users/delete/".$user->id), null, null, Language::translate("VIEW_USERS_CONFIRM_DELETE")); ?>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>

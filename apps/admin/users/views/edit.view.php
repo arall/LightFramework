@@ -2,16 +2,56 @@
 
 <?php $currentUser = Registry::getUser();?>
 
-<h1>
-    <span class="glyphicon glyphicon-user"></span>
-    <?=Language::translate("VIEW_USERS_TITLE");?>
-    <small>
-        <?=$user->id ? Language::translate("VIEW_USERS_SUBTITLE_EDIT") : Language::translate("VIEW_USERS_SUBTITLE_NEW");?>
-    </small>
-</h1>
+<?php
+//Edit / New
+if ($user->id) {
+    $subtitle = Language::translate("VIEW_USERS_SUBTITLE_EDIT");
+    $title = Language::translate("BTN_SAVE");
+} else {
+    $subtitle = Language::translate("VIEW_USERS_SUBTITLE_NEW");
+    $title =  Language::translate("BTN_NEW");
+}
+//Toolbar
+Toolbar::addTitle(Language::translate("VIEW_USERS_TITLE"), "glyphicon-user", $subtitle);
+if ($user->id) {
+    //Delete button
+    Toolbar::addButton(
+        array(
+            "title" => Language::translate("BTN_DELETE"),
+            "link" => Url::site("admin/users/delete/".$user->id),
+            "class" => "danger",
+            "spanClass" => "remove",
+            "confirmation" => Language::translate("VIEW_USERS_CONFIRM_DELETE"),
+        )
+    );
+}
+//Cancel button
+Toolbar::addButton(
+    array(
+        "title" => Language::translate("BTN_CANCEL"),
+        "app" => "users",
+        "action" => "index",
+        "class" => "primary",
+        "spanClass" => "chevron-left",
+        "noAjax" => true,
+    )
+);
+//Save button
+Toolbar::addButton(
+    array(
+        "title" => $title,
+        "app" => "users",
+        "action" => "save",
+        "class" => "success",
+        "spanClass" => "ok",
+    )
+);
+//Render
+Toolbar::render();
+?>
 
 <div class="main">
-    <form method="post" name="mainForm" id="mainForm" action="<?=Url::site();?>" class="form-horizontal ajax" role="form" autocomplete="off">
+    <form method="post" name="mainForm" id="mainForm" action="<?=Url::site();?>" class="form-horizontal ajax" role="form">
         <input type="hidden" name="router" id="router" value="admin">
         <input type="hidden" name="app" id="app" value="users">
         <input type="hidden" name="action" id="action" value="save">
@@ -28,6 +68,7 @@
                                 <?=Language::translate("VIEW_USERS_FIELDS_STATUS");?>
                             </label>
                             <div class="col-sm-10">
+                                <input type="hidden" name="statusId" value="0">
                                 <input type="checkbox" class="switch" name="statusId" id="statusId" value="1" <?php if($user->statusId) echo "checked";?>>
                             </div>
                         </div>
@@ -36,17 +77,7 @@
                                 <?=Language::translate("VIEW_USERS_FIELDS_ROLE");?>
                             </label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="roleId" id="roleId">
-                                    <?php $s = array(); ?>
-                                    <?php $s[$user->roleId] = "selected"; ?>
-                                    <?php foreach ($user->roles as $roleId=>$roleString) { ?>
-                                        <?php if ($currentUser->roleId>$roleId || $currentUser->roleId>=2) { ?>
-                                            <option value="<?=$roleId?>" <?=$s[$roleId]?>>
-                                                <?=Language::translate($roleString);?>
-                                            </option>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </select>
+                                <?=HTML::select("roleId", $user->roles, $user->roleId, array("id" => "roleId")); ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -78,34 +109,7 @@
                                 <?=Language::translate("VIEW_USERS_FIELDS_LANGUAGE");?>
                             </label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="language" id="language">
-                                    <?php $languages = Language::getLanguages(); ?>
-                                    <?php $s = array(); ?>
-                                    <?php $s[$user->language] = "selected"; ?>
-                                    <?php foreach ($languages as $lang) { ?>
-                                        <option value="<?=$language?>" <?=$s[$lang]?>>
-                                            <?=Language::translate($lang);?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <?php if ($user->id) { ?>
-                                    <button class="btn btn-danger ladda-button delete" data-style="slide-left" confirm="<?=Language::translate("VIEW_USERS_CONFIRM_DELETE")?>">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                        <?=Language::translate("BTN_DELETE");?>
-                                    </button>
-                                <?php } ?>
-                                <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("admin/users");?>">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <?=Language::translate("BTN_CANCEL");?>
-                                </a>
-                                <button class="btn btn-success ladda-button" data-style="slide-left">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                    <?=$user->id ? Language::translate("BTN_SAVE") : Language::translate("BTN_NEW");?>
-                                </button>
+                                <?=HTML::select("language", Language::getLanguages(), $user->language, array("id" => "language")); ?>
                             </div>
                         </div>
                     </div>

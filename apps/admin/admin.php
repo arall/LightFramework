@@ -9,7 +9,7 @@ class adminControllerRouter extends Controller
         //User is admin?
         $user = Registry::getUser();
         if ($user->roleId<2) {
-            Url::redirect(Url::site());
+            Url::redirect();
         }
     }
 

@@ -8,7 +8,7 @@
         <p>
             <?=Language::translate("VIEW_LOGIN_RECOVERY_INFO"); ?>
         </p>
-        <form class="form-horizontal" role="form" method="post" name="loginForm" id="loginForm" action="<?=Url::site("login/sendRecovery")?>">
+        <form class="form-horizontal" role="form" method="post">
             <!-- Email -->
             <div class="form-group">
                 <label for="login" class="col-sm-1 control-label">
@@ -21,10 +21,12 @@
             <!-- Buttons -->
             <div class="form-group">
                 <div class="col-sm-offset-1 col-sm-10">
-                    <button class="btn btn-primary ladda-button" data-style="slide-left">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        <?=Language::translate("BTN_SUBMIT");?>
-                    </button>
+                    <?=HTML::formButton("btn-primary", "ok", Language::translate("BTN_SUBMIT"), array(
+                            "data-app" => "login",
+                            "data-action" => "sendRecovery",
+                            "data-noAjax" => true,
+                        )
+                    );?>
                 </div>
             </div>
         </form>

@@ -5,7 +5,7 @@
         <legend>
             <?=Language::translate("VIEW_LOGIN_REGISTER_TITLE");?>
         </legend>
-        <form class="form-horizontal ajax" role="form" method="post" name="registerForm" id="registerForm" action="<?=Url::site("login/doRegister")?>">
+        <form class="form-horizontal ajax" role="form" method="post">
             <!-- Username -->
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">
@@ -36,10 +36,11 @@
             <!-- Buttons -->
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button class="btn btn-primary ladda-button" data-style="slide-left">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        <?=Language::translate("BTN_SUBMIT");?>
-                    </button>
+                    <?=HTML::formButton("btn-primary", "ok", Language::translate("BTN_SUBMIT"), array(
+                            "data-app" => "login",
+                            "data-action" => "doRegister"
+                        )
+                    );?>
                 </div>
             </div>
         </form>

@@ -88,15 +88,16 @@ class demoController extends Controller
      */
     public function delete()
     {
-        $demo = new Demo($_REQUEST['id']);
+        $url = Registry::getUrl();
+        $demo = new Demo($url->vars[0]);
         if ($demo->id) {
             //Delete Demo
             if ($demo->delete()) {
                 //Add success message
-                Registry::addMessage(Language::translate("CTRL_DEMO_DELETE_OK"), "success", "", Url::site("demo"));
+                Registry::addMessage(Language::translate("CTRL_DEMO_DELETE_OK"), "success");
             }
         }
-        //Show ajax JSON response
-        $this->ajax();
+        //Redirect
+        Url::redirect(Url::site("demo"));
     }
 }

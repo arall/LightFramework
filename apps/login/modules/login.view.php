@@ -9,7 +9,7 @@
                 </legend>
                 <?php $user = Registry::getUser(); ?>
                 <?php if (!$user->id) { ?>
-                    <form class="form-horizontal ajax" role="form" method="post" name="loginForm" id="loginForm" action="<?=Url::site("login/doLogin")?>">
+                    <form class="form-horizontal ajax" role="form" method="post">
                         <!-- Username -->
                         <div class="form-group">
                             <label for="login" class="col-sm-4 control-label">
@@ -31,11 +31,11 @@
                         <!-- Buttons -->
                         <div class="form-group">
                             <div class="col-sm-offset-4 col-sm-8">
-                                <button class="btn btn-primary ladda-button" data-style="slide-left">
-                                    <span class="ladda-label">
-                                        <?=Language::translate("BTN_LOGIN");?>
-                                    </span>
-                                </button>
+                                <?=HTML::formButton("btn-primary", null, Language::translate("VIEW_LOGIN_LOGIN_TITLE"), array(
+                                        "data-app" => "login",
+                                        "data-action" => "doLogin"
+                                    )
+                                );?>
                                 <a href="<?=Url::site("login/recovery");?>">
                                     <?=Language::translate("VIEW_LOGIN_LOGIN_RECOVERY");?>
                                 </a>
@@ -44,10 +44,7 @@
                     </form>
                 <?php } else { ?>
                     <h3>Hi there <?=$user->username?>! :)</h3>
-                    <a class="btn btn-primary ladda-button" data-style="slide-left" href="<?=Url::site("login/doLogout")?>">
-                        <span class="glyphicon glyphicon-off"></span>
-                        <?=Language::translate("BTN_LOGOUT");?>
-                    </a>
+                    <?=HTML::formLink("btn-primary", "off", Url::site("login/doLogout"), Language::translate("BTN_LOGOUT"));?>
                 <?php } ?>
             </fieldset>
         </div>

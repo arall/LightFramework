@@ -19,7 +19,7 @@ class usersController extends Controller
             Url::redirect(Url::site("login"));
         //User must be admin
         } elseif ($user->roleId<2) {
-            Url::redirect(Url::site());
+            Url::redirect();
         }
     }
 
@@ -89,15 +89,16 @@ class usersController extends Controller
      */
     public function delete()
     {
-        $user = new User($_REQUEST['id']);
+        $url = Registry::getUrl();
+        $user = new User($url->vars[0]);
         if ($user->id) {
             //Delete User
             if ($user->delete()) {
                 //Add success message
-                Registry::addMessage(Language::translate("CTRL_USERS_DELETE_OK"), "success", "", Url::site("admin/users"));
+                Registry::addMessage(Language::translate("CTRL_USERS_DELETE_OK"), "success");
             }
         }
-        //Show ajax JSON response
-        $this->ajax();
+        //Redirect
+        Url::redirect(Url::site("admin/users"));
     }
 }

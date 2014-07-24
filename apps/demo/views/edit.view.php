@@ -1,12 +1,52 @@
 <?php defined('_EXE') or die('Restricted access'); ?>
 
-<h1>
-    <span class="glyphicon glyphicon-star"></span>
-    <?=Language::translate("VIEW_DEMO_TITLE");?>
-    <small>
-        <?=$demo->id ? Language::translate("VIEW_DEMO_SUBTITLE_EDIT") : Language::translate("VIEW_DEMO_SUBTITLE_NEW");?>
-    </small>
-</h1>
+<?php
+//Edit / New
+if ($demo->id) {
+    $subtitle = Language::translate("VIEW_DEMO_SUBTITLE_EDIT");
+    $title = Language::translate("BTN_SAVE");
+} else {
+    $subtitle = Language::translate("VIEW_DEMO_SUBTITLE_NEW");
+    $title =  Language::translate("BTN_NEW");
+}
+//Toolbar
+Toolbar::addTitle(Language::translate("VIEW_DEMO_TITLE"), "glyphicon-user", $subtitle);
+if ($user->id) {
+    //Delete button
+    Toolbar::addButton(
+        array(
+            "title" => Language::translate("BTN_DELETE"),
+            "link" => Url::site("demo/delete/".$demo->id),
+            "class" => "danger",
+            "spanClass" => "remove",
+            "confirmation" => Language::translate("VIEW_USERS_CONFIRM_DELETE"),
+        )
+    );
+}
+//Cancel button
+Toolbar::addButton(
+    array(
+        "title" => Language::translate("BTN_CANCEL"),
+        "app" => "demo",
+        "action" => "index",
+        "class" => "primary",
+        "spanClass" => "chevron-left",
+        "noAjax" => true,
+    )
+);
+//Save button
+Toolbar::addButton(
+    array(
+        "title" => $title,
+        "app" => "demo",
+        "action" => "save",
+        "class" => "success",
+        "spanClass" => "ok",
+    )
+);
+//Render
+Toolbar::render();
+?>
 
 <div class="main">
     <form method="post" id="mainForm" action="<?=Url::site();?>" class="form-horizontal ajax" role="form" autocomplete="off">
@@ -27,25 +67,6 @@
                             </label>
                             <div class="col-sm-10">
                                 <input type="text" id="string" name="string" class="form-control" value="<?=Helper::sanitize($demo->string);?>">
-                            </div>
-                        </div>
-                        <!-- Buttons -->
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <?php if ($demo->id) { ?>
-                                    <button class="btn btn-danger ladda-label ladda-button delete" data-style="slide-left" confirm="<?=Language::translate("VIEW_DEMO_CONFIRM_DELETE")?>">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                        <?=Language::translate("BTN_DELETE");?>
-                                    </button>
-                                <?php } ?>
-                                <a class="btn btn-primary ladda-label ladda-button" data-style="slide-left" href="<?=Url::site("demo");?>">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <?=Language::translate("BTN_CANCEL");?>
-                                </a>
-                                <button class="btn btn-success ladda-label ladda-button" data-style="slide-left">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                    <?=$demo->id ? Language::translate("BTN_SAVE") : Language::translate("BTN_NEW");?>
-                                </button>
                             </div>
                         </div>
                     </div>

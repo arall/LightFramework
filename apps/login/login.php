@@ -48,7 +48,7 @@ class loginController extends Controller
      */
     public function sendRecovery()
     {
-        $user = current(User::getBy("email", $_REQUEST['email']));
+        $user = @current(User::getBy("email", $_REQUEST['email']));
         //User exists?
         if ($user->id) {
             //Send recovery email
@@ -58,7 +58,7 @@ class loginController extends Controller
             }
         }
         //Redirect to index
-        Url::redirect(Url::site());
+        Url::redirect();
     }
 
     /**
@@ -67,7 +67,7 @@ class loginController extends Controller
     public function restore()
     {
         $url = Registry::getUrl();
-        $user = current(User::getBy("recoveryHash", $url->vars[0]));
+        $user = @current(User::getBy("recoveryHash", $url->vars[0]));
         //User exists?
         if ($user->id) {
             //Setting data to View
@@ -78,7 +78,7 @@ class loginController extends Controller
             $this->render($html);
         } else {
             //Redirect to index
-            Url::redirect(Url::site());
+            Url::redirect();
         }
     }
 
@@ -87,7 +87,7 @@ class loginController extends Controller
      */
     public function changePassword()
     {
-        $user = current(User::getBy("recoveryHash", $_REQUEST["recoveryHash"]));
+        $user = @current(User::getBy("recoveryHash", $_REQUEST["recoveryHash"]));
         //User exists?
         if ($user->id) {
             //Check if passwords match
@@ -115,9 +115,9 @@ class loginController extends Controller
      */
     public function doLogin()
     {
-        $user = new User();
+        $user = User::login($_REQUEST['login'], $_REQUEST['password']);
         //Try to login
-        if ($user->login($_REQUEST['login'], $_REQUEST['password'])) {
+        if ($user->id) {
             //Add success message
             Registry::addMessage("", "", "", Url::site());
         } else {
@@ -133,11 +133,13 @@ class loginController extends Controller
      */
     public function doLogout()
     {
-        $user = new User();
-        //Logout
-        $user->logout();
+        $user = Registry::getUser();
+        if ($user->id) {
+            //Logout
+            $user->logout();
+        }
         //Redirect to index
-        Url::redirect(Url::site());
+        Url::redirect();
     }
 
     /**
