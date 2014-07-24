@@ -22,9 +22,6 @@ Toolbar::render();
     <form method="post" id="mainForm" name="mainForm" action="<?=Url::site()?>">
         <input type="hidden" name="app" id="app" value="demo">
         <input type="hidden" name="action" id="action" value="">
-        <!-- Sortable -->
-        <?=Helper::sortInputs();?>
-        <?=Helper::paginationInputs();?>
         <!-- Filters -->
         <div class="row filters">
             <!-- Search -->
@@ -38,11 +35,11 @@ Toolbar::render();
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><?=Helper::sortableLink("demo.id", Language::translate("VIEW_DEMO_FIELDS_ID"));?></th>
-                            <th><?=Helper::sortableLink("demo.string", Language::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
-                            <th><?=Helper::sortableLink("user.userId", Language::translate("VIEW_DEMO_FIELDS_USER"));?></th>
-                            <th><?=Helper::sortableLink("demo.dateInsert", Language::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
-                            <th><?=Helper::sortableLink("demo.dateUpdate", Language::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
+                            <th><?=Html::sortableLink("demo.id", Language::translate("VIEW_DEMO_FIELDS_ID"));?></th>
+                            <th><?=Html::sortableLink("demo.string", Language::translate("VIEW_DEMO_FIELDS_STRING"));?></th>
+                            <th><?=Html::sortableLink("user.userId", Language::translate("VIEW_DEMO_FIELDS_USER"));?></th>
+                            <th><?=Html::sortableLink("demo.dateInsert", Language::translate("VIEW_DEMO_FIELDS_DATEINSERT"));?></th>
+                            <th><?=Html::sortableLink("demo.dateUpdate", Language::translate("VIEW_DEMO_FIELDS_DATEUPDATE"));?></th>
                             <th></th>
                         </tr>
                     </thead>

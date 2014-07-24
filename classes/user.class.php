@@ -108,6 +108,7 @@ class User extends Model
 
     /**
      * Reserved vars (not at database table)
+     *
      * @var array
      */
     public static $reservedVarsChild = array("roles", "statuses", "statusesCss");
@@ -334,8 +335,21 @@ class User extends Model
         $db = Registry::getDb();
         //Query
         $query = "SELECT * FROM `users` WHERE 1=1 ";
+        $params = array();
+        //Where
+        //Search
+        if ($data["search"]) {
+            $query .= "AND (`username` LIKE :username OR `email` LIKE :email )";
+            $params[":username"] = "%".$data["search"]."%";
+            $params[":email"] = "%".$data["search"]."%";
+        }
+        //Status
+        if (isset($data["statusId"]) && $data["statusId"]!="-1") {
+            $query .= " AND `statusId` = :statusId ";
+            $params[":statusId"] = $data["statusId"];
+        }
         //Total
-        $total = count($db->Query($query));
+        $total = count($db->Query($query, $params));
         if ($total) {
             //Order
             if ($data['order'] && $data['orderDir']) {
@@ -349,7 +363,7 @@ class User extends Model
             if ($limit) {
                 $query .= " LIMIT ".(int) $limitStart.", ".(int) $limit;
             }
-            $rows = $db->Query($query);
+            $rows = $db->Query($query, $params);
             if (count($rows)) {
                 $results = array();
                 foreach ($rows as $row) {

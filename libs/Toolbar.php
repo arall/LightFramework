@@ -17,6 +17,13 @@ class Toolbar
      */
     private static $buttons = NULL;
 
+    /**
+     * Add Title
+     *
+     * @param string $title
+     * @param string $class
+     * @param string $subtitle
+     */
     public static function addTitle($title, $class=null, $subtitle=null)
     {
         self::$title = array(
@@ -26,11 +33,21 @@ class Toolbar
         );
     }
 
+    /**
+     * Add Button
+     *
+     * @param array $params
+     */
     public static function addButton($params = array())
     {
         self::$buttons[] = $params;
     }
 
+    /**
+     * Toolbar render
+     *
+     * @return string
+     */
     public static function render()
     {
         $title = self::$title;

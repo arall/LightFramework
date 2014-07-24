@@ -5,7 +5,16 @@
  */
 class HTML
 {
-
+    /**
+     * Form button
+     *
+     * @param string $class
+     * @param string $spanClass
+     * @param string $display
+     * @param array  $options
+     *
+     * @return string
+     */
     public static function formButton($class = null, $spanClass = null, $display = null, $options = array())
     {
         //Link
@@ -35,6 +44,18 @@ class HTML
         return $html;
     }
 
+    /**
+     * Form Link
+     *
+     * @param string $class
+     * @param string $spanClass
+     * @param string $href
+     * @param string $display
+     * @param array  $options
+     * @param string $confirmation
+     *
+     * @return string
+     */
     public static function formLink($class = null, $spanClass = null, $href = null, $display = null, $options = array(), $confirmation = null)
     {
         //Href
@@ -47,33 +68,23 @@ class HTML
         return self::formButton($class, $spanClass, $display, $options);
     }
 
+    /**
+     * Select Element
+     *
+     * @param string $name
+     * @param array  $list
+     * @param string $selected
+     * @param array  $options
+     * @param array  $firstOption
+     * @param array  $classOptions
+     *
+     * @return string
+     */
     public static function select($name, $list = array(), $selected = null, $options = array(), $firstOption = array(), $classOptions = array())
     {
-        //Selected value
-        $selectedArray = array();
-        if (is_array($selected)) {
-            if (!empty($selected)) {
-                foreach ($selected as $s) {
-                    $selectedArray[$s] = "selected";
-                }
-            }
-        } else {
-            $selectedArray[$selected] = "selected";
-        }
-
         //Object
         if (is_object($list[0])) {
-            //Default Id
-            if ( ! isset($classOptions['id'])) $classOptions['id'] = "id";
-            if ( ! isset($classOptions['display'])) $classOptions['display'] = "name";
-            //New array list
-            $newList = array();
-            foreach ($list as $object) {
-                $display = $object->$classOptions['display'];
-                $newList[(string) $object->$classOptions['id']] = $display;
-            }
-            $list = $newList;
-            unset($newList);
+            $list = self::objectsToArray($list[0], $classOptions['id'], $classOptions['display']);
         }
 
         //Select
@@ -93,19 +104,11 @@ class HTML
 
         //First Option
         if (!empty($firstOption)) {
-            if ( ! isset($firstOption['id'])) $firstOption['id'] = 0;
-            if ( ! isset($firstOption['display'])) $firstOption['display'] = "Selecciona una opción";
-            $html .= "<option value='".Helper::sanitize($firstOption["id"])."'>".Helper::sanitize($firstOption["display"])."</option>\n";
+            $html .= self::selectAddOption($firstOption["id"], $firstOption["display"]);
         }
+
         //Options
-        foreach ($list as $value => $display) {
-            //Translation?
-            $translated = Language::translate($display);
-            if ($display!=$translated) {
-                $display = $translated;
-            }
-            $html .= "<option value='".Helper::sanitize($value)."' ".$selectedArray[$value].">".Helper::sanitize($display)."</option>\n";
-        }
+        $html .= self::selectAddOptions($list, $selected);
 
         //Select
         $html .= "</select>";
@@ -113,12 +116,87 @@ class HTML
         return $html;
     }
 
+    /**
+     * Select: Add Options
+     *
+     * @param array  $list
+     * @param string $selectedValue
+     *
+     * @return string
+     */
+    protected static function selectAddOptions($list, $selectedValue = null)
+    {
+        $html = "";
+        foreach ($list as $value => $display) {
+            //Translation?
+            $translated = Language::translate($display);
+            if ($display!=$translated) {
+                $display = $translated;
+            }
+            $html .= self::selectAddOption($value, $display, ($selectedValue == $value && $selectedValue!=null));
+        }
+
+        return $html;
+    }
+
+    /**
+     * Select: Add Option
+     *
+     * @param string $value
+     * @param string $display
+     * @param bool   $selected
+     *
+     * @return string
+     */
+    protected static function selectAddOption($value, $display, $selected = null)
+    {
+        //Translation?
+        $translated = Language::translate($display);
+        if ($display!=$translated) {
+            $display = $translated;
+        }
+        //Selected?
+        if ($selected) {
+            $selected = "selected";
+        }
+
+        return "<option value='".Helper::sanitize($value)."' ".$selected.">".Helper::sanitize($display)."</option>\n";
+    }
+
+    /**
+     * Object array to array
+     *
+     * @param array  $objects
+     * @param string $id      Key var
+     * @param string $display Display var
+     *
+     * @return string
+     */
+    protected static function objectsToArray($objects, $id = null, $display = null)
+    {
+        //Default Id
+        if (!$id) $id = "id";
+        if (!$display) $display = "name";
+        //New array list
+        $newList = array();
+        foreach ($objects as $object) {
+            $newList[(string) $object->$id] = $object->$display;
+        }
+
+        return $newList;
+    }
+
+    /**
+     * Search input
+     *
+     * @return string
+     */
     public static function search()
     {
         return '<div class="input-group">
                     <input type="text" class="form-control" name="search" value="'.Helper::sanitize($_REQUEST["search"]).'">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">Buscar</button>
+                        <button class="btn btn-default" type="submit">'.Language::translate("GENERAL_SEARCH").'</button>
                     </span>
                 </div>';
     }
@@ -126,8 +204,9 @@ class HTML
     /**
      * Make a sortable link for a table in a form
      *
-     * @param  string $field Database Field
-     * @param  string $text  Text
+     * @param string $field Database Field
+     * @param string $text  Text
+     *
      * @return string HTML Link
      */
     public function sortableLink($field="", $text="")
@@ -150,27 +229,12 @@ class HTML
     }
 
     /**
-     * Make a sort inputs.
+     * Attribute builder
      *
-     * @return string HTML form inputs
-     */
-    public function sortInputs()
-    {
-        return "<input type='hidden' name='order' value='".Helper::sanitize($_REQUEST["order"])."'>
-            <input type='hidden' name='orderDir' value='".Helper::sanitize($_REQUEST["orderDir"])."'>";
-    }
-
-    /**
-     * Make a pagination form inputs.
+     * @param array $options
      *
-     * @return string HTML inputs
+     * @return string
      */
-    public function paginationInputs()
-    {
-        return "<input type='hidden' name='limit' value='".Helper::sanitize($_REQUEST["limit"])."'>
-            <input type='hidden' name='limitStart' value='".Helper::sanitize($_REQUEST["limitStart"])."'>";
-    }
-
     protected static function buildAttributes($options = array())
     {
         $html = "";

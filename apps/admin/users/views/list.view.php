@@ -23,9 +23,6 @@ Toolbar::render();
         <input type="hidden" name="router" id="router" value="admin">
         <input type="hidden" name="app" id="app" value="users">
         <input type="hidden" name="action" id="action" value="">
-        <!-- Sortable -->
-        <?=Helper::sortInputs();?>
-        <?=Helper::paginationInputs();?>
         <!-- Filters -->
         <div class="row filters">
             <!-- Search -->
@@ -44,13 +41,13 @@ Toolbar::render();
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th><?=Helper::sortableLink("id", Language::translate("VIEW_USERS_FIELDS_ID"));?></th>
-                            <th><?=Helper::sortableLink("username", Language::translate("VIEW_USERS_FIELDS_USERNAME"));?></th>
-                            <th><?=Helper::sortableLink("statusId", Language::translate("VIEW_USERS_FIELDS_STATUS"));?></th>
-                            <th><?=Helper::sortableLink("roleId", Language::translate("VIEW_USERS_FIELDS_ROLE"));?></th>
-                            <th><?=Helper::sortableLink("email", Language::translate("VIEW_USERS_FIELDS_EMAIL"));?></th>
-                            <th><?=Helper::sortableLink("dateInsert", Language::translate("VIEW_USERS_FIELDS_DATEINSERT"));?></th>
-                            <th><?=Helper::sortableLink("dateUpdate", Language::translate("VIEW_USERS_FIELDS_DATEUPDATE"));?></th>
+                            <th><?=Html::sortableLink("id", Language::translate("VIEW_USERS_FIELDS_ID"));?></th>
+                            <th><?=Html::sortableLink("username", Language::translate("VIEW_USERS_FIELDS_USERNAME"));?></th>
+                            <th><?=Html::sortableLink("statusId", Language::translate("VIEW_USERS_FIELDS_STATUS"));?></th>
+                            <th><?=Html::sortableLink("roleId", Language::translate("VIEW_USERS_FIELDS_ROLE"));?></th>
+                            <th><?=Html::sortableLink("email", Language::translate("VIEW_USERS_FIELDS_EMAIL"));?></th>
+                            <th><?=Html::sortableLink("dateInsert", Language::translate("VIEW_USERS_FIELDS_DATEINSERT"));?></th>
+                            <th><?=Html::sortableLink("dateUpdate", Language::translate("VIEW_USERS_FIELDS_DATEUPDATE"));?></th>
                             <th></th>
                         </tr>
                     </thead>
