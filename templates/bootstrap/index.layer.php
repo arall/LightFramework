@@ -36,6 +36,7 @@
         <script src="<?=Url::template("js/spin.min.js");?>" type="text/javascript"></script>
         <script src="<?=Url::template("js/ladda.min.js");?>" type="text/javascript"></script>
         <!-- Framework JS -->
+        <script src="<?=Url::template("js/lightFramework.js");?>" type="text/javascript"></script>
         <script src="<?=Url::template("js/init.js");?>" type="text/javascript"></script>
         <!--/javascript-->
         <link rel="shortcut icon" href="<?=Url::template("img/favicon.png")?>">

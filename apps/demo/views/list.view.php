@@ -22,6 +22,10 @@ Toolbar::render();
     <form method="post" id="mainForm" name="mainForm" action="<?=Url::site()?>">
         <input type="hidden" name="app" id="app" value="demo">
         <input type="hidden" name="action" id="action" value="">
+        <!-- Sortable Fields-->
+        <?=Html::sortInputs();?>
+        <!-- Pagination Fields -->
+        <?=Html::paginationInputs();?>
         <!-- Filters -->
         <div class="row filters">
             <!-- Search -->

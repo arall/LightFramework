@@ -70,7 +70,6 @@ class Toolbar
                                 "id" => $button['id'],
                                 "data-app" => $button['app'],
                                 "data-action" => $button['action'],
-                                "data-requireIds" => $button['requireIds'],
                                 "data-confirmation" => $button['confirmation'],
                                 "data-ajax" => $button['ajax'],
                                 "data-noAjax" => $button['noAjax'],

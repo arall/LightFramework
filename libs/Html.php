@@ -11,22 +11,22 @@ class HTML
      * @param string $class
      * @param string $spanClass
      * @param string $display
-     * @param array  $options
+     * @param array  $attributes
      *
      * @return string
      */
-    public static function formButton($class = null, $spanClass = null, $display = null, $options = array())
+    public static function formButton($class = null, $spanClass = null, $display = null, $attributes = array())
     {
         //Link
         $html = "<button";
 
         //Default Bootstrap Class
-        $options["class"] .= $class." btn ladda-button formButton";
+        $attributes["class"] .= $class." btn ladda-button formButton";
         //Default Ladda
-        $options["data-style"] = "slide-left";
+        $attributes["data-style"] = "slide-left";
 
         //Attributes
-        $html .= self::buildAttributes($options);
+        $html .= self::buildAttributes($attributes);
 
         //Link
         $html .= ">";
@@ -51,21 +51,21 @@ class HTML
      * @param string $spanClass
      * @param string $href
      * @param string $display
-     * @param array  $options
+     * @param array  $attributes
      * @param string $confirmation
      *
      * @return string
      */
-    public static function formLink($class = null, $spanClass = null, $href = null, $display = null, $options = array(), $confirmation = null)
+    public static function formLink($class = null, $spanClass = null, $href = null, $display = null, $attributes = array(), $confirmation = null)
     {
         //Href
-        $options["data-link"] = $href;
+        $attributes["data-link"] = $href;
         //Confirm
         if (isset($confirmation)) {
-            $options["data-confirmation"] = Helper::sanitize($confirmation);
+            $attributes["data-confirmation"] = Helper::sanitize($confirmation);
         }
         //Form Button
-        return self::formButton($class, $spanClass, $display, $options);
+        return self::formButton($class, $spanClass, $display, $attributes);
     }
 
     /**
@@ -74,13 +74,13 @@ class HTML
      * @param string $name
      * @param array  $list
      * @param string $selected
-     * @param array  $options
+     * @param array  $attributes
      * @param array  $firstOption
      * @param array  $classOptions
      *
      * @return string
      */
-    public static function select($name, $list = array(), $selected = null, $options = array(), $firstOption = array(), $classOptions = array())
+    public static function select($name, $list = array(), $selected = null, $attributes = array(), $firstOption = array(), $classOptions = array())
     {
         //Object
         if (is_object($list[0])) {
@@ -91,13 +91,13 @@ class HTML
         $html = "<select";
 
         //Default Bootstrap Class
-        $options["class"] .= " form-control";
+        $attributes["class"] .= " form-control";
 
         //Name
-        if ( ! isset($options['name'])) $options['name'] = $name;
+        if ( ! isset($attributes['name'])) $attributes['name'] = $name;
 
         //Attributes
-        $html .= self::buildAttributes($options);
+        $html .= self::buildAttributes($attributes);
 
         //Select
         $html .= ">";
@@ -204,16 +204,15 @@ class HTML
     /**
      * Make a sortable link for a table in a form
      *
-     * @param string $field Database Field
-     * @param string $text  Text
+     * @param string $sortableField Database Field
+     * @param string $text          Text
      *
      * @return string HTML Link
      */
-    public function sortableLink($field="", $text="")
+    public function sortableLink($sortableField = "", $text = "")
     {
-        $order = $field;
         $orderDir = "ASC";
-        if ($_REQUEST['order']==$field) {
+        if ($_REQUEST['order']==$sortableField) {
              $cssClass = "sort-by-attributes-alt";
             if ($_REQUEST['orderDir']=="ASC") {
                 $orderDir = "DESC";
@@ -222,10 +221,32 @@ class HTML
         }
 
         return
-            "<a href='#' class='sortable' data-order='".Helper::sanitize($order)."' data-orderDir='".Helper::sanitize($orderDir)."'>
+            "<a href='#' class='sortable' data-order='".Helper::sanitize($sortableField)."' data-orderDir='".Helper::sanitize($orderDir)."'>
                 ".Helper::sanitize($text)."
                 <span class='glyphicon glyphicon-".Helper::sanitize($cssClass)."'></span>
             </a>";
+    }
+
+    /**
+     * Make a sort inputs.
+     *
+     * @return string HTML form inputs
+     */
+    public function sortInputs()
+    {
+        return "<input type='hidden' name='order' value='".Helper::sanitize($_REQUEST["order"])."'>
+                <input type='hidden' name='orderDir' value='".Helper::sanitize($_REQUEST["orderDir"])."'>";
+    }
+
+    /**
+     * Make a pagination form inputs.
+     *
+     * @return string HTML inputs
+     */
+    public function paginationInputs()
+    {
+        return "<input type='hidden' name='limit' value='".Helper::sanitize($_REQUEST["limit"])."'>
+                <input type='hidden' name='limitStart' value='".Helper::sanitize($_REQUEST["limitStart"])."'>";
     }
 
     /**

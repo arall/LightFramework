@@ -23,6 +23,10 @@ Toolbar::render();
         <input type="hidden" name="router" id="router" value="admin">
         <input type="hidden" name="app" id="app" value="users">
         <input type="hidden" name="action" id="action" value="">
+        <!-- Sortable Fields-->
+        <?=Html::sortInputs();?>
+        <!-- Pagination Fields -->
+        <?=Html::paginationInputs();?>
         <!-- Filters -->
         <div class="row filters">
             <!-- Search -->
