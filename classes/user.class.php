@@ -334,22 +334,25 @@ class User extends Model
     {
         $db = Registry::getDb();
         //Query
-        $query = "SELECT * FROM `users` WHERE 1=1 ";
+        $query = "SELECT * FROM `users` ";
         $params = array();
         //Where
+        $where = " WHERE 1=1 ";
         //Search
         if ($data["search"]) {
-            $query .= "AND (`username` LIKE :username OR `email` LIKE :email )";
+            $where .= "AND (`username` LIKE :username OR `email` LIKE :email )";
             $params[":username"] = "%".$data["search"]."%";
             $params[":email"] = "%".$data["search"]."%";
         }
         //Status
         if (isset($data["statusId"]) && $data["statusId"]!="-1") {
-            $query .= " AND `statusId` = :statusId ";
+            $where .= " AND `statusId` = :statusId ";
             $params[":statusId"] = $data["statusId"];
         }
+        $query .= $where;
         //Total
-        $total = count($db->Query($query, $params));
+        $totalQuery = "SELECT count(*) FROM `users` ".$where;
+        $total = count($db->Query($totalQuery, $params));
         if ($total) {
             //Order
             if ($data['order'] && $data['orderDir']) {
