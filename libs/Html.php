@@ -133,7 +133,7 @@ class HTML
             if ($display!=$translated) {
                 $display = $translated;
             }
-            $html .= self::selectAddOption($value, $display, ($selectedValue == $value && $selectedValue!=null));
+            $html .= self::selectAddOption($value, $display, ($selectedValue == $value && $selectedValue!=null || @in_array($value, $selectedValue)));
         }
 
         return $html;
