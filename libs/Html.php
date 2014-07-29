@@ -84,7 +84,7 @@ class HTML
     {
         //Object
         if (is_object($list[0])) {
-            $list = self::objectsToArray($list[0], $classOptions['id'], $classOptions['display']);
+            $list = self::objectsToArray($list, $classOptions['id'], $classOptions['display']);
         }
 
         //Select
