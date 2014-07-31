@@ -86,7 +86,7 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td valign="middle" width="520">
-                                                                                        <div style="color:#b3b3b3;font-family:Helvetica,Arial;font-size:11px;line-height:125%;text-align:center">LightFramework <?=date("Y");?></div>
+                                                                                        <div style="color:#b3b3b3;font-family:Helvetica,Arial;font-size:11px;line-height:125%;text-align:center"><?=$config->get("title");?> <?=date("Y");?></div>
                                                                                         <br>
                                                                                     </td>
                                                                                 </tr>
