@@ -28,7 +28,7 @@
             <!-- Buttons -->
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <?=HTML::formButton("btn-primary", "ok", Language::translate("BTN_SAVE"), array(
+                    <?=Html::formButton("btn-primary", "ok", Language::translate("BTN_SAVE"), array(
                             "data-app" => "login",
                             "data-action" => "changePassword"
                         )

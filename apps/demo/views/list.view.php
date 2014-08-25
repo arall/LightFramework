@@ -30,7 +30,7 @@ Toolbar::render();
         <div class="row filters">
             <!-- Search -->
             <div class="col-sm-3 col-xs-6 filter">
-                <?=HTML::search();?>
+                <?=Html::search();?>
             </div>
         </div>
         <!-- Results -->
@@ -66,8 +66,8 @@ Toolbar::render();
                                 <td><?=Helper::humanDate($demo->dateInsert);?></td>
                                 <td><?=Helper::humanDate($demo->dateUpdate);?></td>
                                 <td>
-                                    <?=HTML::formLink("btn-xs btn-primary", "pencil", Url::site("demo/edit/".$demo->id)); ?>
-                                    <?=HTML::formLink("btn-xs btn-danger", "remove", Url::site("demo/delete/".$demo->id), null, null, Language::translate("VIEW_DEMO_CONFIRM_DELETE")); ?>
+                                    <?=Html::formLink("btn-xs btn-primary", "pencil", Url::site("demo/edit/".$demo->id)); ?>
+                                    <?=Html::formLink("btn-xs btn-danger", "remove", Url::site("demo/delete/".$demo->id), null, null, Language::translate("VIEW_DEMO_CONFIRM_DELETE")); ?>
                                 </td>
                             </tr>
                         <?php } ?>

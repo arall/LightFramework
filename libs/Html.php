@@ -3,7 +3,7 @@
 /**
  * HTML helper Class
  */
-class HTML
+class Html
 {
     /**
      * Form button

@@ -66,7 +66,7 @@ class Toolbar
             <div class="tools">
                 <?php if (count($buttons)) { ?>
                     <?php foreach ($buttons as $button) { ?>
-                        <?=HTML::formButton("btn-".$button['class'], $button['spanClass'], $button['title'], array(
+                        <?=Html::formButton("btn-".$button['class'], $button['spanClass'], $button['title'], array(
                                 "id" => $button['id'],
                                 "data-app" => $button['app'],
                                 "data-action" => $button['action'],

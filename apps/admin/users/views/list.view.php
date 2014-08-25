@@ -31,12 +31,12 @@ Toolbar::render();
         <div class="row filters">
             <!-- Search -->
             <div class="col-sm-3 col-xs-6 filter">
-                <?=HTML::search();?>
+                <?=Html::search();?>
             </div>
             <!-- Status -->
             <div class="col-sm-3 col-xs-6 col-md-2 filter">
                 <?php $userNull = new User(); ?>
-                <?=HTML::select("statusId", $userNull->statuses, $_REQUEST["statusId"], array("class" => "change-submit"), array("id" => "-1", "display" => Language::translate("VIEW_USERS_FIELDS_STATUS"))); ?>
+                <?=Html::select("statusId", $userNull->statuses, $_REQUEST["statusId"], array("class" => "change-submit"), array("id" => "-1", "display" => Language::translate("VIEW_USERS_FIELDS_STATUS"))); ?>
             </div>
         </div>
         <!-- Results -->
@@ -74,8 +74,8 @@ Toolbar::render();
                                 <td><?=Helper::humanDate($user->dateInsert);?></td>
                                 <td><?=Helper::humanDate($user->dateUpdate);?></td>
                                 <td>
-                                    <?=HTML::formLink("btn-xs btn-primary", "pencil", Url::site("admin/users/edit/".$user->id)); ?>
-                                    <?=HTML::formLink("btn-xs btn-danger", "remove", Url::site("admin/users/delete/".$user->id), null, null, Language::translate("VIEW_USERS_CONFIRM_DELETE")); ?>
+                                    <?=Html::formLink("btn-xs btn-primary", "pencil", Url::site("admin/users/edit/".$user->id)); ?>
+                                    <?=Html::formLink("btn-xs btn-danger", "remove", Url::site("admin/users/delete/".$user->id), null, null, Language::translate("VIEW_USERS_CONFIRM_DELETE")); ?>
                                 </td>
                             </tr>
                         <?php } ?>

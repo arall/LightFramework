@@ -21,7 +21,7 @@
             <!-- Buttons -->
             <div class="form-group">
                 <div class="col-sm-offset-1 col-sm-10">
-                    <?=HTML::formButton("btn-primary", "ok", Language::translate("BTN_SUBMIT"), array(
+                    <?=Html::formButton("btn-primary", "ok", Language::translate("BTN_SUBMIT"), array(
                             "data-app" => "login",
                             "data-action" => "sendRecovery",
                             "data-noAjax" => true,

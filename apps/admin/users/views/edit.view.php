@@ -77,7 +77,7 @@ Toolbar::render();
                                 <?=Language::translate("VIEW_USERS_FIELDS_ROLE");?>
                             </label>
                             <div class="col-sm-10">
-                                <?=HTML::select("roleId", $user->roles, $user->roleId, array("id" => "roleId")); ?>
+                                <?=Html::select("roleId", $user->roles, $user->roleId, array("id" => "roleId")); ?>
                             </div>
                         </div>
                         <div class="form-group">
@@ -109,7 +109,7 @@ Toolbar::render();
                                 <?=Language::translate("VIEW_USERS_FIELDS_LANGUAGE");?>
                             </label>
                             <div class="col-sm-10">
-                                <?=HTML::select("language", Language::getLanguages(), $user->language, array("id" => "language")); ?>
+                                <?=Html::select("language", Language::getLanguages(), $user->language, array("id" => "language")); ?>
                             </div>
                         </div>
                     </div>

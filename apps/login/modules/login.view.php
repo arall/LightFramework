@@ -31,7 +31,7 @@
                         <!-- Buttons -->
                         <div class="form-group">
                             <div class="col-sm-offset-4 col-sm-8">
-                                <?=HTML::formButton("btn-primary", null, Language::translate("VIEW_LOGIN_LOGIN_TITLE"), array(
+                                <?=Html::formButton("btn-primary", null, Language::translate("VIEW_LOGIN_LOGIN_TITLE"), array(
                                         "data-app" => "login",
                                         "data-action" => "doLogin"
                                     )
@@ -44,7 +44,7 @@
                     </form>
                 <?php } else { ?>
                     <h3>Hi there <?=$user->username?>! :)</h3>
-                    <?=HTML::formLink("btn-primary", "off", Url::site("login/doLogout"), Language::translate("BTN_LOGOUT"));?>
+                    <?=Html::formLink("btn-primary", "off", Url::site("login/doLogout"), Language::translate("BTN_LOGOUT"));?>
                 <?php } ?>
             </fieldset>
         </div>

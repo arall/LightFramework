@@ -73,7 +73,7 @@ Toolbar::render();
                                 <?=Language::translate("VIEW_ACCOUNT_FIELDS_LANGUAGE");?>
                             </label>
                             <div class="col-sm-10">
-                                <?=HTML::select("language", Language::getLanguages(), $user->language, array("id" => "language")); ?>
+                                <?=Html::select("language", Language::getLanguages(), $user->language, array("id" => "language")); ?>
                             </div>
                         </div>
                     </div>
