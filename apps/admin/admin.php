@@ -2,7 +2,7 @@
 //No direct access
 defined('_EXE') or die('Restricted access');
 
-class adminControllerRouter extends Controller
+class adminControllerRouter extends ControllerRouter
 {
     public function init()
     {

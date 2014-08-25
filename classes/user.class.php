@@ -351,7 +351,7 @@ class User extends Model
         }
         $query .= $where;
         //Total
-        $totalQuery = "SELECT count(*) FROM `users` ".$where;
+        $totalQuery = "SELECT * FROM `users` ".$where;
         $total = count($db->Query($totalQuery, $params));
         if ($total) {
             //Order
