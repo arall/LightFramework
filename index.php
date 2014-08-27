@@ -4,10 +4,12 @@
 define("_EXE", 1);
 
 //Configuration
-include 'config.php';
+file_exists("config.php") OR die("Can't find config.php");
+include "config.php";
 
 //Composer autoload
-require 'vendor/autoload.php';
+file_exists("vendor/autoload.php") OR die("Composer required");
+require "vendor/autoload.php";
 
 //Language init
 $language = new Language();
