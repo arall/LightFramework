@@ -27,11 +27,9 @@ if ($user->id) {
 Toolbar::addButton(
     array(
         "title" => Language::translate("BTN_CANCEL"),
-        "app" => "demo",
-        "action" => "index",
+        "link" => Url::site("demo"),
         "class" => "primary",
         "spanClass" => "chevron-left",
-        "noAjax" => true,
     )
 );
 //Save button
