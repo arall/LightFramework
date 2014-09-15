@@ -32,9 +32,6 @@ $(document).on('submit', '.ajax', function(e){
 							document.location.href = messages[x].url;
 						//Message without field
 						}else{
-							if(messages[x].type=="error"){
-								messages[x].type = "danger";
-							}
 							$("#mensajes-sys").append('<div class="alert alert-' + messages[x].type + '"><button type="button" class="close" data-dismiss="alert">&times;</button>' + messages[x].message + '</div>');
 							$('html,body').animate({ scrollTop: 0 }, 'slow');
 						}

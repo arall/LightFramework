@@ -151,7 +151,7 @@ class User extends Model
      *
      * @return string Role
      */
-    public function getRoleString($roleId=0)
+    public function getRoleString($roleId = 0)
     {
         if (!$roleId) {
             $roleId = $this->roleId;
@@ -212,7 +212,7 @@ class User extends Model
      *
      * @return void
      */
-    public function preInsert($data=array())
+    public function preInsert($data = array())
     {
         $config = Registry::getConfig();
         //Default Language
@@ -246,7 +246,7 @@ class User extends Model
      *
      * @return void
      */
-    public function preUpdate($data=array())
+    public function preUpdate($data = array())
     {
         //Prevent blank password override
         if ($data['password']) {
@@ -265,14 +265,14 @@ class User extends Model
      *
      * @param string $login      Username or email
      * @param string $password   Plain password
-     * @param int    $expiration Expiration in Seconds
+     * @param int    $expiration Expiration in seconds
      *
      * @return bool
      */
-    public static function login($login, $password, $expiration=7200)
+    public static function login($login, $password, $expiration = 7200)
     {
         $db = Registry::getDb();
-        $rows = $db->query("SELECT * FROM `users` WHERE (username=:username OR email=:email) AND password=:password",
+        $rows = $db->query("SELECT * FROM `users` WHERE (`username` = :username OR `email` = :email) AND `statusId` = 1 AND `password` = :password",
             array(
                 ":email" => $login,
                 ":username" => $login,
@@ -282,15 +282,26 @@ class User extends Model
         if ($rows) {
             $user = new User($rows[0]);
             //Set Cookie
-            $user->token = bin2hex(openssl_random_pseudo_bytes(16));
-            $config = Registry::getConfig();
-            setcookie($config->get("cookie"), $user->token, time() + $expiration, "/");
+            $user->auth($expiration);
             //Update lastVisitDate
             $user->lastvisitDate = date("Y-m-d H:i:s");
             $user->update();
 
             return $user;
         }
+    }
+
+    /**
+     * User authentication with cookie
+     * @param  integer $expiration Expiration in seconds
+     * @return void
+     */
+    public function auth($expiration = 7200)
+    {
+        $this->setToken();
+        $config = Registry::getConfig();
+
+        setcookie($config->get("cookie"), $this->token, time() + $expiration, "/");
     }
 
     /**
@@ -315,7 +326,7 @@ class User extends Model
      *
      * @return string Encrypted password
      */
-    public static function encrypt($password="")
+    public static function encrypt($password = "")
     {
         return md5(sha1(trim($password)));
     }
@@ -330,7 +341,7 @@ class User extends Model
      *
      * @return array Objects found
      */
-    public static function select($data=array(), $limit=0, $limitStart=0, &$total=null)
+    public static function select($data = array(), $limit = 0, $limitStart = 0, &$total = null)
     {
         $db = Registry::getDb();
         //Query
@@ -403,5 +414,21 @@ class User extends Model
         } else {
             Registry::addMessage(Language::translate("MODL_USER_RECOVERY_EMAIL_ERROR"), "error");
         }
+    }
+
+    /**
+     * Set user token
+     */
+    private function setToken()
+    {
+        if (!$this->token) {
+            if (is_callable('openssl_random_pseudo_bytes')) {
+                $this->token = bin2hex(openssl_random_pseudo_bytes(16));
+            } else {
+                $this->token = md5(uniqid('', true));
+            }
+        }
+
+        return $this->token;
     }
 }
