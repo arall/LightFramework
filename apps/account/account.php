@@ -1,5 +1,5 @@
 <?php
-//No direct access
+// No direct access
 defined('_EXE') or die('Restricted access');
 
 /**
@@ -13,7 +13,8 @@ class accountController extends Controller
     public function init()
     {
         $user = Registry::getUser();
-        //User must be logged
+
+        // User must be logged
         if (!$user->id) {
             Url::redirect(Url::site("login"));
         }
@@ -24,7 +25,7 @@ class accountController extends Controller
      */
     public function index()
     {
-        //Load Edit form view
+        // Load Edit form view
         $this->edit();
     }
 
@@ -33,9 +34,10 @@ class accountController extends Controller
      */
     public function edit()
     {
-        //Load View to Template var
+        // Load View to Template var
         $html = $this->view("views.edit");
-        //Render the Template
+
+        // Render the Template
         $this->render($html);
     }
 
@@ -45,16 +47,20 @@ class accountController extends Controller
     public function save()
     {
         $user = Registry::getUser();
-        //Prevent role escalation
+
+        // Prevent role escalation
         $_REQUEST['roleId'] = $user->roleId;
-        //Prevent status change
+
+        // Prevent status change
         $_REQUEST['statusId'] = $user->statusId;
-        //Update User
+
+        // Update User
         if ($user->update($_REQUEST)) {
-            //Add success message
+            // Add success message
             Registry::addMessage(Language::translate("CTRL_ACCOUNT_UPDATED_OK"), "success", "", Url::site());
         }
-        //Show ajax JSON response
+
+        // Show ajax JSON response
         $this->ajax();
     }
 }

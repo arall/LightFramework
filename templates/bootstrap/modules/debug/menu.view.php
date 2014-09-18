@@ -4,6 +4,8 @@
 <?php $config = Registry::getConfig(); ?>
 <?php if ($config->get("debug")) { ?>
     <?php $debug = Registry::getDebug(); ?>
+    <!-- Session Debug Modal -->
+    <?=$controller->view("modules.debug.modalSession");?>
     <!-- Current Queries Debug Modal -->
     <?php $controller->setData("debug", $debug); ?>
     <?php $controller->setData("debugModalId", "Current"); ?>
@@ -14,15 +16,6 @@
         <?php $controller->setData("debugModalId", "Last"); ?>
         <?=$controller->view("modules.debug.modalQueries");?>
     <?php } ?>
-    <!-- Session Debug Modal -->
-    <?=$controller->view("modules.debug.modalSession");?>
-    <!-- Current Messages Debug Modal -->
-    <?php $controller->setData("debug", $debug); ?>
-    <?php $controller->setData("debugModalId", "Current"); ?>
-    <?=$controller->view("modules.debug.modalMessages");?>
-    <!-- Ajax Messages Debug Modal -->
-    <?php $controller->setData("debugModalId", "Ajax"); ?>
-    <?=$controller->view("modules.debug.modalMessages");?>
 <?php } ?>
 <!-- /Debugging Modals -->
 <?php if ($config->get("debug")) { ?>
@@ -64,16 +57,6 @@
                         <?php } ?>
                     </a>
                 <?php } ?>
-                <!-- Current Messages Debug -->
-                <a class="navbar-brand" data-toggle="modal" title="Current Custom messages" data-target="#debugModalMessagesCurrent">
-                    <span class="glyphicon glyphicon-comment"></span>
-                    <small><?=(int) count($debug["messages"]);?></small>
-                </a>
-                <!-- Ajax Messages Debug  -->
-                <a class="navbar-brand" data-toggle="modal" title="Ajax Custom messages" data-target="#debugModalMessagesAjax">
-                    <span class="glyphicon glyphicon-flash"></span>
-                    <small id="debugCounterMessagesAjax">0</small>
-                </a>
             </div>
         </nav>
         <!-- /Debugging Menu -->

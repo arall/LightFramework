@@ -305,6 +305,22 @@ class User extends Model
     }
 
     /**
+     * Set user auth token
+     */
+    private function setToken()
+    {
+        if (!$this->token) {
+            if (is_callable('openssl_random_pseudo_bytes')) {
+                $this->token = bin2hex(openssl_random_pseudo_bytes(16));
+            } else {
+                $this->token = md5(uniqid('', true));
+            }
+        }
+
+        return $this->token;
+    }
+
+    /**
      * Logout
      *
      * @return bool
@@ -414,21 +430,5 @@ class User extends Model
         } else {
             Registry::addMessage(Language::translate("MODL_USER_RECOVERY_EMAIL_ERROR"), "error");
         }
-    }
-
-    /**
-     * Set user token
-     */
-    private function setToken()
-    {
-        if (!$this->token) {
-            if (is_callable('openssl_random_pseudo_bytes')) {
-                $this->token = bin2hex(openssl_random_pseudo_bytes(16));
-            } else {
-                $this->token = md5(uniqid('', true));
-            }
-        }
-
-        return $this->token;
     }
 }

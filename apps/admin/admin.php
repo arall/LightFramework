@@ -1,5 +1,5 @@
 <?php
-//No direct access
+// No direct access
 defined('_EXE') or die('Restricted access');
 
 class adminControllerRouter extends ControllerRouter

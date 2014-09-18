@@ -1,5 +1,5 @@
 <?php
-//No direct access
+// No direct access
 defined('_EXE') or die('Restricted access');
 
 /**
@@ -13,7 +13,8 @@ class demoController extends Controller
     public function init()
     {
         $user = Registry::getUser();
-        //User must be logged
+
+        // User must be logged
         if (!$user->id) {
             Url::redirect(Url::site("login"));
         }
@@ -24,24 +25,29 @@ class demoController extends Controller
      */
     public function index()
     {
-        //This is a simple Debug Message
-        Registry::addDebugMessage("Sample debug message");
         $config = Registry::getConfig();
-        //Pagination
+
+        // Pagination
         $pag = array();
-        //Total
+
+        // Total
         $pag['total'] = 0;
-        //Limit
+
+        // Limit
         $pag['limit'] = $_REQUEST['limit'] ? $_REQUEST['limit'] : $config->get("defaultLimit");
         $pag['limitStart'] = $_REQUEST['limitStart'];
-        //Demo Select
+
+        // Demo Select
         $results = Demo::select($_REQUEST, $pag['limit'], $pag['limitStart'], $pag['total']);
-        //Setting data to View
+
+        // Setting data to View
         $this->setData("results", $results);
         $this->setData("pag", $pag);
-        //Load View to Template var
+
+        // Load View to Template var
         $html = $this->view("views.list");
-        //Render the Template
+
+        // Render the Template
         $this->render($html);
     }
 
@@ -51,10 +57,14 @@ class demoController extends Controller
     public function edit()
     {
         $url = Registry::getUrl();
+
+        // Load demo to view
         $this->setData("demo", new Demo($url->vars[0]));
-        //Load View to Template var
+
+        // Load View to Template var
         $html = $this->view("views.edit");
-        //Render the Template
+
+        // Render the Template
         $this->render($html);
     }
 
@@ -63,23 +73,26 @@ class demoController extends Controller
      */
     public function save()
     {
+        // Get demo
         $demo = new Demo($_REQUEST['id']);
-        //Editing
+
+        // Editing
         if ($demo->id) {
-            //Update Demo
+            // Update Demo
             if ($demo->update($_REQUEST)) {
-                //Add success message
+                // Add success message
                 Registry::addMessage(Language::translate("CTRL_DEMO_UPDATE_OK"), "success", "", Url::site("demo"));
             }
-        //Creating
+        // Creating
         } else {
-            //Insert Demo
+            // Insert Demo
             if ($demo->insert($_REQUEST)) {
-                //Add success message
+                // Add success message
                 Registry::addMessage(Language::translate("CTRL_DEMO_INSERT_OK"), "success", "", Url::site("demo"));
             }
         }
-        //Show ajax JSON response
+
+        // Show ajax JSON response
         $this->ajax();
     }
 
@@ -89,15 +102,20 @@ class demoController extends Controller
     public function delete()
     {
         $url = Registry::getUrl();
+
+        // Get demo
         $demo = new Demo($url->vars[0]);
+
+        // Demo exist?
         if ($demo->id) {
-            //Delete Demo
+            // Delete Demo
             if ($demo->delete()) {
-                //Add success message
+                // Add success message
                 Registry::addMessage(Language::translate("CTRL_DEMO_DELETE_OK"), "success");
             }
         }
-        //Redirect
+
+        // Redirect
         Url::redirect(Url::site("demo"));
     }
 }

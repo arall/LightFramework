@@ -1,3 +1,5 @@
+<?php defined('_EXE') or die('Restricted access'); ?>
+
 <p><?=Language::translate("EMAILS_ACCOUNT_RECOVERY_EMAIL_TEXT");?></p>
 <p>
     <a href="<?=Url::site("login/restore/".$hash);?>" target="_blank">

@@ -74,9 +74,6 @@ class Demo extends Model
      */
     public function validateInsert()
     {
-        //Ajax Debug Message Example
-        Registry::addDebugMessage("Starting Insert validation");
-        Registry::addDebugMessage($this);
         //Validation
         return $this->validate();
     }
@@ -103,9 +100,6 @@ class Demo extends Model
      */
     public function validateUpdate()
     {
-        //Ajax Debug Message Example
-        Registry::addDebugMessage("Starting Update validation");
-        Registry::addDebugMessage($this);
         //Validation
         return $this->validate();
     }
@@ -135,6 +129,7 @@ class Demo extends Model
     public static function select($data=array(), $limit=0, $limitStart=0, &$total=null)
     {
         $db = Registry::getDb();
+
         //Select field builder
         $tables = array(
             //Demo
@@ -162,6 +157,7 @@ class Demo extends Model
         //Total
         $total = count($db->Query($query, $params));
         if ($total) {
+
             //Order
             if ($data['order'] && $data['orderDir']) {
                 //Secure Field
@@ -171,10 +167,13 @@ class Demo extends Model
                     $query .= " ORDER BY `".$tmp[0]."`.`".$tmp[1]."` ".$data['orderDir'];
                 }
             }
+
             //Limit
             if ($limit) {
                 $query .= " LIMIT ".(int) $limitStart.", ".(int) $limit;
             }
+
+            //Select
             $rows = $db->Query($query, $params);
             if (count($rows)) {
                 $results = array();
