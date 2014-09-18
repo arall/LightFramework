@@ -18,7 +18,7 @@
 		]
 	},
 	"require": {
-		"light-framework/core": "dev-master"
+		"light-framework/core": "v1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "*",
